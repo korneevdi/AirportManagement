@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Airports</title>
+</head>
+<body>
+<h1>Airports connected to our airport</h1>
+<table>
+    <tr>
+        <th>IATA</th>
+        <th>ICAO</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>Country</th>
+        <th>Time zone</th>
+    </tr>
+
+    <tr th:each="airport : ${airports}">
+        <td th:text="${airport.iata}"></td>
+        <td th:text="${airport.icao}"></td>
+        <td th:text="${airport.name}"></td>
+        <td th:text="${airport.city}"></td>
+        <td th:text="${airport.country}"></td>
+        <td th:text="${airport.timeZone}"></td>
+    </tr>
+</table>
+</body>
+</html>
