@@ -6,15 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "airports")
+@Table(name = "airlines")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Airport {
+public class Airline {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "airport_id")
+    @Column(name = "airline_id")
     private Integer id;
 
     @Column(name = "iata")
@@ -26,12 +26,7 @@ public class Airport {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "city")
-    private String city;
-
-    @Column(name = "country")
-    private String country;
-
-    @Column(name = "timezone")
-    private String timeZone;
+    @OneToOne
+    @JoinColumn(name = "contact")
+    private AirlineContact contact;
 }

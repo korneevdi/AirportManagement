@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Airline</title>
+</head>
+<body>
+
+<h1 th:text="${airline.name}"></h1>
+
+<h2>General information</h2>
+
+<table>
+    <tr>
+        <td>IATA</td>
+        <td th:text="${airline.iata}"></td>
+    </tr>
+    <tr>
+        <td>ICAO</td>
+        <td th:text="${airline.icao}"></td>
+    </tr>
+</table>
+
+<h2>Contact</h2>
+
+<table>
+    <tr>
+        <td>Name</td>
+        <td th:text="${airline.contact.name}"></td>
+    </tr>
+    <tr>
+        <td>Email</td>
+        <td th:text="${airline.contact.email}"></td>
+    </tr>
+    <tr>
+        <td>Phone</td>
+        <td th:text="${airline.contact.phone}"></td>
+    </tr>
+    <tr>
+        <td>City</td>
+        <td th:text="${airline.contact.city}"></td>
+    </tr>
+    <tr>
+        <td>Notes</td>
+        <td th:text="${airline.contact.notes}"></td>
+    </tr>
+</table>
+
+<p>
+    <a th:href="@{/airlines}">← Back to airlines</a>
+</p>
+
+</body>
+</html>
