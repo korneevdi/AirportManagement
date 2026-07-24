@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+    <title>Baggage claims</title>
+</head>
+<body>
+<h1>Baggage claims</h1>
+<table>
+  <tr>
+    <th>Number</th>
+    <th>Baggage claim</th>
+  </tr>
+
+  <tr th:each="claim, stat : ${baggageClaims}">
+    <td th:text="${stat.count}"></td>
+    <td th:text="${claim.number}"></td>
+  </tr>
+</table>
+</body>
+</html>

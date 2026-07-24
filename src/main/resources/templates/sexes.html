@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Available sexes</title>
+</head>
+<body>
+<h1>Available sexes</h1>
+<table>
+  <tr>
+    <th>Number</th>
+    <th>Name</th>
+  </tr>
+
+  <tr th:each="sex, stat : ${sexes}">
+    <td th:text="${stat.count}"></td>
+    <td th:text="${sex.name}"></td>
+  </tr>
+</table>
+</body>
+</html>

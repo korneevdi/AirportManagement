@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+    <title>Check-in counters</title>
+</head>
+<body>
+<h1>Check-in counters</h1>
+<table>
+  <tr>
+    <th>Number</th>
+    <th>Counter</th>
+  </tr>
+
+  <tr th:each="counter, stat : ${checkInCounters}">
+    <td th:text="${stat.count}"></td>
+    <td th:text="${counter.number}"></td>
+  </tr>
+</table>
+</body>
+</html>

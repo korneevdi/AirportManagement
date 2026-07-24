@@ -8,12 +8,14 @@
 <h1>Airlines</h1>
 <table>
   <tr>
+    <th>Number</th>
     <th>IATA</th>
     <th>ICAO</th>
     <th>Name</th>
   </tr>
 
-  <tr th:each="airline : ${airlines}">
+  <tr th:each="airline, stat : ${airlines}">
+    <td th:text="${stat.count}"></td>
     <td th:text="${airline.iata}"></td>
     <td th:text="${airline.icao}"></td>
     <td>
