@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class FlightType {
+public class Type {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

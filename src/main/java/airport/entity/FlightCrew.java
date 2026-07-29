@@ -28,7 +28,7 @@ public class FlightCrew {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "sex")
     private Sex sex;
 
