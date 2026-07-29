@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Airplanes</title>
+</head>
+<body>
+<h1>Airplanes</h1>
+<table>
+  <tr>
+    <th>Number</th>
+    <th>Airline</th>
+    <th>Registration number</th>
+    <th>Model</th>
+    <th>Capacity</th>
+    <th>Type</th>
+  </tr>
+
+  <tr th:each="airplane, stat : ${airplanes}">
+    <td th:text="${stat.count}"></td>
+    <td>
+      <a th:href="@{/airlines/{id}(id=${airplane.airline.id})}"
+         th:text="${airplane.airline.name}">
+      </a>
+    </td>
+    <td th:text="${airplane.registrationNumber}"></td>
+    <td th:text="${airplane.model}"></td>
+    <td th:text="${airplane.capacity}"></td>
+    <td th:text="${airplane.type.name}"></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -29,7 +29,7 @@ public class AirportEmployee {
     @JoinColumn(name = "role")
     private AirportEmployeeRole role;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "sex")
     private Sex sex;
 
