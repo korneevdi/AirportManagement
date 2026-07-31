@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Flights</title>
+</head>
+<body>
+<h1>Flights</h1>
+<table>
+  <tr>
+    <th>Number</th>
+    <th>Flight number</th>
+    <th>Airline</th>
+    <th>Departure airport</th>
+    <th>Arrival airport</th>
+    <th>Scheduled departure time</th>
+    <th>Actual departure time</th>
+    <th>Scheduled arrival time</th>
+    <th>Actual arrival time</th>
+    <th>Airplane</th>
+    <th>Status</th>
+    <th> </th>
+  </tr>
+
+  <tr th:each="flight, stat : ${flights}">
+    <td th:text="${stat.count}"></td>
+    <td th:text="${flight.flightNumber}"></td>
+    <td>
+      <a th:href="@{/airlines/{id}(id=${flight.airline.id})}"
+         th:text="${flight.airline.name}">
+      </a>
+    </td>
+    <td th:text="${flight.departureAirport.iata + ', ' + flight.departureAirport.city + ', ' + flight.departureAirport.country}"></td>
+    <td th:text="${flight.arrivalAirport.iata + ', ' + flight.arrivalAirport.city + ', ' + flight.arrivalAirport.country}"></td>
+    <td th:text="${flight.scheduledDepartureTime}"></td>
+    <td th:text="${flight.actualDepartureTime}"></td>
+    <td th:text="${flight.scheduledArrivalTime}"></td>
+    <td th:text="${flight.actualArrivalTime}"></td>
+    <td th:text="${flight.airplane.model}"></td>
+    <td th:text="${flight.status.name}"></td>
+    <td>
+      <a th:href="@{/flights/{id}(id=${flight.id})}"
+         th:text="${'details'}">
+      </a>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

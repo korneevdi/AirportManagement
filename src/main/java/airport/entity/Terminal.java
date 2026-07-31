@@ -1,15 +1,16 @@
 package airport.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "terminals")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class Terminal {
 
     @Id
@@ -19,4 +20,10 @@ public class Terminal {
 
     @Column(name = "terminal_number")
     private String number;
+
+    @OneToMany(mappedBy = "departureTerminal")
+    private Set<Flight> departureFlights;
+
+    @OneToMany(mappedBy = "arrivalTerminal")
+    private Set<Flight> arrivalFlights;
 }

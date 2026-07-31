@@ -1,15 +1,17 @@
 package airport.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "flight_runways")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class Runway {
 
     @Id
@@ -19,4 +21,7 @@ public class Runway {
 
     @Column(name = "runway_number")
     private String number;
+
+    @OneToMany(mappedBy = "runway")
+    private Set<Flight> flights = new HashSet<>();
 }

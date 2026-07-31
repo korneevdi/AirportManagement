@@ -1,17 +1,18 @@
 package airport.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "airport_employees")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class AirportEmployee {
 
     @Id
@@ -49,4 +50,7 @@ public class AirportEmployee {
     @OneToOne
     @JoinColumn(name = "emergency_contact")
     private AirportEmployeeEmergencyContact emergencyContact;
+
+    @OneToMany(mappedBy = "responsibleDispatcher")
+    private Set<Flight> flights = new HashSet<>();
 }
