@@ -1,16 +1,17 @@
 package airport.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "airports")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class Airport {
 
     @Id
@@ -35,4 +36,10 @@ public class Airport {
 
     @Column(name = "timezone")
     private String timeZone;
+
+    @OneToMany(mappedBy = "departureAirport")
+    private Set<Flight> departures = new HashSet<>();
+
+    @OneToMany(mappedBy = "arrivalAirport")
+    private Set<Flight> arrivals = new HashSet<>();
 }

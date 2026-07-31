@@ -8,6 +8,7 @@
 <h1>Airports connected to our airport</h1>
 <table>
     <tr>
+        <th>Number</th>
         <th>IATA</th>
         <th>ICAO</th>
         <th>Name</th>
@@ -16,7 +17,8 @@
         <th>Time zone</th>
     </tr>
 
-    <tr th:each="airport : ${airports}">
+    <tr th:each="airport, stat : ${airports}">
+        <td th:text="${stat.count}"></td>
         <td th:text="${airport.iata}"></td>
         <td th:text="${airport.icao}"></td>
         <td th:text="${airport.name}"></td>

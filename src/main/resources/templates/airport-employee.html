@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Airport employee</title>
+</head>
+<body>
+<h1 th:text="${employee.firstName + ' ' + employee.lastName}"></h1>
+
+<h2>General information</h2>
+
+<table>
+  <tr>
+    <td>First name</td>
+    <td th:text="${employee.firstName}"></td>
+  </tr>
+  <tr>
+    <td>Last name</td>
+    <td th:text="${employee.lastName}"></td>
+  </tr>
+  <tr>
+    <td>Role</td>
+    <td th:text="${employee.role.name}"></td>
+  </tr>
+  <tr>
+    <td>Sex</td>
+    <td th:text="${employee.sex.name}"></td>
+  </tr>
+  <tr>
+    <td>Birth date</td>
+    <td th:text="${employee.birthDate}"></td>
+  </tr>
+  <tr>
+    <td>Country</td>
+    <td th:text="${employee.passCountry}"></td>
+  </tr>
+  <tr>
+    <td>Passport number</td>
+    <td th:text="${employee.passNumber}"></td>
+  </tr>
+</table>
+
+<h2>Contact</h2>
+
+<table>
+  <tr>
+    <td>Email</td>
+    <td th:text="${employee.contact.email}"></td>
+  </tr>
+  <tr>
+    <td>Phone</td>
+    <td th:text="${employee.contact.phone}"></td>
+  </tr>
+  <tr>
+    <td>City</td>
+    <td th:text="${employee.contact.city}"></td>
+  </tr>
+  <tr>
+    <td>Address</td>
+    <td th:text="${employee.contact.address}"></td>
+  </tr>
+  <tr>
+    <td>Notes</td>
+    <td th:text="${employee.contact.notes}"></td>
+  </tr>
+</table>
+
+<h2>Emergency contact</h2>
+
+<table>
+  <tr>
+    <td>Name</td>
+    <td th:text="${employee.emergencyContact.name}"></td>
+  </tr>
+  <tr>
+    <td>Relation</td>
+    <td th:text="${employee.emergencyContact.relation}"></td>
+  </tr>
+  <tr>
+    <td>Phone</td>
+    <td th:text="${employee.emergencyContact.phone}"></td>
+  </tr>
+</table>
+
+<p>
+  <a th:href="@{/airport-employees}">← Back to airport employees</a>
+</p>
+
+</body>
+</html>

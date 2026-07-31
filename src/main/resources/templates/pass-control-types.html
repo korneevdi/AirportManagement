@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+    <title>Passport control types</title>
+</head>
+<body>
+<h1>Passport control types</h1>
+<table>
+  <tr>
+    <th>Number</th>
+    <th>Name</th>
+  </tr>
+
+  <tr th:each="type, stat : ${passControlTypes}">
+    <td th:text="${stat.count}"></td>
+    <td th:text="${type.name}"></td>
+  </tr>
+</table>
+</body>
+</html>

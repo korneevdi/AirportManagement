@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+    <title>Runways</title>
+</head>
+<body>
+<h1>Runways</h1>
+<table>
+  <tr>
+    <th>Number</th>
+    <th>Runway</th>
+  </tr>
+
+  <tr th:each="runway, stat : ${runways}">
+    <td th:text="${stat.count}"></td>
+    <td th:text="${runway.number}"></td>
+  </tr>
+</table>
+</body>
+</html>

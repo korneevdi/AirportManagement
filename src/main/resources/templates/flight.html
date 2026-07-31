@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Flight</title>
+</head>
+<body>
+
+<h1 th:text="${'Flight ' + flight.flightNumber}"></h1>
+
+<h2>General info</h2>
+
+<table>
+    <tr>
+        <td>From</td>
+        <td th:text="${flight.departureAirport.iata + ', ' + flight.departureAirport.city + ', ' + flight.departureAirport.country}"></td>
+    </tr>
+    <tr>
+        <td>To</td>
+        <td th:text="${flight.arrivalAirport.iata + ', ' + flight.arrivalAirport.city + ', ' + flight.arrivalAirport.country}"></td>
+    </tr>
+    <tr>
+        <td>Airline</td>
+        <td>
+            <a th:href="@{/airlines/{id}(id=${flight.airline.id})}"
+               th:text="${flight.airline.name}">
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>Departure</td>
+        <td th:text="${flight.scheduledDepartureTime + ' (actual ' + flight.actualDepartureTime + ')'}"></td>
+    </tr>
+    <tr>
+        <td>Arrival</td>
+        <td th:text="${flight.scheduledArrivalTime + ' (actual ' + flight.actualArrivalTime + ')'}"></td>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td th:text="${flight.status.name}"></td>
+    </tr>
+</table>
+
+<h2>Details</h2>
+
+<table>
+    <tr>
+        <td>Airplane</td>
+        <td th:text="${flight.airplane.model}"></td>
+    </tr>
+    <tr>
+        <td>Flight type</td>
+        <td th:text="${flight.flightType.name}"></td>
+    </tr>
+    <tr>
+        <td>Customer</td>
+        <td th:text="${flight.customer.firstName + ' ' + flight.customer.lastName}"></td>
+    </tr>
+    <tr>
+        <td>Responsible dispatcher</td>
+        <td th:text="${flight.responsibleDispatcher.firstName + ' ' + flight.responsibleDispatcher.lastName}"></td>
+    </tr>
+    <tr>
+        <td>Passport control</td>
+        <td th:text="${flight.passControlType.name}"></td>
+    </tr>
+    <tr>
+        <td>Terminal</td>
+        <td>
+            <span th:if="${flight.departureTerminal != null}"
+                  th:text="${flight.departureTerminal.number}"></span>
+
+            <span th:if="${flight.arrivalTerminal != null}"
+                  th:text="${flight.arrivalTerminal.number}"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>Gate</td>
+        <td>
+            <span th:if="${flight.departureGate != null}"
+                  th:text="${flight.departureGate.number}"></span>
+
+            <span th:if="${flight.arrivalGate != null}"
+                  th:text="${flight.arrivalGate.number}"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>Baggage claims</td>
+        <td>
+            <span th:each="link, stat : ${flight.baggageClaimLinks}">
+                <span th:text="${link.claim.number}"></span>
+                <span th:if="${!stat.last}">, </span>
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <td>Check-in counters</td>
+        <td>
+            <span th:each="link, stat : ${flight.checkInLinks}">
+                <span th:text="${link.counter.number}"></span>
+                <span th:if="${!stat.last}">, </span>
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <td>Runway</td>
+        <td th:text="${flight.runway.number}"></td>
+    </tr>
+</table>
+
+<h2>Passengers</h2>
+
+<table>
+    <tr>
+        <th> </th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Seat</th>
+        <th>Boarding group</th>
+        <th>Checked in</th>
+        <th>Passed control</th>
+        <th>Boarded</th>
+        <th>Boarding time</th>
+    </tr>
+    <tr th:each="link, stat : ${flight.passengerLinks}">
+        <td th:text="${stat.count}"></td>
+        <td th:text="${link.passenger.firstName}"></td>
+        <td th:text="${link.passenger.lastName}"></td>
+        <td th:text="${link.seatNumber}"></td>
+        <td th:text="${link.boardingGroup}"></td>
+        <td th:text="${link.isCheckedIn}"></td>
+        <td th:text="${link.isPassedControl}"></td>
+        <td th:text="${link.isBoarded}"></td>
+        <td th:text="${link.boardingTime}"></td>
+    </tr>
+</table>
+
+<h2>Crew</h2>
+
+<table>
+    <tr>
+        <th> </th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Role</th>
+    </tr>
+    <tr th:each="link, stat : ${flight.crewLinks}">
+        <td th:text="${stat.count}"></td>
+        <td th:text="${link.crew.firstName}"></td>
+        <td th:text="${link.crew.lastName}"></td>
+        <td th:text="${link.role.name}"></td>
+    </tr>
+</table>
+
+<p>
+    <a th:href="@{/flights}">← Back to flights</a>
+</p>
+
+</body>
+</html>

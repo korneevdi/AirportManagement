@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+    <title>Airport employee roles</title>
+</head>
+<body>
+<h1>Airport employee roles</h1>
+<table>
+  <tr>
+    <th>Number</th>
+    <th>Role</th>
+  </tr>
+
+  <tr th:each="role, stat : ${airportEmployeeRoles}">
+    <td th:text="${stat.count}"></td>
+    <td th:text="${role.name}"></td>
+  </tr>
+</table>
+</body>
+</html>

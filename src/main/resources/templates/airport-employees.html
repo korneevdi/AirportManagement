@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+    <title>Airport employees</title>
+</head>
+<body>
+<h1>Airport employees</h1>
+<table>
+  <tr>
+    <th>Number</th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Role</th>
+    <th>Sex</th>
+  </tr>
+
+  <tr th:each="employee, stat : ${airportEmployees}">
+    <td th:text="${stat.count}"></td>
+    <td th:text="${employee.firstName}"></td>
+    <td>
+      <a th:href="@{airport-employees/{id}(id=${employee.id})}"
+         th:text="${employee.lastName}">
+      </a>
+    </td>
+    <td th:text="${employee.role.name}"></td>
+    <td th:text="${employee.sex.name}"></td>
+  </tr>
+</table>
+</body>
+</html>

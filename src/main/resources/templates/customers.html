@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+    <title>Customers</title>
+</head>
+<body>
+<h1>Customers</h1>
+<table>
+  <tr>
+    <th>Number</th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Country</th>
+    <th>Passport number</th>
+  </tr>
+
+  <tr th:each="customer, stat : ${customers}">
+    <td th:text="${stat.count}"></td>
+    <td th:text="${customer.firstName}"></td>
+    <td>
+      <a th:href="@{/customers/{id}(id=${customer.id})}"
+         th:text="${customer.lastName}">
+      </a>
+    </td>
+    <td th:text="${customer.passCountry}"></td>
+    <td th:text="${customer.passNumber}"></td>
+  </tr>
+</table>
+</body>
+</html>
