@@ -18,4 +18,9 @@ public class FlightCrewService {
     public List<FlightCrew> getAllFlightCrews() {
         return flightCrewRepository.findAll();
     }
+
+    public FlightCrew getFlightCrew(Integer id) {
+        return flightCrewRepository.findById(id)
+                .orElseThrow();
+    }
 }
