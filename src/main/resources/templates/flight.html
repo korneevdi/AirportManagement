@@ -54,7 +54,9 @@
     </tr>
     <tr>
         <td>Customer</td>
-        <td th:text="${flight.customer.firstName + ' ' + flight.customer.lastName}"></td>
+        <td th:text="${flight.customer != null ?
+                       flight.customer.firstName + ' ' + flight.customer.lastName :
+                       ' --- '}"></td>
     </tr>
     <tr>
         <td>Responsible dispatcher</td>
@@ -110,7 +112,11 @@
 
 <h2>Passengers</h2>
 
-<table>
+<p th:if="${#sets.isEmpty(flight.passengerLinks)}">
+    No passengers on this flight.
+</p>
+
+<table th:unless="${#sets.isEmpty(flight.passengerLinks)}">
     <tr>
         <th> </th>
         <th>First name</th>
@@ -121,33 +127,48 @@
         <th>Passed control</th>
         <th>Boarded</th>
         <th>Boarding time</th>
+        <th> </th>
     </tr>
     <tr th:each="link, stat : ${flight.passengerLinks}">
         <td th:text="${stat.count}"></td>
         <td th:text="${link.passenger.firstName}"></td>
-        <td th:text="${link.passenger.lastName}"></td>
+        <td>
+            <a th:href="@{/passengers/{id}(id=${link.passenger.id})}"
+               th:text="${link.passenger.lastName}">
+            </a>
+        </td>
         <td th:text="${link.seatNumber}"></td>
         <td th:text="${link.boardingGroup}"></td>
         <td th:text="${link.isCheckedIn}"></td>
         <td th:text="${link.isPassedControl}"></td>
         <td th:text="${link.isBoarded}"></td>
         <td th:text="${link.boardingTime}"></td>
+        <td></td>
     </tr>
 </table>
 
-<h2>Crew</h2>
+<h2>Flight crew</h2>
 
-<table>
+<p th:if="${#sets.isEmpty(flight.crewLinks)}">
+    No crew assigned to this flight.
+</p>
+
+<table th:unless="${#sets.isEmpty(flight.crewLinks)}">
     <tr>
         <th> </th>
         <th>First name</th>
         <th>Last name</th>
         <th>Role</th>
+        <th> </th>
     </tr>
     <tr th:each="link, stat : ${flight.crewLinks}">
         <td th:text="${stat.count}"></td>
         <td th:text="${link.crew.firstName}"></td>
-        <td th:text="${link.crew.lastName}"></td>
+        <td>
+            <a th:href="@{/flight-crews/{id}(id=${link.crew.id})}"
+               th:text="${link.crew.lastName}">
+            </a>
+        </td>
         <td th:text="${link.role.name}"></td>
     </tr>
 </table>
