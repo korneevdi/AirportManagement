@@ -18,4 +18,9 @@ public class PassengerService {
     public List<Passenger> getAllPassengers() {
         return passengerRepository.findAll();
     }
+
+    public Passenger getPassenger(Integer id) {
+        return passengerRepository.findById(id)
+                .orElseThrow();
+    }
 }
