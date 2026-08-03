@@ -21,7 +21,11 @@
     <td th:text="${stat.count}"></td>
     <td th:text="${crew.pilotLicenseNumber}"></td>
     <td th:text="${crew.firstName}"></td>
-    <td th:text="${crew.lastName}"></td>
+    <td>
+      <a th:href="@{/flight-crews/{id}(id=${crew.id})}"
+         th:text="${crew.lastName}">
+      </a>
+    </td>
     <td th:text="${crew.sex.name}"></td>
     <td th:text="${crew.birthDate}"></td>
     <td th:text="${crew.passCountry}"></td>

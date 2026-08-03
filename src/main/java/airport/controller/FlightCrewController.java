@@ -29,7 +29,7 @@ public class FlightCrewController {
             @PathVariable Integer id,
             Model model) {
         model.addAttribute(
-                "flight",
+                "flightCrew",
                 flightCrewService.getFlightCrew(id)
         );
         return "flight-crew";

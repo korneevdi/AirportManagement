@@ -12,18 +12,18 @@
     <th>First name</th>
     <th>Last name</th>
     <th>Sex</th>
-    <th>Age</th>
     <th>Country</th>
-    <th>Passport number</th>
   </tr>
   <tr th:each="passenger, stat : ${passengers}">
     <td th:text="${stat.count}"></td>
     <td th:text="${passenger.firstName}"></td>
-    <td th:text="${passenger.lastName}"></td>
+    <td>
+      <a th:href="@{/passengers/{id}(id=${passenger.id})}"
+         th:text="${passenger.lastName}">
+      </a>
+    </td>
     <td th:text="${passenger.sex.name}"></td>
-    <td th:text="${passenger.age}"></td>
     <td th:text="${passenger.passCountry}"></td>
-    <td th:text="${passenger.passNumber}"></td>
   </tr>
 </table>
 </body>

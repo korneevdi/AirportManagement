@@ -5,9 +5,71 @@
   <title>Passenger</title>
 </head>
 <body>
-<h1>Individual passenger page</h1>
 
-In progress...
+<h1 th:text="${'Passenger ' + passenger.firstName + ' ' + passenger.lastName}"></h1>
+
+<h2>General info</h2>
+
+<table>
+  <tr>
+    <td>Last name</td>
+    <td th:text="${passenger.lastName}"></td>
+  </tr>
+  <tr>
+    <td>First name</td>
+    <td th:text="${passenger.firstName}"></td>
+  </tr>
+  <tr>
+    <td>Sex</td>
+    <td th:tsxt="${passenger.sex.name}"></td>
+  </tr>
+  <tr>
+    <td>Age</td>
+    <td th:text="${passenger.age}"></td>
+  </tr>
+  <tr>
+    <td>Country</td>
+    <td th:text="${passenger.passCountry}"></td>
+  </tr>
+  <tr>
+    <td>Passport number</td>
+    <td th:text="${passenger.passNumber}"></td>
+  </tr>
+</table>
+
+<h2>Flights</h2>
+
+<p th:if="${#sets.isEmpty(passenger.flightLinks)}">
+  No flights yet.
+</p>
+
+<table th:unless="${#sets.isEmpty(passenger.flightLinks)}">
+  <tr>
+    <th>Number</th>
+    <th>Flight number</th>
+    <th>Airline</th>
+    <th>Departure airport</th>
+    <th>Arrival airport</th>
+    <th>Scheduled departure time</th>
+  </tr>
+  <tr th:each="link, stat : ${passenger.flightLinks}">
+    <td th:text="${stat.count}"></td>
+    <td>
+      <a th:href="@{/flights/{id}(id=${link.flight.id})}"
+         th:text="${link.flight.flightNumber}">
+      </a>
+    </td>
+    <td>
+      <a th:href="@{/airlines/{id}(id=${link.flight.airline.id})}"
+         th:text="${link.flight.airline.name}">
+      </a>
+    </td>
+    <td th:text="${link.flight.departureAirport.iata}"></td>
+    <td th:text="${link.flight.arrivalAirport.iata}"></td>
+    <td th:text="${link.flight.scheduledDepartureTime}"></td>
+    <td></td>
+  </tr>
+</table>
 
 </body>
 </html>
