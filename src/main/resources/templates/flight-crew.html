@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+
 <h1 th:text="${'Flight crew ' + flightCrew.firstName + ' ' + flightCrew.lastName}"></h1>
 
 <h2>General info</h2>

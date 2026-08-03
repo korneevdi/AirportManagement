@@ -6,6 +6,15 @@
 </head>
 <body>
 <h1 th:text = "${Greetings}"></h1>
-<p th:text = "${currentTime}"></p>
+<p th:text = "${currentTime}">
+
+<p>
+    <a th:href="@{/flights}">Flights</a>
+</p>
+
+<p>
+    <a th:href="@{/airlines}">Airlines</a>
+</p>
+
 </body>
 </html>

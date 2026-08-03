@@ -5,6 +5,8 @@
 </head>
 <body>
 
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+
 <h1 th:text="${customer.firstName + ' ' + customer.lastName}"></h1>
 
 <h2>General information</h2>

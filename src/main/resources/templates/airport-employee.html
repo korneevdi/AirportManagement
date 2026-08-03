@@ -5,6 +5,9 @@
     <title>Airport employee</title>
 </head>
 <body>
+
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+
 <h1 th:text="${employee.firstName + ' ' + employee.lastName}"></h1>
 
 <h2>General information</h2>
