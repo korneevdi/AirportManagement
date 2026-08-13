@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new airport</title>
+</head>
+<body>
+
+<h1>Create new airport</h1>
+
+<form th:action="@{/airports}" th:object="${airport}" method="post">
+
+  <p>
+    IATA:
+    <input type="text" th:field="*{iata}">
+    <span th:if="${#fields.hasErrors('iata')}"
+          th:errors="*{iata}">
+    </span>
+  </p>
+
+  <p>
+    ICAO:
+    <input type="text" th:field="*{icao}">
+    <span th:if="${#fields.hasErrors('icao')}"
+          th:errors="*{icao}">
+    </span>
+  </p>
+
+  <p>
+    Name:
+    <input type="text" th:field="*{name}">
+    <span th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}">
+    </span>
+  </p>
+
+  <p>
+    City:
+    <input type="text" th:field="*{city}">
+    <span th:if="${#fields.hasErrors('city')}"
+          th:errors="*{city}">
+    </span>
+  </p>
+
+  <p>
+    Country:
+    <input type="text" th:field="*{country}">
+    <span th:if="${#fields.hasErrors('country')}"
+          th:errors="*{country}">
+    </span>
+  </p>
+
+  <p>
+  <select th:field="*{timeZone}">
+    <option value="">-- Select time zone --</option>
+
+    <option th:each="zone : ${timeZones}"
+            th:value="${zone}"
+            th:text="${zone}">
+    </option>
+  </select>
+  </p>
+
+  <button type="submit">Save</button>
+
+</form>
+
+</body>
+</html>
