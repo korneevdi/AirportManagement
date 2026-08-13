@@ -18,4 +18,17 @@ public class AirportService {
     public List<Airport> getAllAirports() {
         return airportRepository.findAll();
     }
+
+    public Airport getAirportById(Integer id) {
+        return  airportRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Airport not found"));
+    }
+
+    public Airport saveAirport(Airport airport) {
+        return airportRepository.save(airport);
+    }
+
+    public void deleteAirport(Integer id) {
+        airportRepository.deleteById(id);
+    }
 }
