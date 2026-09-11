@@ -1,4 +1,4 @@
-package airport.Service;
+package airport.service;
 
 import airport.entity.FlightCrew;
 import airport.repository.FlightCrewRepository;
@@ -19,8 +19,12 @@ public class FlightCrewService {
         return flightCrewRepository.findAll();
     }
 
-    public FlightCrew getFlightCrew(Integer id) {
+    public FlightCrew getFlightCrewById(Integer id) {
         return flightCrewRepository.findById(id)
                 .orElseThrow();
+    }
+
+    public void saveFlightCrew(FlightCrew crew) {
+        flightCrewRepository.save(crew);
     }
 }

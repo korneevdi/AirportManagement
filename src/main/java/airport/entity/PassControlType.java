@@ -1,6 +1,8 @@
 package airport.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.HashSet;
@@ -19,6 +21,8 @@ public class PassControlType {
     @Column(name = "type_id")
     private Integer id;
 
+    @NotBlank(message = "Passport control type is required")
+    @Size(max = 40, message = "Passport control type name must not contain more than 40 symbols")
     @Column(name = "type_name")
     private String name;
 

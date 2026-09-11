@@ -1,4 +1,4 @@
-package airport.Service;
+package airport.service;
 
 import airport.entity.CrewRole;
 import airport.repository.CrewRoleRepository;
@@ -17,5 +17,18 @@ public class CrewRoleService {
 
     public List<CrewRole> getAllCrewRoles() {
         return crewRoleRepository.findAll();
+    }
+
+    public CrewRole getCrewRoleById(Integer id) {
+        return crewRoleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Crew role not found"));
+    }
+
+    public CrewRole saveCrewRole(CrewRole crewRole) {
+        return crewRoleRepository.save(crewRole);
+    }
+
+    public void deleteCrewRole(Integer id) {
+        crewRoleRepository.deleteById(id);
     }
 }

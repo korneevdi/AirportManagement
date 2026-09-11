@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create new sex</title>
+</head>
+<body>
+
+<h1>Create new sex</h1>
+
+<form th:action="@{/sexes}" th:object="${sex}" method="post">
+
+  <p>
+    Sex name:
+    <input type="text" th:field="*{name}">
+    <span th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}">
+    </span>
+  </p>
+
+  <button type="submit">Save</button>
+
+</form>
+
+<p>
+  <a th:href="@{/sexes}">← Back to sexes</a>
+</p>
+
+</body>
+</html>
