@@ -1,4 +1,4 @@
-package airport.Service;
+package airport.service;
 
 import airport.entity.Type;
 import airport.repository.TypeRepository;
@@ -17,5 +17,18 @@ public class TypeService {
 
     public List<Type> getAllTypes() {
         return typeRepository.findAll();
+    }
+
+    public Type getTypeById(Integer id) {
+        return typeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Type not found"));
+    }
+
+    public Type saveType(Type type) {
+        return typeRepository.save(type);
+    }
+
+    public void deleteType(Integer id) {
+        typeRepository.deleteById(id);
     }
 }

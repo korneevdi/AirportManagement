@@ -1,6 +1,8 @@
 package airport.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Entity
@@ -16,6 +18,8 @@ public class Sex {
     @Column(name = "sex_id")
     private Integer id;
 
+    @NotBlank(message = "Sex name is required")
+    @Size(max = 20, message = "Sex name must not contain more than 20 symbols")
     @Column(name = "sex_name")
     private String name;
 }

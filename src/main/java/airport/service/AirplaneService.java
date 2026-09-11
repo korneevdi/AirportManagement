@@ -1,4 +1,4 @@
-package airport.Service;
+package airport.service;
 
 import airport.entity.Airplane;
 import airport.repository.AirplaneRepository;
@@ -17,5 +17,9 @@ public class AirplaneService {
 
     public List<Airplane> getAllAirplanes() {
         return airplaneRepository.findAll();
+    }
+
+    public void saveAirplane(Airplane airplane) {
+        airplaneRepository.save(airplane);
     }
 }
