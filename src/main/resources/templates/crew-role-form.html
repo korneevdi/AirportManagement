@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create new crew role</title>
+</head>
+<body>
+
+<h1>Create new crew role</h1>
+
+<form th:action="@{/crew-roles}" th:object="${crewRole}" method="post">
+
+  <p>
+    Sex name:
+    <input type="text" th:field="*{name}">
+    <span th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}">
+    </span>
+  </p>
+
+  <button type="submit">Save</button>
+
+</form>
+
+<p>
+  <a th:href="@{/crew-roles}">← Back to crew roles</a>
+</p>
+
+</body>
+</html>

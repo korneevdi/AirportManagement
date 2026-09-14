@@ -1,4 +1,4 @@
-package airport.Service;
+package airport.service;
 
 import airport.entity.Gate;
 import airport.repository.GateRepository;
@@ -17,5 +17,18 @@ public class GateService {
 
     public List<Gate> getAllGates() {
         return gateRepository.findAll();
+    }
+
+    public Gate getGateById(Integer id) {
+        return gateRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Gate not found"));
+    }
+
+    public Gate saveGate(Gate gate) {
+        return gateRepository.save(gate);
+    }
+
+    public void deleteGate(Integer id) {
+        gateRepository.deleteById(id);
     }
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create new terminal</title>
+</head>
+<body>
+
+<h1>Create new terminal</h1>
+
+<form th:action="@{/terminals}" th:object="${terminal}" method="post">
+
+  <p>
+    Terminal name:
+    <input type="text" th:field="*{number}">
+    <span th:if="${#fields.hasErrors('number')}"
+          th:errors="*{number}">
+    </span>
+  </p>
+
+  <button type="submit">Save</button>
+
+</form>
+
+<p>
+  <a th:href="@{/terminals}">← Back to terminals</a>
+</p>
+
+</body>
+</html>

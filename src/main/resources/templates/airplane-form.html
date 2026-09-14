@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create new airplane</title>
+</head>
+<body>
+
+<h1>Create new airplane</h1>
+
+<form th:action="@{/airplanes}" th:object="${airplane}" method="post">
+
+  <p>
+    Airline:
+    <select th:field="*{airline}">
+      <option value="">Select airline</option>
+
+      <option th:each="airline : ${airlines}"
+              th:value="${airline.id}"
+              th:text="${airline.name}">
+      </option>
+    </select>
+    <span th:if="${#fields.hasErrors('airline')}"
+          th:errors="*{airline}">
+    </span>
+  </p>
+
+  <p>
+    Registration number:
+    <input type="text" th:field="*{registrationNumber}">
+    <span th:if="${#fields.hasErrors('registrationNumber')}"
+          th:errors="*{registrationNumber}">
+    </span>
+  </p>
+
+  <p>
+    Model:
+    <input type="text" th:field="*{model}">
+    <span th:if="${#fields.hasErrors('model')}"
+          th:errors="*{model}">
+    </span>
+  </p>
+
+  <p>
+    Capacity:
+    <input type="text" th:field="*{capacity}">
+    <span th:if="${#fields.hasErrors('capacity')}"
+          th:errors="*{capacity}">
+    </span>
+  </p>
+
+  <p>
+    Airplane type:
+    <select th:field="*{type}">
+      <option value="">Select type</option>
+
+      <option th:each="type : ${types}"
+              th:value="${type.id}"
+              th:text="${type.name}">
+      </option>
+    </select>
+    <span th:if="${#fields.hasErrors('type')}"
+          th:errors="*{type}">
+    </span>
+  </p>
+
+  <button type="submit">Save</button>
+
+</form>
+
+<p>
+  <a th:href="@{/airplanes}">← Back to airplanes</a>
+</p>
+
+</body>
+</html>

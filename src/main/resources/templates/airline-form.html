@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create new airline</title>
+</head>
+<body>
+
+<h1>Create new airline</h1>
+
+<form th:action="@{/airlines}" th:object="${airlineForm}" method="post">
+
+  <h2>Airline</h2>
+
+  <p>
+    IATA number:
+    <input type="text" th:field="*{iata}">
+    <span th:if="${#fields.hasErrors('iata')}"
+          th:errors="*{iata}">
+    </span>
+  </p>
+
+  <p>
+    ICAO number:
+    <input type="text" th:field="*{icao}">
+    <span th:if="${#fields.hasErrors('icao')}"
+          th:errors="*{icao}">
+    </span>
+  </p>
+
+  <p>
+    Airline name:
+    <input type="text" th:field="*{name}">
+    <span th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}">
+    </span>
+  </p>
+
+
+  <h2>Airline contact</h2>
+
+  <p>
+    Airline contact name:
+    <input type="text" th:field="*{contactName}">
+    <span th:if="${#fields.hasErrors('contactName')}"
+          th:errors="*{contactName}">
+    </span>
+  </p>
+
+  <p>
+    Airline contact email address:
+    <input type="text" th:field="*{contactEmail}">
+    <span th:if="${#fields.hasErrors('contactEmail')}"
+          th:errors="*{contactEmail}">
+    </span>
+  </p>
+
+  <p>
+    Airline contact phone number:
+    <input type="text" th:field="*{contactPhone}">
+    <span th:if="${#fields.hasErrors('contactPhone')}"
+          th:errors="*{contactPhone}">
+    </span>
+  </p>
+
+  <p>
+    Airline home city:
+    <input type="text" th:field="*{city}">
+    <span th:if="${#fields.hasErrors('city')}"
+          th:errors="*{city}">
+    </span>
+  </p>
+
+  <p>
+    Notes:
+    <input type="text" th:field="*{notes}">
+  </p>
+
+
+  <button type="submit">Save</button>
+
+</form>
+
+<p>
+  <a th:href="@{/airlines}">← Back to airlines</a>
+</p>
+
+</body>
+</html>

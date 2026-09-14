@@ -1,6 +1,6 @@
 package airport.controller;
 
-import airport.Service.AirportService;
+import airport.service.AirportService;
 import airport.entity.Airport;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

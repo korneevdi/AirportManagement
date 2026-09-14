@@ -1,4 +1,4 @@
-package airport.Service;
+package airport.service;
 
 import airport.entity.CheckInCounter;
 import airport.repository.CheckInCounterRepository;
@@ -17,5 +17,18 @@ public class CheckInCounterService {
 
     public List<CheckInCounter> getAllCheckInCounters() {
         return checkInCounterRepository.findAll();
+    }
+
+    public CheckInCounter getCheckInCounterById(Integer id) {
+        return checkInCounterRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Chack-in counter not found"));
+    }
+
+    public CheckInCounter saveCheckInCounter(CheckInCounter counter) {
+        return checkInCounterRepository.save(counter);
+    }
+
+    public void deleteCheckInCounter(Integer id) {
+        checkInCounterRepository.deleteById(id);
     }
 }

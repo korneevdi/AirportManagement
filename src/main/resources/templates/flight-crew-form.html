@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create new flight crew</title>
+</head>
+<body>
+
+<h1>Create new flight crew</h1>
+
+<form th:action="@{/flight-crews}" th:object="${flightCrew}" method="post">
+
+  <p>
+    Pilot license number:
+    <input type="text" th:field="*{pilotLicenseNumber}">
+    <span th:if="${#fields.hasErrors('pilotLicenseNumber')}"
+          th:errors="*{pilotLicenseNumber}">
+    </span>
+  </p>
+
+  <p>
+    First name:
+    <input type="text" th:field="*{firstName}">
+    <span th:if="${#fields.hasErrors('firstName')}"
+          th:errors="*{firstName}">
+    </span>
+  </p>
+
+  <p>
+    Last name:
+    <input type="text" th:field="*{lastName}">
+    <span th:if="${#fields.hasErrors('lastName')}"
+          th:errors="*{lastName}">
+    </span>
+  </p>
+
+  <p>
+    Sex:
+    <select th:field="*{sex}">
+      <option value="">Select sex</option>
+
+      <option th:each="sex : ${sexes}"
+              th:value="${sex.id}"
+              th:text="${sex.name}">
+      </option>
+    </select>
+    <span th:if="${#fields.hasErrors('sex')}"
+          th:errors="*{sex}">
+    </span>
+  </p>
+
+  <p>
+    Birth date:
+    <input type="date" th:field="*{birthDate}">
+    <span th:if="${#fields.hasErrors('birthDate')}"
+          th:errors="*{birthDate}">
+    </span>
+  </p>
+
+  <p>
+    Country:
+    <input type="text" th:field="*{passCountry}">
+    <span th:if="${#fields.hasErrors('passCountry')}"
+          th:errors="*{passCountry}">
+    </span>
+  </p>
+
+  <p>
+    Passport number:
+    <input type="text" th:field="*{passNumber}">
+    <span th:if="${#fields.hasErrors('passNumber')}"
+          th:errors="*{passNumber}">
+    </span>
+  </p>
+
+  <button type="submit">Save</button>
+
+</form>
+
+<p>
+  <a th:href="@{/flight-crews}">← Back to flight crews</a>
+</p>
+
+</body>
+</html>

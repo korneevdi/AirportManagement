@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create new flight</title>
+</head>
+<body>
+
+<h1>Create new flight</h1>
+
+<form th:action="@{/flights}" th:object="${flightForm}" method="post">
+
+  <p>
+    Flight number:
+    <input type="text" th:field="*{flightNumber}">
+    <span th:if="${#fields.hasErrors('flightNumber')}"
+          th:errors="*{flightNumber}">
+    </span>
+  </p>
+
+  <p>
+    Service date:
+    <input type="date" th:field="*{serviceDate}">
+    <span th:if="${#fields.hasErrors('serviceDate')}"
+          th:errors="*{serviceDate}">
+    </span>
+  </p>
+
+  <p>
+    Airline:
+    <select th:field="*{airline}">
+      <option value="">Select airline</option>
+
+      <option th:each="airline : ${airlines}"
+              th:value="${airline.id}"
+              th:text="${airline.name}">
+      </option>
+    </select>
+    <span th:if="${#fields.hasErrors('airline')}"
+          th:errors="*{airline}">
+    </span>
+  </p>
+
+  <p>
+    Departure airport:
+    <select th:field="*{departureAirport}">
+      <option value="">Select airport</option>
+
+      <option th:each="airport : ${airports}"
+              th:value="${airport.id}"
+              th:text="${airport.name}">
+      </option>
+    </select>
+    <span th:if="${#fields.hasErrors('departureAirport')}"
+          th:errors="*{departureAirport}">
+    </span>
+  </p>
+
+  <p>
+    Arrival airport:
+    <select th:field="*{arrivalAirport}">
+      <option value="">Select airport</option>
+
+      <option th:each="airport : ${airports}"
+              th:value="${airport.id}"
+              th:text="${airport.name}">
+      </option>
+    </select>
+    <span th:if="${#fields.hasErrors('arrivalAirport')}"
+          th:errors="*{arrivalAirport}">
+    </span>
+  </p>
+
+  <p>
+    Scheduled departure time:
+    <input type="datetime-local" th:field="*{scheduledDepartureTime}">
+    <span th:if="${#fields.hasErrors('scheduledDepartureTime')}"
+          th:errors="*{scheduledDepartureTime}">
+    </span>
+  </p>
+
+  <p>
+    Actual departure time:
+    <input type="datetime-local" th:field="*{actualDepartureTime}">
+  </p>
+
+  <p>
+    Scheduled arrival time:
+    <input type="datetime-local" th:field="*{scheduledArrivalTime}">
+    <span th:if="${#fields.hasErrors('scheduledArrivalTime')}"
+          th:errors="*{scheduledArrivalTime}">
+    </span>
+  </p>
+
+  <p>
+    Actual arrival time:
+    <input type="datetime-local" th:field="*{actualArrivalTime}">
+  </p>
+
+  <p>
+    Airplane:
+    <select th:field="*{airplane}">
+      <option value="">Select airplane model</option>
+
+      <option th:each="airplane : ${airplanes}"
+              th:value="${airplane.id}"
+              th:text="${airplane.model}">
+      </option>
+    </select>
+    <span th:if="${#fields.hasErrors('airplane')}"
+          th:errors="*{airplane}">
+    </span>
+  </p>
+
+  <p>
+    Responsible dispatcher:
+    <select th:field="*{responsibleDispatcher}">
+      <option value="">Select responsible dispatcher</option>
+
+      <option th:each="dispatcher : ${dispatchers}"
+              th:value="${dispatcher.id}"
+              th:text="${dispatcher.firstName + ' ' + dispatcher.lastName}">
+      </option>
+    </select>
+
+    <span th:if="${#fields.hasErrors('responsibleDispatcher')}"
+          th:errors="*{responsibleDispatcher}">
+    </span>
+  </p>
+
+  <p>
+    Flight type:
+    <select th:field="*{flightType}">
+      <option value="">Select flight type</option>
+
+      <option th:each="type : ${flightTypes}"
+              th:value="${type.id}"
+              th:text="${type.name}">
+      </option>
+    </select>
+    <span th:if="${#fields.hasErrors('flightType')}"
+          th:errors="*{flightType}">
+    </span>
+  </p>
+
+  <p>
+    Customer:
+    <select th:field="*{customer}">
+      <option value="">Select customer</option>
+
+      <option th:each="customer : ${customers}"
+              th:value="${customer.id}"
+              th:text="${customer.firstName + ' ' + customer.lastName}">
+      </option>
+    </select>
+    <span th:if="${#fields.hasErrors('customer')}"
+          th:errors="*{customer}">
+    </span>
+  </p>
+
+  <p>
+    Flight status:
+    <select th:field="*{status}">
+      <option value="">Select flight status</option>
+
+      <option th:each="status : ${flightStatuses}"
+              th:value="${status.id}"
+              th:text="${status.name}">
+      </option>
+    </select>
+    <span th:if="${#fields.hasErrors('status')}"
+          th:errors="*{status}">
+    </span>
+  </p>
+
+  <p>
+    Passport control type:
+    <select th:field="*{passControlType}">
+      <option value="">Select passport control type</option>
+
+      <option th:each="type : ${passControlTypes}"
+              th:value="${type.id}"
+              th:text="${type.name}">
+      </option>
+    </select>
+    <span th:if="${#fields.hasErrors('passControlType')}"
+          th:errors="*{passControlType}">
+    </span>
+  </p>
+
+  <p>
+    Departure gate:
+    <select th:field="*{departureGate}">
+      <option value="">Select departure gate</option>
+
+      <option th:each="gate : ${gates}"
+              th:value="${gate.id}"
+              th:text="${gate.number}">
+      </option>
+    </select>
+  </p>
+
+  <p>
+    Arrival gate:
+    <select th:field="*{arrivalGate}">
+      <option value="">Select arrival gate</option>
+
+      <option th:each="gate : ${gates}"
+              th:value="${gate.id}"
+              th:text="${gate.number}">
+      </option>
+    </select>
+  </p>
+
+  <p>
+    Departure terminal:
+    <select th:field="*{departureTerminal}">
+      <option value="">Select departure terminal</option>
+
+      <option th:each="terminal : ${terminals}"
+              th:value="${terminal.id}"
+              th:text="${terminal.number}">
+      </option>
+    </select>
+  </p>
+
+  <p>
+    Arrival terminal:
+    <select th:field="*{arrivalTerminal}">
+      <option value="">Select arrival terminal</option>
+
+      <option th:each="terminal : ${terminals}"
+              th:value="${terminal.id}"
+              th:text="${terminal.number}">
+      </option>
+    </select>
+  </p>
+
+  <p>
+    Runway:
+    <select th:field="*{runway}">
+      <option value="">Select runway</option>
+
+      <option th:each="runway : ${runways}"
+              th:value="${runway.id}"
+              th:text="${runway.number}">
+      </option>
+    </select>
+  </p>
+
+  <button type="submit">Save</button>
+
+</form>
+
+<p>
+  <a th:href="@{/flights}">← Back to flights</a>
+</p>
+
+</body>
+</html>

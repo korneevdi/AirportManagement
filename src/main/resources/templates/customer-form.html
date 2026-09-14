@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new customer</title>
+</head>
+<body>
+
+<h1>Create new customer</h1>
+
+<form th:action="@{/customers}" th:object="${customerForm}" method="post">
+
+    <h2>Customer</h2>
+
+    <p>
+        First name:
+        <input type="text" th:field="*{firstName}">
+        <span th:if="${#fields.hasErrors('firstName')}"
+              th:errors="*{firstName}">
+    </span>
+    </p>
+
+    <p>
+        Last name:
+        <input type="text" th:field="*{lastName}">
+        <span th:if="${#fields.hasErrors('lastName')}"
+              th:errors="*{lastName}">
+    </span>
+    </p>
+
+    <p>
+        Country:
+        <input type="text" th:field="*{country}">
+        <span th:if="${#fields.hasErrors('country')}"
+              th:errors="*{country}">
+    </span>
+    </p>
+
+    <p>
+        Passport number:
+        <input type="text" th:field="*{passportNumber}">
+        <span th:if="${#fields.hasErrors('passportNumber')}"
+              th:errors="*{passportNumber}">
+    </span>
+    </p>
+
+
+    <h2>Customer contact</h2>
+
+    <p>
+        Customer contact email address:
+        <input type="text" th:field="*{contactEmail}">
+        <span th:if="${#fields.hasErrors('contactEmail')}"
+              th:errors="*{contactEmail}">
+    </span>
+    </p>
+
+    <p>
+        Customer contact phone number:
+        <input type="text" th:field="*{contactPhone}">
+        <span th:if="${#fields.hasErrors('contactPhone')}"
+              th:errors="*{contactPhone}">
+    </span>
+    </p>
+
+    <p>
+        Customer home city:
+        <input type="text" th:field="*{city}">
+        <span th:if="${#fields.hasErrors('city')}"
+              th:errors="*{city}">
+    </span>
+    </p>
+
+    <p>
+        Customer address:
+        <input type="text" th:field="*{address}">
+        <span th:if="${#fields.hasErrors('address')}"
+              th:errors="*{address}">
+    </span>
+    </p>
+
+    <p>
+        Notes:
+        <input type="text" th:field="*{notes}">
+    </p>
+
+
+    <button type="submit">Save</button>
+
+</form>
+
+<p>
+    <a th:href="@{/customers}">← Back to customers</a>
+</p>
+
+</body>
+</html>

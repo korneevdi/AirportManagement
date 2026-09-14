@@ -1,4 +1,4 @@
-package airport.Service;
+package airport.service;
 
 import airport.entity.PassControlType;
 import airport.repository.PassControlTypeRepository;
@@ -17,5 +17,18 @@ public class PassControlTypeService {
 
     public List<PassControlType> getAllPassControlTypes() {
         return passControlTypeRepository.findAll();
+    }
+
+    public PassControlType getPassControlTypeDyId(Integer id) {
+        return passControlTypeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Passport control type not found"));
+    }
+
+    public PassControlType savePassControlType(PassControlType passControlType) {
+        return passControlTypeRepository.save(passControlType);
+    }
+
+    public void deletePassControlType(Integer id) {
+        passControlTypeRepository.deleteById(id);
     }
 }

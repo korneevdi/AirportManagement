@@ -1,4 +1,4 @@
-package airport.Service;
+package airport.service;
 
 import airport.entity.BaggageClaim;
 import airport.repository.BaggageClaimRepository;
@@ -17,5 +17,18 @@ public class BaggageClaimService {
 
     public List<BaggageClaim> getAllBaggageClimes() {
         return baggageClaimRepository.findAll();
+    }
+
+    public BaggageClaim getBaggageClaimById(Integer id) {
+        return baggageClaimRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Baggage claim not found"));
+    }
+
+    public BaggageClaim saveBaggageClaim(BaggageClaim claim) {
+        return baggageClaimRepository.save(claim);
+    }
+
+    public void deleteBaggageClaim(Integer id) {
+        baggageClaimRepository.deleteById(id);
     }
 }

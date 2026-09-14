@@ -23,12 +23,12 @@ public class Airport {
     private Integer id;
 
     @NotBlank(message = "IATA code is required")
-    @Pattern(regexp = "[A-Z]{3}", message = "IATA code must contain exactly 3 uppercase letters")
+    @Pattern(regexp = "^$|[A-Z]{3}", message = "IATA code must contain exactly 3 uppercase letters")
     @Column(name = "iata")
     private String iata;
 
     @NotBlank(message = "ICAO code is required")
-    @Pattern(regexp = "[A-Z]{4}", message = "ICAO code must contain exactly 4 uppercase letters")
+    @Pattern(regexp = "^$|[A-Z]{4}", message = "ICAO code must contain exactly 4 uppercase letters")
     @Column(name = "icao")
     private String icao;
 

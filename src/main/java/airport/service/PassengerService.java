@@ -1,4 +1,4 @@
-package airport.Service;
+package airport.service;
 
 import airport.entity.Passenger;
 import airport.repository.PassengerRepository;
@@ -19,8 +19,12 @@ public class PassengerService {
         return passengerRepository.findAll();
     }
 
-    public Passenger getPassenger(Integer id) {
+    public Passenger getPassengerById(Integer id) {
         return passengerRepository.findById(id)
                 .orElseThrow();
+    }
+
+    public void savePassenger(Passenger passenger) {
+        passengerRepository.save(passenger);
     }
 }

@@ -265,7 +265,7 @@ CREATE TABLE flights
     arrival_gate SMALLINT,
     departure_terminal SMALLINT,
     arrival_terminal SMALLINT,
-    runway SMALLINT NOT NULL,
+    runway SMALLINT,
 
     CONSTRAINT flights_airline_fk FOREIGN KEY (airline)
         REFERENCES airlines(airline_id),

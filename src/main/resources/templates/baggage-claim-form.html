@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create new baggage claim</title>
+</head>
+<body>
+
+<h1>Create new baggage claim</h1>
+
+<form th:action="@{/baggage-claims}" th:object="${baggageClaim}" method="post">
+
+  <p>
+    Baggage claim number:
+    <input type="text" th:field="*{number}">
+    <span th:if="${#fields.hasErrors('number')}"
+          th:errors="*{number}">
+    </span>
+  </p>
+
+  <button type="submit">Save</button>
+
+</form>
+
+<p>
+  <a th:href="@{/baggage-claims}">← Back to baggage claims</a>
+</p>
+
+</body>
+</html>

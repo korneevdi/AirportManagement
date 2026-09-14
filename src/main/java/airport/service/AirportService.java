@@ -1,4 +1,4 @@
-package airport.Service;
+package airport.service;
 
 import airport.entity.Airport;
 import airport.repository.AirportRepository;

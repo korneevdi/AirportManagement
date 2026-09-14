@@ -51,14 +51,14 @@
   </p>
 
   <p>
-  <select th:field="*{timeZone}">
-    <option value="">-- Select time zone --</option>
+    <select th:field="*{timeZone}">
+      <option value="">-- Select time zone --</option>
 
-    <option th:each="zone : ${timeZones}"
+      <option th:each="zone : ${timeZones}"
             th:value="${zone}"
             th:text="${zone}">
-    </option>
-  </select>
+      </option>
+    </select>
   </p>
 
   <button type="submit">Save</button>
