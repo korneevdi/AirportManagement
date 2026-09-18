@@ -16,7 +16,7 @@ public class CrewRoleService {
     }
 
     public List<CrewRole> getAllCrewRoles() {
-        return crewRoleRepository.findAll();
+        return crewRoleRepository.findAllByOrderByNameAsc();
     }
 
     public CrewRole getCrewRoleById(Integer id) {

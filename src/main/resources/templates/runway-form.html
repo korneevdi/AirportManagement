@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new runway</title>
+  <title>Create or update runway</title>
 </head>
 <body>
 
-<h1>Create new runway</h1>
+<h1 th:text="${runway.id == null}
+        ? 'Create runway'
+        : 'Edit runway'">
+  Create runway
+</h1>
 
-<form th:action="@{/runways}" th:object="${runway}" method="post">
+<form th:object="${runway}"
+      th:action="${runway.id == null}
+          ? @{/runways}
+          : @{/runways/{id}(id=${runway.id})}"
+      method="post">
 
   <p>
     Runway number:
@@ -18,7 +26,10 @@
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <button type="submit"
+          th:text="${runway.id == null} ? 'Create' : 'Save changes'">
+    Create
+  </button>
 
 </form>
 

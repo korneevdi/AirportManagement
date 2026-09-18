@@ -16,7 +16,7 @@ public class PassControlTypeService {
     }
 
     public List<PassControlType> getAllPassControlTypes() {
-        return passControlTypeRepository.findAll();
+        return passControlTypeRepository.findAllByOrderByNameAsc();
     }
 
     public PassControlType getPassControlTypeDyId(Integer id) {

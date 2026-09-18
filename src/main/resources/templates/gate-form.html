@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new gate</title>
+  <title>Create or update gate</title>
 </head>
 <body>
 
-<h1>Create new gate</h1>
+<h1 th:text="${gate.id == null}
+        ? 'Create gate'
+        : 'Edit gate'">
+  Create gate
+</h1>
 
-<form th:action="@{/gates}" th:object="${gate}" method="post">
+<form th:object="${gate}"
+      th:action="${gate.id == null}
+          ? @{/gates}
+          : @{/gates/{id}(id=${gate.id})}"
+      method="post">
 
   <p>
     Gate number:
@@ -18,7 +26,10 @@
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <button type="submit"
+          th:text="${gate.id == null} ? 'Create' : 'Save changes'">
+    Create
+  </button>
 
 </form>
 

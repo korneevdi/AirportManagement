@@ -16,7 +16,7 @@ public class AirportService {
     }
 
     public List<Airport> getAllAirports() {
-        return airportRepository.findAll();
+        return airportRepository.findAllByOrderByNameAsc();
     }
 
     public Airport getAirportById(Integer id) {

@@ -16,7 +16,7 @@ public class TerminalService {
     }
 
     public List<Terminal> getAllTerminals() {
-        return terminalRepository.findAll();
+        return terminalRepository.findAllByOrderByNumberAsc();
     }
 
     public Terminal getTerminalById(Integer id) {

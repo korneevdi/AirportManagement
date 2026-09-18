@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new type</title>
+  <title>Create or update type</title>
 </head>
 <body>
 
-<h1>Create new type</h1>
+<h1 th:text="${type.id == null}
+        ? 'Create type'
+        : 'Edit type'">
+  Create type
+</h1>
 
-<form th:action="@{/types}" th:object="${type}" method="post">
+<form th:object="${type}"
+      th:action="${type.id == null}
+          ? @{/types}
+          : @{/types/{id}(id=${type.id})}"
+      method="post">
 
   <p>
     Type name:
@@ -18,7 +26,10 @@
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <button type="submit"
+          th:text="${type.id == null} ? 'Create' : 'Save changes'">
+    Create
+  </button>
 
 </form>
 

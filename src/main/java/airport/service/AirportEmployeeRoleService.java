@@ -16,10 +16,10 @@ public class AirportEmployeeRoleService {
     }
 
     public List<AirportEmployeeRole> getAllAirportEmployeeRoles() {
-        return airportEmployeeRoleRepository.findAll();
+        return airportEmployeeRoleRepository.findAllByOrderByNameAsc();
     }
 
-    public AirportEmployeeRole getAirportEmployeeRole(Integer id) {
+    public AirportEmployeeRole getAirportEmployeeRoleById(Integer id) {
         return airportEmployeeRoleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Airport employee role not found"));
     }

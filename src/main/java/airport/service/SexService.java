@@ -16,7 +16,7 @@ public class SexService {
     }
 
     public List<Sex> getAllSexes() {
-        return sexRepository.findAll();
+        return sexRepository.findAllByOrderByNameAsc();
     }
 
     public Sex getSexById(Integer id) {

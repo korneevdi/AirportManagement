@@ -3,7 +3,6 @@ package airport.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.HashSet;
@@ -23,17 +22,17 @@ public class Airport {
     private Integer id;
 
     @NotBlank(message = "IATA code is required")
-    @Pattern(regexp = "^$|[A-Z]{3}", message = "IATA code must contain exactly 3 uppercase letters")
-    @Column(name = "iata")
+    @Pattern(regexp = "^[A-Z]{3}$", message = "IATA code must contain exactly 3 uppercase letters")
+    @Column(name = "iata", unique = true)
     private String iata;
 
     @NotBlank(message = "ICAO code is required")
-    @Pattern(regexp = "^$|[A-Z]{4}", message = "ICAO code must contain exactly 4 uppercase letters")
-    @Column(name = "icao")
+    @Pattern(regexp = "^[A-Z]{4}$", message = "ICAO code must contain exactly 4 uppercase letters")
+    @Column(name = "icao", unique = true)
     private String icao;
 
     @NotBlank(message = "Airport name is required")
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @NotBlank(message = "City is required")

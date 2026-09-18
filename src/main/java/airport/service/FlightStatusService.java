@@ -16,12 +16,20 @@ public class FlightStatusService {
     }
 
     public List<FlightStatus> getAllFlightStatuses() {
-        return flightStatusRepository.findAll();
+        return flightStatusRepository.findAllByOrderByNameAsc();
     }
 
     public FlightStatus getFlightStatusById(Integer id) {
         return flightStatusRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Status not found"));
+    }
+
+    public boolean existsByName(String name) {
+        return flightStatusRepository.existsByName(name);
+    }
+
+    public boolean existsByNameAndIdNot(String name, Integer id) {
+        return flightStatusRepository.existsByNameAndIdNot(name, id);
     }
 
     public FlightStatus saveFlightStatus(FlightStatus status) {

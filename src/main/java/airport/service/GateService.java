@@ -16,7 +16,7 @@ public class GateService {
     }
 
     public List<Gate> getAllGates() {
-        return gateRepository.findAll();
+        return gateRepository.findAllSorted();
     }
 
     public Gate getGateById(Integer id) {

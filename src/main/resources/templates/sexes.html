@@ -16,11 +16,40 @@
   </tr>
 
   <tr th:each="sex, stat : ${sexes}">
+
+    <!-- Sex data -->
     <td th:text="${stat.count}"></td>
     <td th:text="${sex.name}"></td>
+
+    <!-- Edit sex -->
+    <td>
+      <a th:href="@{/sexes/{id}/edit(id=${sex.id})}">
+        Edit
+      </a>
+    </td>
+
+    <!-- Delete sex -->
+    <td>
+      <form th:action="@{/sexes/{id}/delete(id=${sex.id})}"
+            method="post">
+
+        <button type="submit"
+                onclick="return confirm('Are you sure you want to delete this sex?')">
+          Delete
+        </button>
+      </form>
+    </td>
+
+    <!-- Error when delete sex -->
+    <td>
+      <div th:if="${errorSexId != null and errorSexId == sex.id}"
+           th:text="${errorMessage}">
+      </div>
+    </td>
   </tr>
 </table>
 
+<!-- Add new sex -->
 <p>
   <a th:href="@{/sexes/new}">Add sex</a>
 </p>
