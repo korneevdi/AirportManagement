@@ -45,6 +45,17 @@ public class GateController {
         if(bindingResult.hasErrors()) {
             return "gate-form";
         }
+
+        if (gateService.existsByNumber(gate.getNumber())) {
+            bindingResult.rejectValue(
+                    "number",
+                    "duplicate",
+                    "Gate with this number already exists"
+            );
+
+            return "gate-form";
+        }
+
         gateService.saveGate(gate);
         return "redirect:gates";
     }
@@ -62,6 +73,16 @@ public class GateController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
+            return "gate-form";
+        }
+
+        if (gateService.existsByNumberAndIdNot(gate.getNumber(), id)) {
+            bindingResult.rejectValue(
+                    "number",
+                    "duplicate",
+                    "Gate with this number already exists"
+            );
+
             return "gate-form";
         }
 

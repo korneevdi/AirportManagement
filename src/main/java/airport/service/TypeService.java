@@ -24,6 +24,14 @@ public class TypeService {
                 .orElseThrow(() -> new IllegalArgumentException("Type not found"));
     }
 
+    public boolean existsByName(String name) {
+        return typeRepository.existsByName(name);
+    }
+
+    public boolean existsByNameAndIdNot(String name, Integer id) {
+        return typeRepository.existsByNameAndIdNot(name, id);
+    }
+
     public Type saveType(Type type) {
         return typeRepository.save(type);
     }

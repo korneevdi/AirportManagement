@@ -22,7 +22,8 @@
     IATA:
     <input type="text" th:field="*{iata}">
     <span th:if="${#fields.hasErrors('iata')}"
-          th:errors="*{iata}">
+          th:errors="*{iata}"
+          style="color: red;">
     </span>
   </p>
 
@@ -30,7 +31,8 @@
     ICAO:
     <input type="text" th:field="*{icao}">
     <span th:if="${#fields.hasErrors('icao')}"
-          th:errors="*{icao}">
+          th:errors="*{icao}"
+          style="color: red;">
     </span>
   </p>
 
@@ -38,7 +40,8 @@
     Name:
     <input type="text" th:field="*{name}">
     <span th:if="${#fields.hasErrors('name')}"
-          th:errors="*{name}">
+          th:errors="*{name}"
+          style="color: red;">
     </span>
   </p>
 

@@ -24,6 +24,14 @@ public class GateService {
                 .orElseThrow(() -> new IllegalArgumentException("Gate not found"));
     }
 
+    public boolean existsByNumber(String number) {
+        return gateRepository.existsByNumber(number);
+    }
+
+    public boolean existsByNumberAndIdNot(String number, Integer id) {
+        return gateRepository.existsByNumberAndIdNot(number, id);
+    }
+
     public Gate saveGate(Gate gate) {
         return gateRepository.save(gate);
     }

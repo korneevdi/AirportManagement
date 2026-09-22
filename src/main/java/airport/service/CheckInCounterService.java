@@ -21,7 +21,15 @@ public class CheckInCounterService {
 
     public CheckInCounter getCheckInCounterById(Integer id) {
         return checkInCounterRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Chack-in counter not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Check-in counter not found"));
+    }
+
+    public boolean existsByNumber(String number) {
+        return checkInCounterRepository.existsByNumber(number);
+    }
+
+    public boolean existsByNumberAndIdNot(String number, Integer id) {
+        return checkInCounterRepository.existsByNumberAndIdNot(number, id);
     }
 
     public CheckInCounter saveCheckInCounter(CheckInCounter counter) {

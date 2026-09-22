@@ -45,6 +45,17 @@ public class PassControlTypeController {
         if(bindingResult.hasErrors()) {
             return "pass-control-type-form";
         }
+
+        if (passControlTypeService.existsByName(passControlType.getName())) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Passport control type with this name already exists"
+            );
+
+            return "pass-control-type-form";
+        }
+
         passControlTypeService.savePassControlType(passControlType);
         return "redirect:pass-control-types";
     }
@@ -62,6 +73,16 @@ public class PassControlTypeController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
+            return "pass-control-type-form";
+        }
+
+        if (passControlTypeService.existsByNameAndIdNot(passControlType.getName(), id)) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Passport control type with this name already exists"
+            );
+
             return "pass-control-type-form";
         }
 

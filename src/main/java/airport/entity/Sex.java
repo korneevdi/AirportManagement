@@ -20,6 +20,6 @@ public class Sex {
 
     @NotBlank(message = "Sex name is required")
     @Size(max = 20, message = "Sex name must not contain more than 20 symbols")
-    @Column(name = "sex_name")
+    @Column(name = "sex_name", unique = true)
     private String name;
 }

@@ -8,4 +8,8 @@ import java.util.List;
 public interface TypeRepository extends JpaRepository<Type, Integer> {
 
     List<Type> findAllByOrderByNameAsc();
+
+    boolean existsByName(String name);
+
+    boolean existsByNameAndIdNot(String name, Integer id);
 }

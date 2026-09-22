@@ -45,6 +45,17 @@ public class AirportEmployeeRoleController {
         if(bindingResult.hasErrors()) {
             return "airport-employee-role-form";
         }
+
+        if (airportEmployeeRoleService.existsByName(role.getName())) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Airport employee role with this name already exists"
+            );
+
+            return "airport-employee-role-form";
+        }
+
         airportEmployeeRoleService.saveAirportEmployeeRole(role);
         return "redirect:airport-employee-roles";
     }
@@ -62,6 +73,16 @@ public class AirportEmployeeRoleController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
+            return "airport-employee-role-form";
+        }
+
+        if (airportEmployeeRoleService.existsByNameAndIdNot(role.getName(), id)) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Airport employee role with this name already exists"
+            );
+
             return "airport-employee-role-form";
         }
 

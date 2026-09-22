@@ -23,7 +23,7 @@ public class PassControlType {
 
     @NotBlank(message = "Passport control type is required")
     @Size(max = 40, message = "Passport control type name must not contain more than 40 symbols")
-    @Column(name = "type_name")
+    @Column(name = "type_name", unique = true)
     private String name;
 
     @OneToMany(mappedBy = "passControlType")

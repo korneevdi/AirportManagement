@@ -24,6 +24,14 @@ public class SexService {
                 .orElseThrow(() -> new IllegalArgumentException("Sex not found"));
     }
 
+    public boolean existsByName(String name) {
+        return sexRepository.existsByName(name);
+    }
+
+    public boolean existsByNameAndIdNot(String name, Integer id) {
+        return sexRepository.existsByNameAndIdNot(name, id);
+    }
+
     public Sex saveSex(Sex sex) {
         return sexRepository.save(sex);
     }

@@ -8,4 +8,8 @@ import java.util.List;
 public interface SexRepository extends JpaRepository<Sex, Integer> {
 
     List<Sex> findAllByOrderByNameAsc();
+
+    boolean existsByName(String name);
+
+    boolean existsByNameAndIdNot(String name, Integer id);
 }

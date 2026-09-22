@@ -23,9 +23,9 @@ public class CheckInCounter {
 
     @NotBlank(message = "Check-in counter number is required")
     @Pattern(
-            regexp = "^$|[A-Z][0-9]{1,3}",
+            regexp = "^[A-Z][0-9]{1,3}$",
             message = "Check-in counter number must contain one uppercase letter followed by 1 to 3 digits")
-    @Column(name = "counter_number")
+    @Column(name = "counter_number", unique = true)
     private String number;
 
     @OneToMany(mappedBy = "counter")

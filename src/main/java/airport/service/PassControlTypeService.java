@@ -24,6 +24,14 @@ public class PassControlTypeService {
                 .orElseThrow(() -> new IllegalArgumentException("Passport control type not found"));
     }
 
+    public boolean existsByName(String name) {
+        return passControlTypeRepository.existsByName(name);
+    }
+
+    public boolean existsByNameAndIdNot(String name, Integer id) {
+        return passControlTypeRepository.existsByNameAndIdNot(name, id);
+    }
+
     public PassControlType savePassControlType(PassControlType passControlType) {
         return passControlTypeRepository.save(passControlType);
     }

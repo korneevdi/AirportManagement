@@ -24,6 +24,14 @@ public class BaggageClaimService {
                 .orElseThrow(() -> new IllegalArgumentException("Baggage claim not found"));
     }
 
+    public boolean existsByNumber(String number) {
+        return baggageClaimRepository.existsByNumber(number);
+    }
+
+    public boolean existsByNumberAndIdNot(String number, Integer id) {
+        return baggageClaimRepository.existsByNumberAndIdNot(number, id);
+    }
+
     public BaggageClaim saveBaggageClaim(BaggageClaim claim) {
         return baggageClaimRepository.save(claim);
     }

@@ -45,6 +45,17 @@ public class BaggageClaimController {
         if(bindingResult.hasErrors()) {
             return "baggage-claim-form";
         }
+
+        if (baggageClaimService.existsByNumber(claim.getNumber())) {
+            bindingResult.rejectValue(
+                    "number",
+                    "duplicate",
+                    "Baggage claim with this number already exists"
+            );
+
+            return "baggage-claim-form";
+        }
+
         baggageClaimService.saveBaggageClaim(claim);
         return "redirect:baggage-claims";
     }
@@ -62,6 +73,16 @@ public class BaggageClaimController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
+            return "baggage-claim-form";
+        }
+
+        if (baggageClaimService.existsByNumberAndIdNot(claim.getNumber(), id)) {
+            bindingResult.rejectValue(
+                    "number",
+                    "duplicate",
+                    "Baggage claim with this number already exists"
+            );
+
             return "baggage-claim-form";
         }
 

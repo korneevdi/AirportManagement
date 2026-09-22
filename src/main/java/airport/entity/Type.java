@@ -23,7 +23,7 @@ public class Type {
 
     @NotBlank(message = "Type name is required")
     @Size(max = 30, message = "Type name must not contain more than 30 symbols")
-    @Column(name = "type_name")
+    @Column(name = "type_name", unique = true)
     private String name;
 
     @OneToMany(mappedBy = "flightType")

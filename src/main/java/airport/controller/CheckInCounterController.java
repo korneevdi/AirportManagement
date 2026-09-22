@@ -45,6 +45,17 @@ public class CheckInCounterController {
         if(bindingResult.hasErrors()) {
             return "check-in-counter-form";
         }
+
+        if (checkInCounterService.existsByNumber(counter.getNumber())) {
+            bindingResult.rejectValue(
+                    "number",
+                    "duplicate",
+                    "Check-in counter with this number already exists"
+            );
+
+            return "check-in-counter-form";
+        }
+
         checkInCounterService.saveCheckInCounter(counter);
         return "redirect:check-in-counters";
     }
@@ -62,6 +73,16 @@ public class CheckInCounterController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
+            return "check-in-counter-form";
+        }
+
+        if (checkInCounterService.existsByNumberAndIdNot(counter.getNumber(), id)) {
+            bindingResult.rejectValue(
+                    "number",
+                    "duplicate",
+                    "Check-in counter with this number already exists"
+            );
+
             return "check-in-counter-form";
         }
 

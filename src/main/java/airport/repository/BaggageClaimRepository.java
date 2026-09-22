@@ -15,4 +15,8 @@ public interface BaggageClaimRepository extends JpaRepository<BaggageClaim, Inte
     """,
             nativeQuery = true)
     List<BaggageClaim> findAllSorted();
+
+    boolean existsByNumber(String number);
+
+    boolean existsByNumberAndIdNot(String number, Integer id);
 }

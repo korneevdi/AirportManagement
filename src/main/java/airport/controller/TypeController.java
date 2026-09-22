@@ -45,6 +45,17 @@ public class TypeController {
         if(bindingResult.hasErrors()) {
             return "type-form";
         }
+
+        if (typeService.existsByName(type.getName())) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Type with this name already exists"
+            );
+
+            return "type-form";
+        }
+
         typeService.saveType(type);
         return "redirect:types";
     }
@@ -62,6 +73,16 @@ public class TypeController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
+            return "type-form";
+        }
+
+        if (typeService.existsByNameAndIdNot(type.getName(), id)) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Type with this name already exists"
+            );
+
             return "type-form";
         }
 

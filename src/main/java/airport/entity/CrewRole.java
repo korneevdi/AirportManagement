@@ -23,7 +23,7 @@ public class CrewRole {
 
     @NotBlank(message = "Crew role is required")
     @Size(max = 50, message = "Crew role name must not contain more than 50 symbols")
-    @Column(name = "role_name")
+    @Column(name = "role_name", unique = true)
     private String name;
 
     @OneToMany(mappedBy = "role")

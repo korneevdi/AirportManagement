@@ -25,7 +25,7 @@ public class Runway {
     @Pattern(
             regexp = "^$|(0[1-9]|[12][0-9]|3[0-6])[LR]",
             message = "Runway number must be from 01 to 36 followed by L or R")
-    @Column(name = "runway_number")
+    @Column(name = "runway_number", unique = true)
     private String number;
 
     @OneToMany(mappedBy = "runway")

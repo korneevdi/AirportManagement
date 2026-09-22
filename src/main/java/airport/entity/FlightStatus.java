@@ -23,7 +23,7 @@ public class FlightStatus {
 
     @NotBlank(message = "Status name is required")
     @Size(max = 40, message = "Flight status name must not contain more than 40 symbols")
-    @Column(name = "status_name")
+    @Column(name = "status_name", unique = true)
     private String name;
 
     @OneToMany(mappedBy = "status")
