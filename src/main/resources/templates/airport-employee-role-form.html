@@ -22,7 +22,8 @@
     Airport employee role name:
     <input type="text" th:field="*{name}">
     <span th:if="${#fields.hasErrors('name')}"
-          th:errors="*{name}">
+          th:errors="*{name}"
+          style="color: red;">
     </span>
   </p>
 

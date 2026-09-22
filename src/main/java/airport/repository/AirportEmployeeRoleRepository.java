@@ -8,4 +8,8 @@ import java.util.List;
 public interface AirportEmployeeRoleRepository extends JpaRepository<AirportEmployeeRole, Integer> {
 
     List<AirportEmployeeRole> findAllByOrderByNameAsc();
+
+    boolean existsByName(String name);
+
+    boolean existsByNameAndIdNot(String name, Integer id);
 }

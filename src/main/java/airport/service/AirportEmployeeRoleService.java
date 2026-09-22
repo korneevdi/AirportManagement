@@ -24,6 +24,14 @@ public class AirportEmployeeRoleService {
                 .orElseThrow(() -> new IllegalArgumentException("Airport employee role not found"));
     }
 
+    public boolean existsByName(String name) {
+        return airportEmployeeRoleRepository.existsByName(name);
+    }
+
+    public boolean existsByNameAndIdNot(String name, Integer id) {
+        return airportEmployeeRoleRepository.existsByNameAndIdNot(name, id);
+    }
+
     public AirportEmployeeRole saveAirportEmployeeRole(AirportEmployeeRole role) {
         return airportEmployeeRoleRepository.save(role);
     }

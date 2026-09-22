@@ -52,6 +52,36 @@ public class AirportController {
             model.addAttribute("timeZones", ZoneId.getAvailableZoneIds());
             return "airport-form";
         }
+
+        if (airportService.existsByIata(airport.getIata())) {
+            bindingResult.rejectValue(
+                    "iata",
+                    "duplicate",
+                    "Airport with this IATA already exists"
+            );
+        }
+
+        if (airportService.existsByIcao(airport.getIcao())) {
+            bindingResult.rejectValue(
+                    "icao",
+                    "duplicate",
+                    "Airport with this ICAO already exists"
+            );
+        }
+
+        if (airportService.existsByName(airport.getName())) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Airport with this name already exists"
+            );
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("timeZones", ZoneId.getAvailableZoneIds());
+            return "airport-form";
+        }
+
         airportService.saveAirport(airport);
         return "redirect:airports";
     }
@@ -70,13 +100,43 @@ public class AirportController {
             BindingResult bindingResult,
             Model model) {
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("timeZones", ZoneId.getAvailableZoneIds());
+            return "airport-form";
+        }
+
+        if (airportService.existsByIataAndIdNot(airport.getIata(), id)) {
+            bindingResult.rejectValue(
+                    "iata",
+                    "duplicate",
+                    "Airport with this IATA already exists"
+            );
+        }
+
+        if (airportService.existsByIcaoAndIdNot(airport.getIcao(), id)) {
+            bindingResult.rejectValue(
+                    "icao",
+                    "duplicate",
+                    "Airport with this ICAO already exists"
+            );
+        }
+
+        if (airportService.existsByNameAndIdNot(airport.getName(), id)) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Airport with this name already exists"
+            );
+        }
+
+        if (bindingResult.hasErrors()) {
             model.addAttribute("timeZones", ZoneId.getAvailableZoneIds());
             return "airport-form";
         }
 
         airport.setId(id);
         airportService.saveAirport(airport);
+
         return "redirect:/airports";
     }
 

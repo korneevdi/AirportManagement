@@ -24,7 +24,7 @@ public class Terminal {
     @Pattern(
             regexp = "^$|[A-Z]{1}",
             message = "Terminal name must contain exactly one uppercase letter")
-    @Column(name = "terminal_number")
+    @Column(name = "terminal_number", unique = true)
     private String number;
 
     @OneToMany(mappedBy = "departureTerminal")

@@ -23,9 +23,9 @@ public class BaggageClaim {
 
     @NotBlank(message = "Baggage claim number is required")
     @Pattern(
-            regexp = "^$|[0-9]{2}",
+            regexp = "^[0-9]{1,2}$",
             message = "Baggage claim number must contain 1 to 2 digits")
-    @Column(name = "claim_number")
+    @Column(name = "claim_number", unique = true)
     private String number;
 
     @OneToMany(mappedBy = "claim")

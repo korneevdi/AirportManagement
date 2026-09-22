@@ -24,6 +24,14 @@ public class CrewRoleService {
                 .orElseThrow(() -> new IllegalArgumentException("Crew role not found"));
     }
 
+    public boolean existsByName(String name) {
+        return crewRoleRepository.existsByName(name);
+    }
+
+    public boolean existsByNameAndIdNot(String name, Integer id) {
+        return crewRoleRepository.existsByNameAndIdNot(name, id);
+    }
+
     public CrewRole saveCrewRole(CrewRole crewRole) {
         return crewRoleRepository.save(crewRole);
     }

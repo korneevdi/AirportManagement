@@ -17,4 +17,8 @@ public interface CheckInCounterRepository extends JpaRepository<CheckInCounter, 
         """,
             nativeQuery = true)
     List<CheckInCounter> findAllSorted();
+
+    boolean existsByNumber(String number);
+
+    boolean existsByNumberAndIdNot(String number, Integer id);
 }

@@ -24,7 +24,7 @@ public class Gate {
     @Pattern(
             regexp = "^$|[A-Z][0-9]{1,2}",
             message = "Gate number must contain one uppercase letter followed by 1 to 2 digits")
-    @Column(name = "gate_number")
+    @Column(name = "gate_number", unique = true)
     private String number;
 
     @OneToMany(mappedBy = "departureGate")

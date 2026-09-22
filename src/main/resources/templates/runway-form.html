@@ -22,7 +22,8 @@
     Runway number:
     <input type="text" th:field="*{number}">
     <span th:if="${#fields.hasErrors('number')}"
-          th:errors="*{number}">
+          th:errors="*{number}"
+          style="color: red;">
     </span>
   </p>
 

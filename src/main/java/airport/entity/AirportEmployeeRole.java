@@ -20,6 +20,6 @@ public class AirportEmployeeRole {
 
     @NotBlank(message = "Airport employee role name is required")
     @Size(max = 100, message = "Airport employee role name must not contain more than 100 symbols")
-    @Column(name = "role_name")
+    @Column(name = "role_name", unique = true)
     private String name;
 }

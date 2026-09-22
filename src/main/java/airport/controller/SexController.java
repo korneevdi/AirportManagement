@@ -45,6 +45,17 @@ public class SexController {
         if(bindingResult.hasErrors()) {
             return "sex-form";
         }
+
+        if (sexService.existsByName(sex.getName())) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Sex with this name already exists"
+            );
+
+            return "sex-form";
+        }
+
         sexService.saveSex(sex);
         return "redirect:sexes";
     }
@@ -62,6 +73,16 @@ public class SexController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
+            return "sex-form";
+        }
+
+        if (sexService.existsByNameAndIdNot(sex.getName(), id)) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Sex with this name already exists"
+            );
+
             return "sex-form";
         }
 

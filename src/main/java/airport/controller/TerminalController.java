@@ -45,6 +45,17 @@ public class TerminalController {
         if(bindingResult.hasErrors()) {
             return "terminal-form";
         }
+
+        if (terminalService.existsByNumber(terminal.getNumber())) {
+            bindingResult.rejectValue(
+                    "number",
+                    "duplicate",
+                    "Terminal with this number already exists"
+            );
+
+            return "terminal-form";
+        }
+
         terminalService.saveTerminal(terminal);
         return "redirect:terminals";
     }
@@ -62,6 +73,16 @@ public class TerminalController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
+            return "terminal-form";
+        }
+
+        if (terminalService.existsByNumberAndIdNot(terminal.getNumber(), id)) {
+            bindingResult.rejectValue(
+                    "number",
+                    "duplicate",
+                    "Terminal with this number already exists"
+            );
+
             return "terminal-form";
         }
 

@@ -17,4 +17,8 @@ public interface GateRepository extends JpaRepository<Gate, Integer> {
         """,
             nativeQuery = true)
     List<Gate> findAllSorted();
+
+    boolean existsByNumber(String number);
+
+    boolean existsByNumberAndIdNot(String number, Integer id);
 }

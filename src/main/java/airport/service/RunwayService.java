@@ -24,6 +24,14 @@ public class RunwayService {
                 .orElseThrow(() -> new IllegalArgumentException("Runway not found"));
     }
 
+    public boolean existsByNumber(String number) {
+        return runwayRepository.existsByNumber(number);
+    }
+
+    public boolean existsByNumberAndIdNot(String number, Integer id) {
+        return runwayRepository.existsByNumberAndIdNot(number, id);
+    }
+
     public Runway saveRunway(Runway runway) {
         return runwayRepository.save(runway);
     }

@@ -17,4 +17,8 @@ public interface RunwayRepository extends JpaRepository<Runway, Integer> {
         """,
             nativeQuery = true)
     List<Runway> findAllSorted();
+
+    boolean existsByNumber(String number);
+
+    boolean existsByNumberAndIdNot(String number, Integer id);
 }

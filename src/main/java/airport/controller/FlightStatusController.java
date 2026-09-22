@@ -42,7 +42,7 @@ public class FlightStatusController {
             @Valid @ModelAttribute("flightStatus") FlightStatus status,
             BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "flight-status-form";
         }
 
@@ -72,7 +72,7 @@ public class FlightStatusController {
             @Valid @ModelAttribute("flightStatus") FlightStatus status,
             BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "flight-status-form";
         }
 
@@ -96,7 +96,7 @@ public class FlightStatusController {
             @PathVariable Integer id,
             RedirectAttributes redirectAttributes) {
 
-        try{
+        try {
             flightStatusService.deleteFlightStatus(id);
         } catch (DataIntegrityViolationException e) {
             redirectAttributes.addFlashAttribute(

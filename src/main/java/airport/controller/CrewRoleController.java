@@ -46,6 +46,17 @@ public class CrewRoleController {
         if(bindingResult.hasErrors()) {
             return "crew-role-form";
         }
+
+        if (crewRoleService.existsByName(crewRole.getName())) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Crew role with this name already exists"
+            );
+
+            return "crew-role-form";
+        }
+
         crewRoleService.saveCrewRole(crewRole);
         return "redirect:crew-roles";
     }
@@ -63,6 +74,16 @@ public class CrewRoleController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
+            return "crew-role-form";
+        }
+
+        if (crewRoleService.existsByNameAndIdNot(role.getName(), id)) {
+            bindingResult.rejectValue(
+                    "name",
+                    "duplicate",
+                    "Crew role with this name already exists"
+            );
+
             return "crew-role-form";
         }
 

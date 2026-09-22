@@ -45,6 +45,17 @@ public class RunwayController {
         if(bindingResult.hasErrors()) {
             return "runway-form";
         }
+
+        if (runwayService.existsByNumber(runway.getNumber())) {
+            bindingResult.rejectValue(
+                    "number",
+                    "duplicate",
+                    "Runway with this number already exists"
+            );
+
+            return "runway-form";
+        }
+
         runwayService.saveRunway(runway);
         return "redirect:runways";
     }
@@ -62,6 +73,16 @@ public class RunwayController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
+            return "runway-form";
+        }
+
+        if (runwayService.existsByNumberAndIdNot(runway.getNumber(), id)) {
+            bindingResult.rejectValue(
+                    "number",
+                    "duplicate",
+                    "Runway with this number already exists"
+            );
+
             return "runway-form";
         }
 

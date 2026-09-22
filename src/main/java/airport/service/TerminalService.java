@@ -24,6 +24,14 @@ public class TerminalService {
                 .orElseThrow(() -> new IllegalArgumentException("Terminal not found"));
     }
 
+    public boolean existsByNumber(String number) {
+        return terminalRepository.existsByNumber(number);
+    }
+
+    public boolean existsByNumberAndIdNot(String number, Integer id) {
+        return terminalRepository.existsByNumberAndIdNot(number, id);
+    }
+
     public Terminal saveTerminal(Terminal terminal) {
         return terminalRepository.save(terminal);
     }
