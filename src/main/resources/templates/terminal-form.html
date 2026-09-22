@@ -6,9 +6,17 @@
 </head>
 <body>
 
-<h1>Create new terminal</h1>
+<h1 th:text="${terminal.id == null}
+        ? 'Create terminal'
+        : 'Edit terminal'">
+  Create terminal
+</h1>
 
-<form th:action="@{/terminals}" th:object="${terminal}" method="post">
+<form th:object="${terminal}"
+      th:action="${terminal.id == null}
+          ? @{/terminals}
+          : @{/terminals/{id}(id=${terminal.id})}"
+      method="post">
 
   <p>
     Terminal name:
@@ -18,7 +26,10 @@
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <button type="submit"
+          th:text="${terminal.id == null} ? 'Create' : 'Save changes'">
+    Create
+  </button>
 
 </form>
 

@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new baggage claim</title>
+  <title>Create or update baggage claim</title>
 </head>
 <body>
 
-<h1>Create new baggage claim</h1>
+<h1 th:text="${baggageClaim.id == null}
+        ? 'Create baggage claim'
+        : 'Edit baggage claim'">
+  Create baggage claim
+</h1>
 
-<form th:action="@{/baggage-claims}" th:object="${baggageClaim}" method="post">
+<form th:object="${baggageClaim}"
+      th:action="${baggageClaim.id == null}
+          ? @{/baggage-claims}
+          : @{/baggage-claims/{id}(id=${baggageClaim.id})}"
+      method="post">
 
   <p>
     Baggage claim number:
@@ -18,7 +26,10 @@
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <button type="submit"
+          th:text="${baggageClaim.id == null} ? 'Create' : 'Save changes'">
+    Create
+  </button>
 
 </form>
 

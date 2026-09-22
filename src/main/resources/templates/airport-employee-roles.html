@@ -16,11 +16,40 @@
   </tr>
 
   <tr th:each="role, stat : ${airportEmployeeRoles}">
+
+    <!-- Airport employee role data -->
     <td th:text="${stat.count}"></td>
     <td th:text="${role.name}"></td>
+
+    <!-- Edit employee role data -->
+    <td>
+      <a th:href="@{/airport-employee-roles/{id}/edit(id=${role.id})}">
+        Edit
+      </a>
+    </td>
+
+    <!-- Delete employee role data -->
+    <td>
+      <form th:action="@{/airport-employee-roles/{id}/delete(id=${role.id})}"
+            method="post">
+
+        <button type="submit"
+                onclick="return confirm('Are you sure you want to delete this role?')">
+          Delete
+        </button>
+      </form>
+    </td>
+
+    <!-- Error when delete employee role data -->
+    <td>
+      <div th:if="${errorAirportEmployeeRoleId != null and errorAirportEmployeeRoleId == role.id}"
+           th:text="${errorMessage}">
+      </div>
+    </td>
   </tr>
 </table>
 
+<!-- Add new airport employee role -->
 <p>
   <a th:href="@{/airport-employee-roles/new}">Add airport employee role</a>
 </p>

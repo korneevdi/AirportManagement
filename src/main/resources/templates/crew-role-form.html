@@ -2,23 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new crew role</title>
+  <title>Create or update crew role</title>
 </head>
 <body>
 
-<h1>Create new crew role</h1>
+<h1 th:text="${crewRole.id == null}
+        ? 'Create crew role'
+        : 'Edit crew role'">
+  Create crew role
+</h1>
 
-<form th:action="@{/crew-roles}" th:object="${crewRole}" method="post">
+<form th:object="${crewRole}"
+      th:action="${crewRole.id == null}
+          ? @{/crew-roles}
+          : @{/crew-roles/{id}(id=${crewRole.id})}"
+      method="post">
 
   <p>
-    Sex name:
+    Crew role name:
     <input type="text" th:field="*{name}">
     <span th:if="${#fields.hasErrors('name')}"
           th:errors="*{name}">
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <button type="submit"
+          th:text="${crewRole.id == null} ? 'Create' : 'Save changes'">
+    Create
+  </button>
 
 </form>
 

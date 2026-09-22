@@ -16,7 +16,7 @@ public class CheckInCounterService {
     }
 
     public List<CheckInCounter> getAllCheckInCounters() {
-        return checkInCounterRepository.findAll();
+        return checkInCounterRepository.findAllSorted();
     }
 
     public CheckInCounter getCheckInCounterById(Integer id) {

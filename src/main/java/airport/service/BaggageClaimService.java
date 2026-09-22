@@ -16,7 +16,7 @@ public class BaggageClaimService {
     }
 
     public List<BaggageClaim> getAllBaggageClimes() {
-        return baggageClaimRepository.findAll();
+        return baggageClaimRepository.findAllSorted();
     }
 
     public BaggageClaim getBaggageClaimById(Integer id) {

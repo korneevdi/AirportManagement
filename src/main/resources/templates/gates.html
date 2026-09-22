@@ -16,11 +16,40 @@
   </tr>
 
   <tr th:each="gate, stat : ${gates}">
+
+    <!-- Gate data -->
     <td th:text="${stat.count}"></td>
     <td th:text="${gate.number}"></td>
+
+    <!-- Edit gate -->
+    <td>
+      <a th:href="@{/gates/{id}/edit(id=${gate.id})}">
+        Edit
+      </a>
+    </td>
+
+    <!-- Delete gate -->
+    <td>
+      <form th:action="@{/gates/{id}/delete(id=${gate.id})}"
+            method="post">
+
+        <button type="submit"
+                onclick="return confirm('Are you sure you want to delete this gate?')">
+          Delete
+        </button>
+      </form>
+    </td>
+
+    <!-- Error when delete gate -->
+    <td>
+      <div th:if="${errorGateId != null and errorGateId == gate.id}"
+           th:text="${errorMessage}">
+      </div>
+    </td>
   </tr>
 </table>
 
+<!-- Add new gate -->
 <p>
   <a th:href="@{/gates/new}">Add gate</a>
 </p>

@@ -16,7 +16,7 @@ public class RunwayService {
     }
 
     public List<Runway> getAllRunways() {
-        return runwayRepository.findAll();
+        return runwayRepository.findAllSorted();
     }
 
     public Runway getRunwayById(Integer id) {

@@ -16,11 +16,40 @@
   </tr>
 
   <tr th:each="runway, stat : ${runways}">
+
+    <!-- Runway data -->
     <td th:text="${stat.count}"></td>
     <td th:text="${runway.number}"></td>
+
+    <!-- Edit runway -->
+    <td>
+      <a th:href="@{/runways/{id}/edit(id=${runway.id})}">
+        Edit
+      </a>
+    </td>
+
+    <!-- Delete runway -->
+    <td>
+      <form th:action="@{/runways/{id}/delete(id=${runway.id})}"
+            method="post">
+
+        <button type="submit"
+                onclick="return confirm('Are you sure you want to delete this runway?')">
+          Delete
+        </button>
+      </form>
+    </td>
+
+    <!-- Error when delete runway -->
+    <td>
+      <div th:if="${errorRunwayId != null and errorRunwayId == runway.id}"
+           th:text="${errorMessage}">
+      </div>
+    </td>
   </tr>
 </table>
 
+<!-- Add new runway -->
 <p>
   <a th:href="@{/runways/new}">Add runway</a>
 </p>

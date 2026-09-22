@@ -2,23 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new flight status</title>
+  <title>Create or update flight status</title>
 </head>
 <body>
 
-<h1>Create new flight status</h1>
+<h1 th:text="${flightStatus.id == null}
+        ? 'Create flight status'
+        : 'Edit flight status'">
+  Create flight status
+</h1>
 
-<form th:action="@{/flight-statuses}" th:object="${flightStatus}" method="post">
+<form th:object="${flightStatus}"
+      th:action="${flightStatus.id == null}
+          ? @{/flight-statuses}
+          : @{/flight-statuses/{id}(id=${flightStatus.id})}"
+      method="post">
 
   <p>
-    Flight status name:
+    Name:
     <input type="text" th:field="*{name}">
     <span th:if="${#fields.hasErrors('name')}"
-          th:errors="*{name}">
+          th:errors="*{name}"
+          style="color: red;">
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <button type="submit"
+          th:text="${flightStatus.id == null} ? 'Create' : 'Save changes'">
+    Create
+  </button>
 
 </form>
 

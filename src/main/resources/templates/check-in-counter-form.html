@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new check-in counter</title>
+  <title>Create or update check-in counter</title>
 </head>
 <body>
 
-<h1>Create new check-in counter</h1>
+<h1 th:text="${checkInCounter.id == null}
+        ? 'Create check-in counter'
+        : 'Edit check-in counter'">
+  Create check-in counter
+</h1>
 
-<form th:action="@{/check-in-counters}" th:object="${checkInCounter}" method="post">
+<form th:object="${checkInCounter}"
+      th:action="${checkInCounter.id == null}
+          ? @{/check-in-counters}
+          : @{/check-in-counters/{id}(id=${checkInCounter.id})}"
+      method="post">
 
   <p>
     Check-in counter number:
@@ -18,7 +26,10 @@
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <button type="submit"
+          th:text="${checkInCounter.id == null} ? 'Create' : 'Save changes'">
+    Create
+  </button>
 
 </form>
 

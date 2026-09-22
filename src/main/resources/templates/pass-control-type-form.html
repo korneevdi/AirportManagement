@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new passport control type</title>
+  <title>Create or update passport control type</title>
 </head>
 <body>
 
-<h1>Create new passport control type</h1>
+<h1 th:text="${passControlType.id == null}
+        ? 'Create passport control type'
+        : 'Edit passport control type'">
+  Create passport control type
+</h1>
 
-<form th:action="@{/pass-control-types}" th:object="${passControlType}" method="post">
+<form th:object="${passControlType}"
+      th:action="${passControlType.id == null}
+          ? @{/pass-control-types}
+          : @{/pass-control-types/{id}(id=${passControlType.id})}"
+      method="post">
 
   <p>
     Passport control type name:
@@ -18,7 +26,10 @@
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <button type="submit"
+          th:text="${passControlType.id == null} ? 'Create' : 'Save changes'">
+    Create
+  </button>
 
 </form>
 

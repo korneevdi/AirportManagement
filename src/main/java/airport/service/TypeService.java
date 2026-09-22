@@ -16,7 +16,7 @@ public class TypeService {
     }
 
     public List<Type> getAllTypes() {
-        return typeRepository.findAll();
+        return typeRepository.findAllByOrderByNameAsc();
     }
 
     public Type getTypeById(Integer id) {

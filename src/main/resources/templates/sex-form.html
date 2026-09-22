@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new sex</title>
+  <title>Create or update sex</title>
 </head>
 <body>
 
-<h1>Create new sex</h1>
+<h1 th:text="${sex.id == null}
+        ? 'Create sex'
+        : 'Edit sex'">
+  Create sex
+</h1>
 
-<form th:action="@{/sexes}" th:object="${sex}" method="post">
+<form th:object="${sex}"
+      th:action="${sex.id == null}
+          ? @{/sexes}
+          : @{/sexes/{id}(id=${sex.id})}"
+      method="post">
 
   <p>
     Sex name:
@@ -18,7 +26,10 @@
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <button type="submit"
+          th:text="${sex.id == null} ? 'Create' : 'Save changes'">
+    Create
+  </button>
 
 </form>
 
