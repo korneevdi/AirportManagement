@@ -10,6 +10,8 @@ import lombok.Setter;
 @Setter
 public class AirlineForm {
 
+    private Integer id;
+
     @NotBlank(message = "IATA is required")
     @Pattern(
             regexp = "^$|[A-Z]{2}",

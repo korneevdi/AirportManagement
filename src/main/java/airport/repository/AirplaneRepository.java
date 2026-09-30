@@ -8,4 +8,8 @@ import java.util.List;
 public interface AirplaneRepository extends JpaRepository<Airplane, Integer> {
 
     List<Airplane> findAllByOrderByModelAsc();
+
+    boolean existsByRegistrationNumber(String registrationNumber);
+
+    boolean existsByRegistrationNumberAndIdNot(String registrationNumber, Integer id);
 }

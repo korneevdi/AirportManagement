@@ -27,11 +27,17 @@
     </span>
   </p>
 
-  <button type="submit"
-          th:text="${gate.id == null} ? 'Create' : 'Save changes'">
-    Create
-  </button>
+  <div>
+    <button type="submit"
+            th:text="${gate.id == null} ? 'Create' : 'Save changes'">
+      Create
+    </button>
 
+    <a th:if="${gate.id != null}"
+       th:href="@{/gates}">
+      Cancel
+    </a>
+  </div>
 </form>
 
 <p>

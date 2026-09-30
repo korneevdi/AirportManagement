@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 public class CustomerForm {
 
+    private Integer id;
+
     @Size(max = 50, message = "Customer first name must not contain more than 50 symbols")
     @NotBlank(message = "Customer first name is required")
     private String firstName;

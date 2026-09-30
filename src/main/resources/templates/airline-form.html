@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new airline</title>
+  <title>Create or update airline</title>
 </head>
 <body>
 
-<h1>Create new airline</h1>
+<h1 th:text="${airline.id == null}
+        ? 'Create airline'
+        : 'Edit airline'">
+  Create airline
+</h1>
 
-<form th:action="@{/airlines}" th:object="${airlineForm}" method="post">
+<form th:object="${airline}"
+      th:action="${airline.id == null}
+          ? @{/airlines}
+          : @{/airlines/{id}(id=${airline.id})}"
+      method="post">
 
   <h2>Airline</h2>
 
@@ -76,8 +84,18 @@
     <input type="text" th:field="*{notes}">
   </p>
 
+  <!-- Airline actions -->
+  <div>
+    <button type="submit"
+            th:text="${airline.id == null} ? 'Create' : 'Save changes'">
+      Create
+    </button>
 
-  <button type="submit">Save</button>
+    <a th:if="${airline.id != null}"
+       th:href="@{/airlines/{id}(id=${airline.id})}">
+      Cancel
+    </a>
+  </div>
 
 </form>
 

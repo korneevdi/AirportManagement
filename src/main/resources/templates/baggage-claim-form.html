@@ -27,11 +27,17 @@
     </span>
   </p>
 
-  <button type="submit"
-          th:text="${baggageClaim.id == null} ? 'Create' : 'Save changes'">
-    Create
-  </button>
+  <div>
+    <button type="submit"
+            th:text="${baggageClaim.id == null} ? 'Create' : 'Save changes'">
+      Create
+    </button>
 
+    <a th:if="${baggageClaim.id != null}"
+       th:href="@{/baggage-claims}">
+      Cancel
+    </a>
+  </div>
 </form>
 
 <p>

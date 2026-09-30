@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new flight crew</title>
+  <title>Create or update flight crew</title>
 </head>
 <body>
 
-<h1>Create new flight crew</h1>
+<h1 th:text="${flightCrew.id == null}
+        ? 'Create flight crew'
+        : 'Edit flight crew'">
+  Create flight crew
+</h1>
 
-<form th:action="@{/flight-crews}" th:object="${flightCrew}" method="post">
+<form th:object="${flightCrew}"
+      th:action="${flightCrew.id == null}
+          ? @{/flight-crews}
+          : @{/flight-crews/{id}(id=${flightCrew.id})}"
+      method="post">
 
   <p>
     Pilot license number:
@@ -73,7 +81,18 @@
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <!-- Flight crew actions -->
+  <div>
+    <button type="submit"
+            th:text="${flightCrew.id == null} ? 'Create' : 'Save changes'">
+      Create
+    </button>
+
+    <a th:if="${flightCrew.id != null}"
+       th:href="@{/flight-crews/{id}(id=${flightCrew.id})}">
+      Cancel
+    </a>
+  </div>
 
 </form>
 
