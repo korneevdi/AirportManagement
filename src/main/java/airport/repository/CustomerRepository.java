@@ -9,4 +9,15 @@ import java.util.List;
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     List<Customer> findAllByOrderByLastNameAsc();
+
+    boolean existsByPassCountryAndPassNumber(
+            String passportCountry,
+            String passportNumber
+    );
+
+    boolean existsByPassCountryAndPassNumberAndIdNot(
+            String passportCountry,
+            String passportNumber,
+            Integer id
+    );
 }

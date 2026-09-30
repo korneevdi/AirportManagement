@@ -47,6 +47,36 @@
     </tr>
 </table>
 
+<!-- Airline actions -->
+<div>
+    <!-- Edit airline -->
+    <form th:action="@{/airlines/{id}/edit(id=${airline.id})}"
+          method="get"
+          style="display: inline;">
+
+        <button type="submit">
+            Edit
+        </button>
+    </form>
+
+    <!-- Delete airline -->
+    <form th:action="@{/airlines/{id}/delete(id=${airline.id})}"
+          method="post"
+          style="display: inline;">
+
+        <button type="submit"
+                onclick="return confirm('Are you sure you want to delete this airline?')">
+            Delete
+        </button>
+    </form>
+</div>
+
+<!-- Error when delete airline -->
+<div th:if="${errorAirlineId != null and errorAirlineId == airline.id}"
+     th:text="${errorMessage}"
+     style="color: red;">
+</div>
+
 <p>
     <a th:href="@{/airlines}">← Back to airlines</a>
 </p>

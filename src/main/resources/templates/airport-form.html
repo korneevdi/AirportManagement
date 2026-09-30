@@ -72,11 +72,17 @@
     </select>
   </p>
 
-  <button type="submit"
-          th:text="${airport.id == null} ? 'Create' : 'Save changes'">
-    Create
-  </button>
+  <div>
+    <button type="submit"
+            th:text="${airport.id == null} ? 'Create' : 'Save changes'">
+      Create
+    </button>
 
+    <a th:if="${airport.id != null}"
+       th:href="@{/airports}">
+      Cancel
+    </a>
+  </div>
 </form>
 
 <p>

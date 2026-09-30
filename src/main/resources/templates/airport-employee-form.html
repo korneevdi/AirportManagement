@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new airport employee</title>
+  <title>Create or update airport employee</title>
 </head>
 <body>
 
-<h1>Create new airport employee</h1>
+<h1 th:text="${employee.id == null}
+        ? 'Create airport employee'
+        : 'Edit airport employee'">
+  Create airport employee
+</h1>
 
-<form th:action="@{/airport-employees}" th:object="${airportEmployeeForm}" method="post">
+<form th:object="${employee}"
+      th:action="${employee.id == null}
+          ? @{/airport-employees}
+          : @{/airport-employees/{id}(id=${employee.id})}"
+      method="post">
 
   <h2>Airport employee</h2>
 
@@ -149,9 +157,18 @@
     </span>
   </p>
 
+  <!-- Airport employee actions -->
+  <div>
+    <button type="submit"
+            th:text="${employee.id == null} ? 'Create' : 'Save changes'">
+      Create
+    </button>
 
-  <button type="submit">Save</button>
-
+    <a th:if="${employee.id != null}"
+       th:href="@{/airport-employees/{id}(id=${employee.id})}">
+      Cancel
+    </a>
+  </div>
 </form>
 
 <p>

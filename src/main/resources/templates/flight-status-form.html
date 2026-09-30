@@ -27,11 +27,17 @@
     </span>
   </p>
 
-  <button type="submit"
-          th:text="${flightStatus.id == null} ? 'Create' : 'Save changes'">
-    Create
-  </button>
+  <div>
+    <button type="submit"
+            th:text="${flightStatus.id == null} ? 'Create' : 'Save changes'">
+      Create
+    </button>
 
+    <a th:if="${flightStatus.id != null}"
+       th:href="@{/flight-statuses}">
+      Cancel
+    </a>
+  </div>
 </form>
 
 <p>

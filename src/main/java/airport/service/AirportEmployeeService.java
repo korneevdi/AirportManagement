@@ -1,9 +1,8 @@
 package airport.service;
 
 import airport.dto.AirportEmployeeForm;
-import airport.entity.AirportEmployee;
-import airport.entity.AirportEmployeeContact;
-import airport.entity.AirportEmployeeEmergencyContact;
+import airport.dto.CustomerForm;
+import airport.entity.*;
 import airport.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,7 @@ public class AirportEmployeeService {
     }
 
     public List<AirportEmployee> getAllAirportEmployees() {
-        return airportEmployeeRepository.findAll();
+        return airportEmployeeRepository.findAllByOrderByLastNameAsc();
     }
 
     public AirportEmployee getAirportEmployeeById(Integer id) {
@@ -77,5 +76,93 @@ public class AirportEmployeeService {
         employee.setContact(contact);
         employee.setEmergencyContact(emergencyContact);
         airportEmployeeRepository.save(employee);
+    }
+
+    @Transactional
+    public void updateAirportEmployee(Integer id, AirportEmployeeForm form) {
+
+        AirportEmployee employee = airportEmployeeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Airport employee not found"));
+
+        AirportEmployeeContact contact = employee.getContact();
+        AirportEmployeeEmergencyContact emergencyContact = employee.getEmergencyContact();
+
+        contact.setEmail(form.getContactEmail());
+        contact.setPhone(form.getContactPhone());
+        contact.setCity(form.getCity());
+        contact.setAddress(form.getAddress());
+        contact.setNotes(form.getNotes());
+
+        emergencyContact.setName(form.getEmergencyContactName());
+        emergencyContact.setRelation(form.getEmergencyContactRelation());
+        emergencyContact.setPhone(form.getEmergencyContactPhone());
+
+        employee.setFirstName(form.getFirstName());
+        employee.setLastName(form.getLastName());
+        employee.setRole(form.getRole());
+        employee.setSex(form.getSex());
+        employee.setBirthDate(form.getBirthDate());
+        employee.setPassCountry(form.getCountry());
+        employee.setPassNumber(form.getPassportNumber());
+        employee.setContact(contact);
+        employee.setEmergencyContact(emergencyContact);
+
+        airportEmployeeContactRepository.save(contact);
+        airportEmployeeEmergencyContactRepository.save(emergencyContact);
+        airportEmployeeRepository.save(employee);
+    }
+
+    public AirportEmployeeForm getAirportEmployeeFormById(Integer id) {
+
+        AirportEmployee employee = airportEmployeeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Airport employee not found"));
+
+        AirportEmployeeContact contact = employee.getContact();
+        AirportEmployeeEmergencyContact emergencyContact = employee.getEmergencyContact();
+
+        AirportEmployeeForm form = new AirportEmployeeForm();
+
+        form.setId(employee.getId());
+        form.setFirstName(employee.getFirstName());
+        form.setLastName(employee.getLastName());
+        form.setRole(employee.getRole());
+        form.setSex(employee.getSex());
+        form.setBirthDate(employee.getBirthDate());
+        form.setCountry(employee.getPassCountry());
+        form.setPassportNumber(employee.getPassNumber());
+
+        form.setContactEmail(contact.getEmail());
+        form.setContactPhone(contact.getPhone());
+        form.setCity(contact.getCity());
+        form.setAddress(contact.getAddress());
+        form.setNotes(contact.getNotes());
+
+        form.setEmergencyContactName(emergencyContact.getName());
+        form.setEmergencyContactRelation(emergencyContact.getRelation());
+        form.setEmergencyContactPhone(emergencyContact.getPhone());
+
+        return form;
+    }
+
+    @Transactional
+    public void deleteAirportEmployee(Integer id) {
+
+        AirportEmployee employee = airportEmployeeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Airport employee not found"));
+
+        AirportEmployeeContact contact = employee.getContact();
+        AirportEmployeeEmergencyContact emergencyContact = employee.getEmergencyContact();
+
+        airportEmployeeRepository.delete(employee);
+        airportEmployeeContactRepository.delete(contact);
+        airportEmployeeEmergencyContactRepository.delete(emergencyContact);
+    }
+
+    public boolean existsByEmail(String email) {
+        return airportEmployeeRepository.existsByContact_Email(email);
+    }
+
+    public boolean existsByEmailAndIdNot(String email, Integer id) {
+        return airportEmployeeRepository.existsByContact_EmailAndIdNot(email, id);
     }
 }

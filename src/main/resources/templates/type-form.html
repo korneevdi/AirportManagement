@@ -27,11 +27,17 @@
     </span>
   </p>
 
-  <button type="submit"
-          th:text="${type.id == null} ? 'Create' : 'Save changes'">
-    Create
-  </button>
+  <div>
+    <button type="submit"
+            th:text="${type.id == null} ? 'Create' : 'Save changes'">
+      Create
+    </button>
 
+    <a th:if="${type.id != null}"
+       th:href="@{/types}">
+      Cancel
+    </a>
+  </div>
 </form>
 
 <p>

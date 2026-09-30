@@ -10,4 +10,8 @@ public interface AirportEmployeeRepository extends JpaRepository<AirportEmployee
     List<AirportEmployee> findByRoleName(String roleName);
 
     List<AirportEmployee> findAllByOrderByLastNameAsc();
+
+    boolean existsByContact_Email(String email);
+
+    boolean existsByContact_EmailAndIdNot(String email, Integer id);
 }

@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create new customer</title>
+    <title>Create or update customer</title>
 </head>
 <body>
 
-<h1>Create new customer</h1>
+<h1 th:text="${customer.id == null}
+        ? 'Create customer'
+        : 'Edit customer'">
+    Create customer
+</h1>
 
-<form th:action="@{/customers}" th:object="${customerForm}" method="post">
+<form th:object="${customer}"
+      th:action="${customer.id == null}
+          ? @{/customers}
+          : @{/customers/{id}(id=${customer.id})}"
+      method="post">
 
     <h2>Customer</h2>
 
@@ -84,9 +92,18 @@
         <input type="text" th:field="*{notes}">
     </p>
 
+    <!-- Customer actions -->
+    <div>
+        <button type="submit"
+                th:text="${customer.id == null} ? 'Create' : 'Save changes'">
+            Create
+        </button>
 
-    <button type="submit">Save</button>
-
+        <a th:if="${customer.id != null}"
+           th:href="@{/customers/{id}(id=${customer.id})}">
+            Cancel
+        </a>
+    </div>
 </form>
 
 <p>

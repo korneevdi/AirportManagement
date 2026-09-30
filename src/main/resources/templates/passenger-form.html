@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new passenger</title>
+  <title>Create or update passenger</title>
 </head>
 <body>
 
-<h1>Create new passenger</h1>
+<h1 th:text="${passenger.id == null}
+        ? 'Create passenger'
+        : 'Edit passenger'">
+  Create passenger
+</h1>
 
-<form th:action="@{/passengers}" th:object="${passenger}" method="post">
+<form th:object="${passenger}"
+      th:action="${passenger.id == null}
+          ? @{/passengers}
+          : @{/passengers/{id}(id=${passenger.id})}"
+      method="post">
 
   <p>
     First name:
@@ -65,8 +73,18 @@
     </span>
   </p>
 
-  <button type="submit">Save</button>
+  <!-- Passenger actions -->
+  <div>
+    <button type="submit"
+            th:text="${passenger.id == null} ? 'Create' : 'Save changes'">
+      Create
+    </button>
 
+    <a th:if="${passenger.id != null}"
+       th:href="@{/passengers/{id}(id=${passenger.id})}">
+      Cancel
+    </a>
+  </div>
 </form>
 
 <p>

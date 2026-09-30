@@ -8,12 +8,15 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
 public class AirportEmployeeForm {
+
+    private Integer id;
 
     @NotBlank(message = "Airport employee first name is required")
     @Size(max = 50, message = "Airport employee first name must not contain more than 50 symbols")
@@ -31,6 +34,7 @@ public class AirportEmployeeForm {
 
     @NotNull(message = "Birth date is required")
     @Past(message = "Birth date must be in the past")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     @NotBlank(message = "Airport employee country is required")
