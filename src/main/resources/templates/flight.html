@@ -1,45 +1,100 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Flight</title>
 </head>
+
 <body>
 
 <div th:replace="~{fragments/navigation :: navigation}"></div>
 
-<h1 th:text="${'Flight ' + flight.flightNumber}"></h1>
+<h1 th:text="${'Flight ' + flight.flight.flightNumber}"></h1>
 
 <h2>General info</h2>
 
 <table>
     <tr>
-        <td>From</td>
-        <td th:text="${flight.departureAirport.iata + ', ' + flight.departureAirport.city + ', ' + flight.departureAirport.country}"></td>
+        <td>Service date</td>
+        <td th:text="${#temporals.format(flight.serviceDate, 'dd.MM.yyyy')}"></td>
     </tr>
+
+    <tr>
+        <td>From</td>
+        <td th:text="${flight.flight.departureAirport.iata + ', ' +
+                   flight.flight.departureAirport.city + ', ' +
+                   flight.flight.departureAirport.country}">
+        </td>
+    </tr>
+
     <tr>
         <td>To</td>
-        <td th:text="${flight.arrivalAirport.iata + ', ' + flight.arrivalAirport.city + ', ' + flight.arrivalAirport.country}"></td>
+        <td th:text="${flight.flight.arrivalAirport.iata + ', ' +
+                   flight.flight.arrivalAirport.city + ', ' +
+                   flight.flight.arrivalAirport.country}">
+        </td>
     </tr>
+
     <tr>
         <td>Airline</td>
         <td>
-            <a th:href="@{/airlines/{id}(id=${flight.airline.id})}"
-               th:text="${flight.airline.name}">
+            <a th:href="@{/airlines/{id}(id=${flight.flight.airline.id})}"
+               th:text="${flight.flight.airline.name}">
             </a>
         </td>
     </tr>
+
+    <!-- Departure -->
     <tr>
         <td>Departure</td>
-        <td th:text="${flight.scheduledDepartureTime + ' (actual ' + flight.actualDepartureTime + ')'}"></td>
+        <td>
+        <span th:text="${#temporals.format(
+                flight.scheduledDepartureTime,
+                'dd.MM.yyyy HH:mm'
+        )}">
+        </span>
+            <span th:if="${flight.actualDepartureTime == null}">
+            (in time)
+        </span>
+            <span th:if="${flight.actualDepartureTime != null}">
+            (actual
+            <span th:text="${#temporals.format(
+                    flight.actualDepartureTime,
+                    'dd.MM.yyyy HH:mm'
+            )}">
+            </span>)
+        </span>
+        </td>
     </tr>
+
+    <!-- Arrival -->
     <tr>
         <td>Arrival</td>
-        <td th:text="${flight.scheduledArrivalTime + ' (actual ' + flight.actualArrivalTime + ')'}"></td>
+        <td>
+        <span th:text="${#temporals.format(
+                flight.scheduledArrivalTime,
+                'dd.MM.yyyy HH:mm'
+        )}">
+        </span>
+            <span th:if="${flight.actualArrivalTime == null}">
+            (in time)
+        </span>
+            <span th:if="${flight.actualArrivalTime != null}">
+            (actual
+            <span th:text="${#temporals.format(
+                    flight.actualArrivalTime,
+                    'dd.MM.yyyy HH:mm'
+            )}">
+            </span>)
+        </span>
+        </td>
     </tr>
+
     <tr>
         <td>Status</td>
-        <td th:text="${flight.status.name}"></td>
+        <td th:text="${flight.flight.status.name}"></td>
     </tr>
 </table>
 
@@ -48,79 +103,128 @@
 <table>
     <tr>
         <td>Airplane</td>
-        <td th:text="${flight.airplane.model}"></td>
+        <td th:text="${flight.flight.airplane.model}"></td>
     </tr>
+
     <tr>
         <td>Flight type</td>
-        <td th:text="${flight.flightType.name}"></td>
+        <td th:text="${flight.flight.flightType.name}"></td>
     </tr>
+
     <tr>
         <td>Customer</td>
-        <td th:text="${flight.customer != null ?
-                       flight.customer.firstName + ' ' + flight.customer.lastName :
-                       ' --- '}"></td>
+        <td th:text="${flight.flight.customer != null ?
+                   flight.flight.customer.firstName + ' ' +
+                   flight.flight.customer.lastName :
+                   ' --- '}">
+        </td>
     </tr>
+
     <tr>
         <td>Responsible dispatcher</td>
-        <td th:text="${flight.responsibleDispatcher.firstName + ' ' + flight.responsibleDispatcher.lastName}"></td>
+        <td th:text="${flight.flight.responsibleDispatcher.firstName + ' ' +
+                   flight.flight.responsibleDispatcher.lastName}">
+        </td>
     </tr>
+
     <tr>
         <td>Passport control</td>
-        <td th:text="${flight.passControlType.name}"></td>
+        <td th:text="${flight.flight.passControlType.name}"></td>
     </tr>
+
     <tr>
         <td>Terminal</td>
         <td>
-            <span th:if="${flight.departureTerminal != null}"
-                  th:text="${flight.departureTerminal.number}"></span>
-
-            <span th:if="${flight.arrivalTerminal != null}"
-                  th:text="${flight.arrivalTerminal.number}"></span>
+        <span th:if="${flight.flight.departureTerminal != null}"
+              th:text="${flight.flight.departureTerminal.number}">
+        </span>
+            <span th:if="${flight.flight.arrivalTerminal != null}">
+            /
+            <span th:text="${flight.flight.arrivalTerminal.number}"></span>
+        </span>
         </td>
     </tr>
+
     <tr>
         <td>Gate</td>
         <td>
-            <span th:if="${flight.departureGate != null}"
-                  th:text="${flight.departureGate.number}"></span>
-
-            <span th:if="${flight.arrivalGate != null}"
-                  th:text="${flight.arrivalGate.number}"></span>
+        <span th:if="${flight.flight.departureGate != null}"
+              th:text="${flight.flight.departureGate.number}">
+        </span>
+            <span th:if="${flight.flight.arrivalGate != null}">
+            /
+            <span th:text="${flight.flight.arrivalGate.number}"></span>
+        </span>
         </td>
     </tr>
+
     <tr>
         <td>Baggage claims</td>
         <td>
-            <span th:each="link, stat : ${flight.baggageClaimLinks}">
-                <span th:text="${link.claim.number}"></span>
-                <span th:if="${!stat.last}">, </span>
+        <span th:each="link, stat : ${flight.flight.baggageClaimLinks}">
+            <span th:text="${link.claim.number}"></span>
+            <span th:if="${!stat.last}">
+                ,
             </span>
+        </span>
         </td>
     </tr>
+
     <tr>
         <td>Check-in counters</td>
         <td>
-            <span th:each="link, stat : ${flight.checkInLinks}">
-                <span th:text="${link.counter.number}"></span>
-                <span th:if="${!stat.last}">, </span>
+        <span th:each="link, stat : ${flight.flight.checkInLinks}">
+            <span th:text="${link.counter.number}"></span>
+            <span th:if="${!stat.last}">
+                ,
             </span>
+        </span>
         </td>
     </tr>
+
     <tr>
         <td>Runway</td>
-        <td th:text="${flight.runway.number}"></td>
+        <td th:text="${flight.flight.runway.number}"></td>
     </tr>
 </table>
 
+<!-- Flight actions -->
+<div>
+    <!-- Edit flight -->
+    <form th:action="@{/flights/{id}/edit(id=${flight.flight.id})}"
+          method="get"
+          style="display: inline;">
+        <button type="submit">
+            Edit
+        </button>
+    </form>
+
+    <!-- Delete flight -->
+    <form th:action="@{/flights/{id}/delete(id=${flight.flight.id})}"
+          method="post"
+          style="display: inline;">
+        <button type="submit"
+                onclick="return confirm('Are you sure you want to delete this flight?')">
+            Delete
+        </button>
+    </form>
+</div>
+
+<!-- Error when deleting flight -->
+<div th:if="${errorFlightId != null and errorFlightId == flight.flight.id}"
+     th:text="${errorMessage}"
+     style="color: red;">
+</div>
+
 <h2>Passengers</h2>
 
-<p th:if="${#sets.isEmpty(flight.passengerLinks)}">
+<p th:if="${#sets.isEmpty(flight.flight.passengerLinks)}">
     No passengers on this flight.
 </p>
 
-<table th:unless="${#sets.isEmpty(flight.passengerLinks)}">
+<table th:unless="${#sets.isEmpty(flight.flight.passengerLinks)}">
     <tr>
-        <th> </th>
+        <th></th>
         <th>First name</th>
         <th>Last name</th>
         <th>Seat</th>
@@ -129,9 +233,10 @@
         <th>Passed control</th>
         <th>Boarded</th>
         <th>Boarding time</th>
-        <th> </th>
+        <th></th>
     </tr>
-    <tr th:each="link, stat : ${flight.passengerLinks}">
+
+    <tr th:each="link, stat : ${flight.flight.passengerLinks}">
         <td th:text="${stat.count}"></td>
         <td th:text="${link.passenger.firstName}"></td>
         <td>
@@ -151,19 +256,20 @@
 
 <h2>Flight crew</h2>
 
-<p th:if="${#sets.isEmpty(flight.crewLinks)}">
+<p th:if="${#sets.isEmpty(flight.flight.crewLinks)}">
     No crew assigned to this flight.
 </p>
 
-<table th:unless="${#sets.isEmpty(flight.crewLinks)}">
+<table th:unless="${#sets.isEmpty(flight.flight.crewLinks)}">
     <tr>
-        <th> </th>
+        <th></th>
         <th>First name</th>
         <th>Last name</th>
         <th>Role</th>
-        <th> </th>
+        <th></th>
     </tr>
-    <tr th:each="link, stat : ${flight.crewLinks}">
+
+    <tr th:each="link, stat : ${flight.flight.crewLinks}">
         <td th:text="${stat.count}"></td>
         <td th:text="${link.crew.firstName}"></td>
         <td>
