@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,11 +15,14 @@ import java.time.LocalDateTime;
 @Setter
 public class FlightForm {
 
+    private Integer id;
+
     @NotBlank(message = "Flight number is required")
     @Size(max = 10, message = "Flight number must not contain more than 10 symbols")
     private String flightNumber;
 
     @NotNull(message = "Service date is required")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate serviceDate;
 
     @NotNull(message = "Airline is required")
@@ -31,13 +35,17 @@ public class FlightForm {
     private Airport arrivalAirport;
 
     @NotNull(message = "Scheduled departure time is required")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime scheduledDepartureTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime actualDepartureTime;
 
     @NotNull(message = "Scheduled arrival time is required")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime scheduledArrivalTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime actualArrivalTime;
 
     @NotNull(message = "Airplane is required")

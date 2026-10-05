@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create new flight</title>
+  <title>Create or update flight</title>
 </head>
 <body>
 
-<h1>Create new flight</h1>
+<h1 th:text="${flight.id == null}
+        ? 'Create flight'
+        : 'Edit flight'">
+  Create flight
+</h1>
 
-<form th:action="@{/flights}" th:object="${flightForm}" method="post">
+<form th:object="${flight}"
+      th:action="${flight.id == null}
+          ? @{/flights}
+          : @{/flights/{id}(id=${flight.id})}"
+      method="post">
 
   <p>
     Flight number:
@@ -248,8 +256,18 @@
     </select>
   </p>
 
-  <button type="submit">Save</button>
+  <!-- Flight actions -->
+  <div>
+    <button type="submit"
+            th:text="${flight.id == null} ? 'Create' : 'Save changes'">
+      Create
+    </button>
 
+    <a th:if="${flight.id != null}"
+       th:href="@{/flights/{id}(id=${flight.id})}">
+      Cancel
+    </a>
+  </div>
 </form>
 
 <p>
