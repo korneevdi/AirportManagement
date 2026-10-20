@@ -1,6 +1,7 @@
 package airport.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -18,9 +19,11 @@ public class FlightBaggageClaimLink {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")
+    @NotNull(message = "Flight is required")
     private Flight flight;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "claim_id")
+    @NotNull(message = "Baggage claim is required")
     private BaggageClaim claim;
 }
