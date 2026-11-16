@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Passenger on Flight</title>
+</head>
+<body>
+
+<h1>Edit Passenger on Flight</h1>
+
+<p>
+    Flight:
+    <span th:text="${passengerLink.flight.flightNumber}"></span>
+</p>
+
+<p>
+    Passenger:
+    <span th:text="${passengerLink.passenger.firstName}"></span>
+    <span th:text="${passengerLink.passenger.lastName}"></span>
+</p>
+
+<form th:action="@{/flights/{flightId}/passengers/{passengerId}/edit(
+        flightId=${flightId},
+        passengerId=${passengerLink.passenger.id})}"
+      th:object="${passengerForm}"
+      method="post">
+
+    <div>
+        <label for="seatNumber">Seat number:</label>
+        <input type="text" id="seatNumber" th:field="*{seatNumber}"
+               placeholder="e.g. 12A">
+        <div th:if="${#fields.hasErrors('seatNumber')}"
+             th:errors="*{seatNumber}" style="color:red;"></div>
+    </div>
+
+    <div>
+        <label for="boardingGroup">Boarding group:</label>
+        <input type="number" id="boardingGroup"
+               th:field="*{boardingGroup}" min="1">
+        <div th:if="${#fields.hasErrors('boardingGroup')}"
+             th:errors="*{boardingGroup}" style="color:red;"></div>
+    </div>
+
+    <div>
+        <label for="boardingTime">Boarding time:</label>
+        <input type="datetime-local" id="boardingTime"
+               th:field="*{boardingTime}">
+    </div>
+
+    <div>
+        <label>
+            <input type="checkbox" th:field="*{isCheckedIn}">
+            Checked in
+        </label>
+    </div>
+
+    <div>
+        <label>
+            <input type="checkbox" th:field="*{isPassedControl}">
+            Passed control
+        </label>
+    </div>
+
+    <div>
+        <label>
+            <input type="checkbox" th:field="*{isBoarded}">
+            Boarded
+        </label>
+    </div>
+
+    <button type="submit">Save</button>
+
+    <a th:href="@{/flights/{id}(id=${flightId})}">Cancel</a>
+</form>
+
+</body>
+</html>

@@ -2,6 +2,7 @@ package airport.service;
 
 import airport.dto.FlightDetailsView;
 import airport.dto.FlightForm;
+import airport.dto.FlightPassengerForm;
 import airport.dto.FlightView;
 import airport.entity.*;
 import airport.repository.*;
@@ -324,13 +325,13 @@ public class FlightService {
 
     public void addBaggageClaim(Integer flightId, BaggageClaim claim) {
 
-        if(flightBaggageClaimLinkRepository.existsByFlight_IdAndClaim_Id(flightId, claim.getId())) {
+        if (flightBaggageClaimLinkRepository.existsByFlight_IdAndClaim_Id(flightId, claim.getId())) {
             throw new IllegalArgumentException("Baggage claim is already assigned to this flight");
         }
 
         Flight flight = getFlightById(flightId);
 
-        if(!isArrivalAtHomeAirport(flight)) {
+        if (!isArrivalAtHomeAirport(flight)) {
             throw new IllegalArgumentException(
                     "Baggage claims cannot be assigned to a flight not arriving at the home airport"
             );
@@ -353,13 +354,13 @@ public class FlightService {
 
     public void addCheckInCounter(Integer flightId, CheckInCounter counter) {
 
-        if(flightCheckInLinkRepository.existsByFlight_IdAndCounter_Id(flightId, counter.getId())) {
+        if (flightCheckInLinkRepository.existsByFlight_IdAndCounter_Id(flightId, counter.getId())) {
             throw new IllegalArgumentException("Check-in counter is already assigned to this flight");
         }
 
         Flight flight = getFlightById(flightId);
 
-        if(!isDepartureFromHomeAirport(flight)) {
+        if (!isDepartureFromHomeAirport(flight)) {
             throw new IllegalArgumentException(
                     "Check-in counters cannot be assigned to a flight not departing from the home airport"
             );
@@ -382,7 +383,7 @@ public class FlightService {
 
     public void addFlightCrew(Integer flightId, FlightCrew crew, CrewRole role) {
 
-        if(flightCrewLinkRepository.existsByFlight_IdAndCrew_IdAndRole_Id(flightId, crew.getId(), role.getId())) {
+        if (flightCrewLinkRepository.existsByFlight_IdAndCrew_IdAndRole_Id(flightId, crew.getId(), role.getId())) {
             throw new IllegalArgumentException("Flight crew is already assigned to this flight");
         }
 
@@ -442,7 +443,7 @@ public class FlightService {
 
     public void addPassenger(Integer flightId, Passenger passenger) {
 
-        if(flightPassengerLinkRepository.existsByFlight_IdAndPassenger_Id(flightId, passenger.getId())) {
+        if (flightPassengerLinkRepository.existsByFlight_IdAndPassenger_Id(flightId, passenger.getId())) {
             throw new IllegalArgumentException("Passenger is already assigned to this flight");
         }
 
@@ -463,16 +464,67 @@ public class FlightService {
         flightPassengerLinkRepository.deleteByFlight_IdAndPassenger_Id(flightId, passengerId);
     }
 
+    /* Edit passenger on the flight */
+
+    public FlightPassengerLink getPassengerLink(Integer flightId, Integer passengerId) {
+        return flightPassengerLinkRepository.findByFlight_IdAndPassenger_Id(flightId, passengerId)
+                .orElseThrow(() -> new IllegalArgumentException("Passenger is not assigned to this flight"));
+    }
+
+    public FlightPassengerForm getPassengerForm(Integer flightId, Integer passengerId) {
+
+        FlightPassengerLink link = getPassengerLink(flightId, passengerId);
+
+        FlightPassengerForm form = new FlightPassengerForm();
+        form.setBoardingGroup(link.getBoardingGroup());
+        form.setSeatNumber(link.getSeatNumber());
+        form.setIsCheckedIn(Boolean.TRUE.equals(link.getIsCheckedIn()));
+        form.setIsPassedControl(Boolean.TRUE.equals(link.getIsPassedControl()));
+        form.setIsBoarded(Boolean.TRUE.equals(link.getIsBoarded()));
+
+        if (link.getBoardingTime() != null) {
+            form.setBoardingTime(
+                    toLocalDateTime(
+                            link.getBoardingTime(),
+                            link.getFlight().getDepartureAirport()
+                    )
+            );
+        }
+
+        return form;
+    }
+
+    public void updatePassengerOnFlight(Integer flightId, Integer passengerId, FlightPassengerForm form) {
+
+        FlightPassengerLink link = getPassengerLink(flightId, passengerId);
+        link.setBoardingGroup(form.getBoardingGroup());
+        link.setSeatNumber(
+                form.getSeatNumber() == null || form.getSeatNumber().isBlank()
+                        ? null
+                        : form.getSeatNumber()
+        );
+        link.setIsCheckedIn(form.getIsCheckedIn());
+        link.setIsPassedControl(form.getIsPassedControl());
+        link.setIsBoarded(form.getIsBoarded());
+        link.setBoardingTime(
+                toOffsetDateTime(
+                        form.getBoardingTime(),
+                        link.getFlight().getDepartureAirport())
+        );
+
+        flightPassengerLinkRepository.save(link);
+    }
+
     /**
      * Converts user-entered local airport time into an OffsetDateTime.
-     *
+     * <p>
      * Example:
-     *
+     * <p>
      * 2026-10-05 10:00
      * + Asia/Dubai
-     *
+     * <p>
      * becomes:
-     *
+     * <p>
      * 2026-10-05T10:00+04:00
      */
     private OffsetDateTime toOffsetDateTime(
@@ -493,7 +545,7 @@ public class FlightService {
     /**
      * Converts a stored OffsetDateTime into local time
      * of the specified airport.
-     *
+     * <p>
      * Important: atZoneSameInstant() is used here because
      * we want to preserve the actual moment in time and only
      * change how that moment is represented in the airport's

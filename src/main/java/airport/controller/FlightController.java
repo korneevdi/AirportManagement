@@ -2,6 +2,7 @@ package airport.controller;
 
 import airport.dto.FlightDetailsView;
 import airport.dto.FlightForm;
+import airport.dto.FlightPassengerForm;
 import airport.entity.*;
 import airport.service.*;
 import jakarta.validation.Valid;
@@ -419,6 +420,42 @@ public class FlightController {
             @PathVariable Integer passengerId) {
 
         flightService.deletePassenger(flightId, passengerId);
+
+        return "redirect:/flights/" + flightId;
+    }
+
+    @GetMapping("/flights/{flightId}/passengers/{passengerId}/edit")
+    public String showEditPassengerForm(
+            @PathVariable Integer flightId,
+            @PathVariable Integer passengerId,
+            Model model) {
+
+        FlightPassengerLink link = flightService.getPassengerLink(flightId, passengerId);
+
+        model.addAttribute("flightId", flightId);
+        model.addAttribute("passengerLink", link);
+        model.addAttribute("passengerForm", flightService.getPassengerForm(flightId, passengerId));
+
+        return "edit-passenger-on-flight";
+    }
+
+    @PostMapping("/flights/{flightId}/passengers/{passengerId}/edit")
+    public String updatePassengerOnFlight(
+            @PathVariable Integer flightId,
+            @PathVariable Integer passengerId,
+            @Valid @ModelAttribute("passengerForm") FlightPassengerForm form,
+            BindingResult bindingResult,
+            Model model) {
+
+        FlightPassengerLink link = flightService.getPassengerLink(flightId, passengerId);
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("flightId", flightId);
+            model.addAttribute("passengerLink", link);
+            return "edit-passenger-on-flight";
+        }
+
+        flightService.updatePassengerOnFlight(flightId, passengerId, form);
 
         return "redirect:/flights/" + flightId;
     }
