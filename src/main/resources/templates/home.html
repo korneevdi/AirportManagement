@@ -1,36 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
 
 <head>
-    <meta charset="UTF-8">
     <title>Welcome page</title>
-    <link rel="stylesheet" th:href="@{css/layout.css}">
-    <link rel="stylesheet" th:href="@{css/fragments/topbar.css}">
-    <link rel="stylesheet" th:href="@{css/fragments/sidebar.css}">
 </head>
 
 <body>
 
-<div class="app">
-    <div th:replace="~{fragments/topbar :: topbar}"></div>
+<main class="content">
 
-    <div class="app-body">
-        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    <h1 th:text = "${Greetings}"></h1>
 
-        <main class="content">
+    <p th:text = "${currentTime}">
 
-            <h1 th:text = "${Greetings}"></h1>
-
-            <p th:text = "${currentTime}">
-
-        </main>
-    </div>
-</div>
-
-<script src="https://unpkg.com/lucide@latest"></script>
-<script>
-    lucide.createIcons();
-</script>
+</main>
 
 </body>
 </html>
