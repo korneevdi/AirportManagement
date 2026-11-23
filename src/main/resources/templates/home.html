@@ -1,20 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title>Welcome page</title>
+    <link rel="stylesheet" th:href="@{css/layout.css}">
+    <link rel="stylesheet" th:href="@{css/fragments/topbar.css}">
+    <link rel="stylesheet" th:href="@{css/fragments/sidebar.css}">
 </head>
+
 <body>
-<h1 th:text = "${Greetings}"></h1>
-<p th:text = "${currentTime}">
 
-<p>
-    <a th:href="@{/flights}">Flights</a>
-</p>
+<div class="app">
+    <div th:replace="~{fragments/topbar :: topbar}"></div>
 
-<p>
-    <a th:href="@{/airlines}">Airlines</a>
-</p>
+    <div class="app-body">
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+        <main class="content">
+
+            <h1 th:text = "${Greetings}"></h1>
+
+            <p th:text = "${currentTime}">
+
+        </main>
+    </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>
 
 </body>
 </html>

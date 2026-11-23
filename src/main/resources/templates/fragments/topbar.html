@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header th:fragment="topbar" class="topbar">
+
+    <!-- Airport logo and name -->
+    <a class="topbar-brand" th:href="@{/}">
+        <span class="topbar-logo">✈</span>
+        <span class="topbar-title">Istanbul Airport</span>
+    </a>
+
+    <!-- Right side actions -->
+    <div class="topbar-actions">
+
+        <!-- Search -->
+        <details class="topbar-search">
+            <summary class="topbar-icon-button" title="Search">
+                <i data-lucide="search"></i>
+            </summary>
+
+            <div class="search-dropdown">
+                <input type="search" placeholder="Search anything...">
+            </div>
+        </details>
+
+        <!-- Notifications -->
+        <button class="topbar-icon-button" type="button" title="Notifications">
+            <i data-lucide="bell"></i>
+        </button>
+
+        <!-- Language -->
+        <div class="topbar-language">
+            <button class="topbar-icon-button" type="button" title="Language">
+                <i data-lucide="globe"></i>
+            </button>
+
+            <div class="language-dropdown">
+                <a href="#">English</a>
+                <a href="#">Deutsch</a>
+                <a href="#">Turkce</a>
+                <a href="#">Русский</a>
+            </div>
+        </div>
+
+        <!-- Account -->
+        <button class="topbar-icon-button" type="button" title="Account">
+            <i data-lucide="user-round"></i>
+        </button>
+
+    </div>
+
+</header>
+
+</body>
+</html>

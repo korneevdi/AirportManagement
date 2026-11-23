@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<aside th:fragment="sidebar" class="sidebar">
+
+    <nav class="sidebar-navigation">
+
+        <!-- GENERAL -->
+        <div class="sidebar-group">
+            <h3 class="sidebar-heading">GENERAL</h3>
+
+            <a th:href="@{/}" class="sidebar-link">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a th:href="@{/flights}" class="sidebar-link">
+                <i data-lucide="plane-takeoff"></i>
+                <span>Flights</span>
+            </a>
+
+            <a th:href="@{/airports}" class="sidebar-link">
+                <i data-lucide="map-pin"></i>
+                <span>Destinations</span>
+            </a>
+
+            <a th:href="@{/airlines}" class="sidebar-link">
+                <i data-lucide="building-2"></i>
+                <span>Airlines</span>
+            </a>
+
+            <a th:href="@{/airplanes}" class="sidebar-link">
+                <i data-lucide="plane"></i>
+                <span>Airplanes</span>
+            </a>
+        </div>
+
+
+        <!-- OPERATIONS -->
+        <div class="sidebar-group">
+            <h3 class="sidebar-heading">OPERATIONS</h3>
+
+            <a th:href="@{/passengers}" class="sidebar-link">
+                <i data-lucide="users"></i>
+                <span>Passengers</span>
+            </a>
+
+            <a th:href="@{/employees}" class="sidebar-link">
+                <i data-lucide="briefcase-business"></i>
+                <span>Airport employees</span>
+            </a>
+
+            <a th:href="@{/flight-crews}" class="sidebar-link">
+                <i data-lucide="users-round"></i>
+                <span>Flight crews</span>
+            </a>
+
+            <a th:href="@{/baggage-claims}" class="sidebar-link">
+                <i data-lucide="luggage"></i>
+                <span>Baggage claims</span>
+            </a>
+
+            <a th:href="@{/check-in-counters}" class="sidebar-link">
+                <i data-lucide="clipboard-list"></i>
+                <span>Check-in counters</span>
+            </a>
+        </div>
+
+
+        <!-- AIRPORT INFRASTRUCTURE -->
+        <div class="sidebar-group">
+            <h3 class="sidebar-heading">AIRPORT INFRASTRUCTURE</h3>
+
+            <a th:href="@{/gates}" class="sidebar-link">
+                <i data-lucide="door-open"></i>
+                <span>Gates</span>
+            </a>
+
+            <a th:href="@{/terminals}" class="sidebar-link">
+                <i data-lucide="building"></i>
+                <span>Terminals</span>
+            </a>
+
+            <a th:href="@{/runways}" class="sidebar-link">
+                <i data-lucide="plane-landing"></i>
+                <span>Runways</span>
+            </a>
+        </div>
+
+
+        <!-- ADMINISTRATION -->
+        <div class="sidebar-group">
+            <h3 class="sidebar-heading">ADMINISTRATION</h3>
+
+            <a th:href="@{/sexes}" class="sidebar-link">
+                <i data-lucide="settings"></i>
+                <span>Reference data</span>
+            </a>
+        </div>
+
+    </nav>
+
+</aside>
+
+</body>
+</html>
