@@ -18,6 +18,8 @@ public class TypeController {
 
     private final TypeService typeService;
 
+    private static final String TEMPLATE_FOLDER = "reference-data/";
+
     public TypeController(TypeService service) {
         this.typeService = service;
     }
@@ -28,13 +30,13 @@ public class TypeController {
                 "types",
                 typeService.getAllTypes()
         );
-        return "types";
+        return TEMPLATE_FOLDER + "types";
     }
 
     @GetMapping("/types/new")
     public String showCreateTypeForm(Model model) {
         model.addAttribute("type", new Type());
-        return "type-form";
+        return TEMPLATE_FOLDER + "type-form";
     }
 
     @PostMapping("/types")
@@ -43,7 +45,7 @@ public class TypeController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "type-form";
+            return TEMPLATE_FOLDER + "type-form";
         }
 
         if (typeService.existsByName(type.getName())) {
@@ -53,7 +55,7 @@ public class TypeController {
                     "Type with this name already exists"
             );
 
-            return "type-form";
+            return TEMPLATE_FOLDER + "type-form";
         }
 
         typeService.saveType(type);
@@ -63,7 +65,7 @@ public class TypeController {
     @GetMapping("/types/{id}/edit")
     public String showEditTypeForm(@PathVariable Integer id, Model model) {
         model.addAttribute("type", typeService.getTypeById(id));
-        return "type-form";
+        return TEMPLATE_FOLDER + "type-form";
     }
 
     @PostMapping("/types/{id}")
@@ -73,7 +75,7 @@ public class TypeController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "type-form";
+            return TEMPLATE_FOLDER + "type-form";
         }
 
         if (typeService.existsByNameAndIdNot(type.getName(), id)) {
@@ -83,7 +85,7 @@ public class TypeController {
                     "Type with this name already exists"
             );
 
-            return "type-form";
+            return TEMPLATE_FOLDER + "type-form";
         }
 
         type.setId(id);

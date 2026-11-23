@@ -18,6 +18,8 @@ public class GateController {
 
     private final GateService gateService;
 
+    private static final String TEMPLATE_FOLDER = "reference-data/";
+
     public GateController(GateService service) {
         this.gateService = service;
     }
@@ -28,13 +30,13 @@ public class GateController {
                 "gates",
                 gateService.getAllGates()
         );
-        return "gates";
+        return TEMPLATE_FOLDER + "gates";
     }
 
     @GetMapping("/gates/new")
     public String showGateForm(Model model) {
         model.addAttribute("gate", new Gate());
-        return "gate-form";
+        return TEMPLATE_FOLDER + "gate-form";
     }
 
     @PostMapping("/gates")
@@ -43,7 +45,7 @@ public class GateController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "gate-form";
+            return TEMPLATE_FOLDER + "gate-form";
         }
 
         if (gateService.existsByNumber(gate.getNumber())) {
@@ -53,7 +55,7 @@ public class GateController {
                     "Gate with this number already exists"
             );
 
-            return "gate-form";
+            return TEMPLATE_FOLDER + "gate-form";
         }
 
         gateService.saveGate(gate);
@@ -63,7 +65,7 @@ public class GateController {
     @GetMapping("/gates/{id}/edit")
     public String showEditGateForm(@PathVariable Integer id, Model model) {
         model.addAttribute("gate", gateService.getGateById(id));
-        return "gate-form";
+        return TEMPLATE_FOLDER + "gate-form";
     }
 
     @PostMapping("/gates/{id}")
@@ -73,7 +75,7 @@ public class GateController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "gate-form";
+            return TEMPLATE_FOLDER + "gate-form";
         }
 
         if (gateService.existsByNumberAndIdNot(gate.getNumber(), id)) {
@@ -83,7 +85,7 @@ public class GateController {
                     "Gate with this number already exists"
             );
 
-            return "gate-form";
+            return TEMPLATE_FOLDER + "gate-form";
         }
 
         gate.setId(id);

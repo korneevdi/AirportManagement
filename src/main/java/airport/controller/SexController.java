@@ -18,6 +18,8 @@ public class SexController {
 
     private final SexService sexService;
 
+    private static final String TEMPLATE_FOLDER = "reference-data/";
+
     public SexController(SexService service) {
         this.sexService = service;
     }
@@ -28,13 +30,13 @@ public class SexController {
                 "sexes",
                 sexService.getAllSexes()
         );
-        return "sexes";
+        return TEMPLATE_FOLDER + "sexes";
     }
 
     @GetMapping("/sexes/new")
     public String showCreateSexForm(Model model) {
         model.addAttribute("sex", new Sex());
-        return "sex-form";
+        return TEMPLATE_FOLDER + "sex-form";
     }
 
     @PostMapping("/sexes")
@@ -43,7 +45,7 @@ public class SexController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "sex-form";
+            return TEMPLATE_FOLDER + "sex-form";
         }
 
         if (sexService.existsByName(sex.getName())) {
@@ -53,7 +55,7 @@ public class SexController {
                     "Sex with this name already exists"
             );
 
-            return "sex-form";
+            return TEMPLATE_FOLDER + "sex-form";
         }
 
         sexService.saveSex(sex);
@@ -63,7 +65,7 @@ public class SexController {
     @GetMapping("/sexes/{id}/edit")
     public String showEditSexForm(@PathVariable Integer id, Model model) {
         model.addAttribute("sex", sexService.getSexById(id));
-        return "sex-form";
+        return TEMPLATE_FOLDER + "sex-form";
     }
 
     @PostMapping("/sexes/{id}")
@@ -73,7 +75,7 @@ public class SexController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "sex-form";
+            return TEMPLATE_FOLDER + "sex-form";
         }
 
         if (sexService.existsByNameAndIdNot(sex.getName(), id)) {
@@ -83,7 +85,7 @@ public class SexController {
                     "Sex with this name already exists"
             );
 
-            return "sex-form";
+            return TEMPLATE_FOLDER + "sex-form";
         }
 
         sex.setId(id);

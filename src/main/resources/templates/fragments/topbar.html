@@ -7,7 +7,9 @@
     <!-- Airport logo and name -->
     <a class="topbar-brand" th:href="@{/}">
         <span class="topbar-logo">✈</span>
-        <span class="topbar-title">Istanbul Airport</span>
+        <span class="topbar-title" th:text="${@environment.getProperty('airport.home.name')}">
+            Airport
+        </span>
     </a>
 
     <!-- Right side actions -->

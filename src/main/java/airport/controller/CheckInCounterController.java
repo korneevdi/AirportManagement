@@ -18,6 +18,8 @@ public class CheckInCounterController {
 
     private final CheckInCounterService checkInCounterService;
 
+    private static final String TEMPLATE_FOLDER = "reference-data/";
+
     public CheckInCounterController(CheckInCounterService service) {
         this.checkInCounterService = service;
     }
@@ -28,13 +30,13 @@ public class CheckInCounterController {
                 "checkInCounters",
                 checkInCounterService.getAllCheckInCounters()
         );
-        return "check-in-counters";
+        return TEMPLATE_FOLDER + "check-in-counters";
     }
 
     @GetMapping("/check-in-counters/new")
     public String showCreateCheckInCounterForm(Model model) {
         model.addAttribute("checkInCounter", new CheckInCounter());
-        return "check-in-counter-form";
+        return TEMPLATE_FOLDER + "check-in-counter-form";
     }
 
     @PostMapping("/check-in-counters")
@@ -43,7 +45,7 @@ public class CheckInCounterController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "check-in-counter-form";
+            return TEMPLATE_FOLDER + "check-in-counter-form";
         }
 
         if (checkInCounterService.existsByNumber(counter.getNumber())) {
@@ -53,7 +55,7 @@ public class CheckInCounterController {
                     "Check-in counter with this number already exists"
             );
 
-            return "check-in-counter-form";
+            return TEMPLATE_FOLDER + "check-in-counter-form";
         }
 
         checkInCounterService.saveCheckInCounter(counter);
@@ -63,7 +65,7 @@ public class CheckInCounterController {
     @GetMapping("/check-in-counters/{id}/edit")
     public String showEditCrewRoleForm(@PathVariable Integer id, Model model) {
         model.addAttribute("checkInCounter", checkInCounterService.getCheckInCounterById(id));
-        return "check-in-counter-form";
+        return TEMPLATE_FOLDER + "check-in-counter-form";
     }
 
     @PostMapping("/check-in-counters/{id}")
@@ -73,7 +75,7 @@ public class CheckInCounterController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "check-in-counter-form";
+            return TEMPLATE_FOLDER + "check-in-counter-form";
         }
 
         if (checkInCounterService.existsByNumberAndIdNot(counter.getNumber(), id)) {
@@ -83,7 +85,7 @@ public class CheckInCounterController {
                     "Check-in counter with this number already exists"
             );
 
-            return "check-in-counter-form";
+            return TEMPLATE_FOLDER + "check-in-counter-form";
         }
 
         counter.setId(id);

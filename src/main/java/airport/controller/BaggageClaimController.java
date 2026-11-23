@@ -18,6 +18,8 @@ public class BaggageClaimController {
 
     private final BaggageClaimService baggageClaimService;
 
+    private static final String TEMPLATE_FOLDER = "reference-data/";
+
     public BaggageClaimController(BaggageClaimService service) {
         this.baggageClaimService = service;
     }
@@ -28,13 +30,13 @@ public class BaggageClaimController {
                 "baggageClaims",
                 baggageClaimService.getAllBaggageClimes()
         );
-        return "baggage-claims";
+        return TEMPLATE_FOLDER + "baggage-claims";
     }
 
     @GetMapping("/baggage-claims/new")
     public String showBaggageClaimForm(Model model) {
         model.addAttribute("baggageClaim", new BaggageClaim());
-        return "baggage-claim-form";
+        return TEMPLATE_FOLDER + "baggage-claim-form";
     }
 
     @PostMapping("/baggage-claims")
@@ -43,7 +45,7 @@ public class BaggageClaimController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "baggage-claim-form";
+            return TEMPLATE_FOLDER + "baggage-claim-form";
         }
 
         if (baggageClaimService.existsByNumber(claim.getNumber())) {
@@ -53,7 +55,7 @@ public class BaggageClaimController {
                     "Baggage claim with this number already exists"
             );
 
-            return "baggage-claim-form";
+            return TEMPLATE_FOLDER + "baggage-claim-form";
         }
 
         baggageClaimService.saveBaggageClaim(claim);
@@ -63,7 +65,7 @@ public class BaggageClaimController {
     @GetMapping("/baggage-claims/{id}/edit")
     public String showEditBaggageClaimForm(@PathVariable Integer id, Model model) {
         model.addAttribute("baggageClaim", baggageClaimService.getBaggageClaimById(id));
-        return "baggage-claim-form";
+        return TEMPLATE_FOLDER + "baggage-claim-form";
     }
 
     @PostMapping("/baggage-claims/{id}")
@@ -73,7 +75,7 @@ public class BaggageClaimController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "baggage-claim-form";
+            return TEMPLATE_FOLDER + "baggage-claim-form";
         }
 
         if (baggageClaimService.existsByNumberAndIdNot(claim.getNumber(), id)) {
@@ -83,7 +85,7 @@ public class BaggageClaimController {
                     "Baggage claim with this number already exists"
             );
 
-            return "baggage-claim-form";
+            return TEMPLATE_FOLDER + "baggage-claim-form";
         }
 
         claim.setId(id);

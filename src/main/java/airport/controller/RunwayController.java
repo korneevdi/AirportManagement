@@ -18,6 +18,8 @@ public class RunwayController {
 
     private final RunwayService runwayService;
 
+    private static final String TEMPLATE_FOLDER = "reference-data/";
+
     public RunwayController(RunwayService service) {
         this.runwayService = service;
     }
@@ -28,13 +30,13 @@ public class RunwayController {
                 "runways",
                 runwayService.getAllRunways()
         );
-        return "runways";
+        return TEMPLATE_FOLDER + "runways";
     }
 
     @GetMapping("/runways/new")
     public String showRunwayForm(Model model) {
         model.addAttribute("runway", new Runway());
-        return "runway-form";
+        return TEMPLATE_FOLDER + "runway-form";
     }
 
     @PostMapping("runways")
@@ -43,7 +45,7 @@ public class RunwayController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "runway-form";
+            return TEMPLATE_FOLDER + "runway-form";
         }
 
         if (runwayService.existsByNumber(runway.getNumber())) {
@@ -53,7 +55,7 @@ public class RunwayController {
                     "Runway with this number already exists"
             );
 
-            return "runway-form";
+            return TEMPLATE_FOLDER + "runway-form";
         }
 
         runwayService.saveRunway(runway);
@@ -63,7 +65,7 @@ public class RunwayController {
     @GetMapping("/runways/{id}/edit")
     public String showEditRunwayForm(@PathVariable Integer id, Model model) {
         model.addAttribute("runway", runwayService.getRunwayById(id));
-        return "runway-form";
+        return TEMPLATE_FOLDER + "runway-form";
     }
 
     @PostMapping("/runways/{id}")
@@ -73,7 +75,7 @@ public class RunwayController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "runway-form";
+            return TEMPLATE_FOLDER + "runway-form";
         }
 
         if (runwayService.existsByNumberAndIdNot(runway.getNumber(), id)) {
@@ -83,7 +85,7 @@ public class RunwayController {
                     "Runway with this number already exists"
             );
 
-            return "runway-form";
+            return TEMPLATE_FOLDER + "runway-form";
         }
 
         runway.setId(id);
