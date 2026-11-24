@@ -20,6 +20,8 @@ public class AirportController {
 
     private final AirportService airportService;
 
+    private static final String TEMPLATE_FOLDER = "airports/";
+
     public AirportController(AirportService service) {
         this.airportService = service;
     }
@@ -32,14 +34,14 @@ public class AirportController {
                 airportService.getAllAirports()
         );
 
-        return "airports";
+        return TEMPLATE_FOLDER + "airports";
     }
 
     @GetMapping("/airports/new")
     public String showCreateAirportForm(Model model) {
         model.addAttribute("airport", new Airport());
         model.addAttribute("timeZones", ZoneId.getAvailableZoneIds());
-        return "airport-form";
+        return TEMPLATE_FOLDER + "airport-form";
     }
 
     @PostMapping("/airports")
@@ -50,7 +52,7 @@ public class AirportController {
 
         if(bindingResult.hasErrors()) {
             model.addAttribute("timeZones", ZoneId.getAvailableZoneIds());
-            return "airport-form";
+            return TEMPLATE_FOLDER + "airport-form";
         }
 
         if (airportService.existsByIata(airport.getIata())) {
@@ -79,7 +81,7 @@ public class AirportController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("timeZones", ZoneId.getAvailableZoneIds());
-            return "airport-form";
+            return TEMPLATE_FOLDER + "airport-form";
         }
 
         airportService.saveAirport(airport);
@@ -90,7 +92,7 @@ public class AirportController {
     public String showEditAirportForm(@PathVariable Integer id, Model model) {
         model.addAttribute("airport", airportService.getAirportById(id));
         model.addAttribute("timeZones", ZoneId.getAvailableZoneIds());
-        return "airport-form";
+        return TEMPLATE_FOLDER + "airport-form";
     }
 
     @PostMapping("/airports/{id}")
@@ -102,7 +104,7 @@ public class AirportController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("timeZones", ZoneId.getAvailableZoneIds());
-            return "airport-form";
+            return TEMPLATE_FOLDER + "airport-form";
         }
 
         if (airportService.existsByIataAndIdNot(airport.getIata(), id)) {
@@ -131,7 +133,7 @@ public class AirportController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("timeZones", ZoneId.getAvailableZoneIds());
-            return "airport-form";
+            return TEMPLATE_FOLDER + "airport-form";
         }
 
         airport.setId(id);

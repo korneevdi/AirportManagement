@@ -1,49 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
 <head>
-  <meta charset="UTF-8">
   <title>Create or update airport employee role</title>
 </head>
+
 <body>
 
-<h1 th:text="${airportEmployeeRole.id == null}
+<main class="content">
+
+  <h1 th:text="${airportEmployeeRole.id == null}
         ? 'Create airport employee role'
         : 'Edit airport employee role'">
-  Create airport employee role
-</h1>
+    Create airport employee role
+  </h1>
 
-<form th:object="${airportEmployeeRole}"
-      th:action="${airportEmployeeRole.id == null}
+  <form th:object="${airportEmployeeRole}"
+        th:action="${airportEmployeeRole.id == null}
           ? @{/airport-employee-roles}
           : @{/airport-employee-roles/{id}(id=${airportEmployeeRole.id})}"
-      method="post">
+        method="post">
+
+    <p>
+      Airport employee role name:
+      <input type="text" th:field="*{name}">
+      <span th:if="${#fields.hasErrors('name')}"
+            th:errors="*{name}"
+            style="color: red;">
+    </span>
+    </p>
+
+    <div>
+      <button type="submit"
+              th:text="${airportEmployeeRole.id == null} ? 'Create' : 'Save changes'">
+        Create
+      </button>
+
+      <a th:if="${airportEmployeeRole.id != null}"
+         th:href="@{/airport-employee-roles}">
+        Cancel
+      </a>
+    </div>
+
+  </form>
 
   <p>
-    Airport employee role name:
-    <input type="text" th:field="*{name}">
-    <span th:if="${#fields.hasErrors('name')}"
-          th:errors="*{name}"
-          style="color: red;">
-    </span>
+    <a th:href="@{/airport-employee-roles}">← Back to airport employee roles</a>
   </p>
 
-  <div>
-    <button type="submit"
-            th:text="${airportEmployeeRole.id == null} ? 'Create' : 'Save changes'">
-      Create
-    </button>
-
-    <a th:if="${airportEmployeeRole.id != null}"
-       th:href="@{/airport-employee-roles}">
-      Cancel
-    </a>
-  </div>
-
-</form>
-
-<p>
-  <a th:href="@{/airport-employee-roles}">← Back to airport employee roles</a>
-</p>
+</main>
 
 </body>
 </html>

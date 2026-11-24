@@ -34,6 +34,8 @@ public class FlightController {
     private final FlightCrewService flightCrewService;
     private final PassengerService passengerService;
 
+    private static final String TEMPLATE_FOLDER = "flights/";
+
     public FlightController(
             FlightService flightService,
             AirlineService airlineService,
@@ -77,7 +79,7 @@ public class FlightController {
     @GetMapping("/flights")
     public String getFlights(Model model) {
         model.addAttribute("flights", flightService.getAllFlightViews());
-        return "flights";
+        return TEMPLATE_FOLDER + "flights";
     }
 
     @GetMapping("/flights/{id}")
@@ -107,7 +109,7 @@ public class FlightController {
         model.addAttribute("flightBaggageClaims", flightService.getBaggageClaimsForFlight(id));
         model.addAttribute("flightCheckInCounters", flightService.getCheckInCountersForFlight(id));
 
-        return "flight";
+        return TEMPLATE_FOLDER + "flight";
     }
 
 
@@ -130,7 +132,7 @@ public class FlightController {
         model.addAttribute("terminals", terminalService.getAllTerminals());
         model.addAttribute("runways", runwayService.getAllRunways());
 
-        return "flight-form";
+        return TEMPLATE_FOLDER + "flight-form";
     }
 
     @PostMapping("/flights")
@@ -152,7 +154,7 @@ public class FlightController {
             model.addAttribute("gates", gateService.getAllGates());
             model.addAttribute("terminals", terminalService.getAllTerminals());
             model.addAttribute("runways", runwayService.getAllRunways());
-            return "flight-form";
+            return TEMPLATE_FOLDER + "flight-form";
         }
 
         if (flightService.existsByFlightNumberAndServiceDate(
@@ -178,7 +180,7 @@ public class FlightController {
             model.addAttribute("gates", gateService.getAllGates());
             model.addAttribute("terminals", terminalService.getAllTerminals());
             model.addAttribute("runways", runwayService.getAllRunways());
-            return "flight-form";
+            return TEMPLATE_FOLDER + "flight-form";
         }
 
         flightService.saveFlight(form);
@@ -200,7 +202,7 @@ public class FlightController {
         model.addAttribute("gates", gateService.getAllGates());
         model.addAttribute("terminals", terminalService.getAllTerminals());
         model.addAttribute("runways", runwayService.getAllRunways());
-        return "flight-form";
+        return TEMPLATE_FOLDER + "flight-form";
     }
 
     @PostMapping("/flights/{id}")
@@ -223,7 +225,7 @@ public class FlightController {
             model.addAttribute("gates", gateService.getAllGates());
             model.addAttribute("terminals", terminalService.getAllTerminals());
             model.addAttribute("runways", runwayService.getAllRunways());
-            return "flight-form";
+            return TEMPLATE_FOLDER + "flight-form";
         }
 
         if (flightService.existsByFlightNumberAndServiceDateAndIdNot(
@@ -249,7 +251,7 @@ public class FlightController {
             model.addAttribute("gates", gateService.getAllGates());
             model.addAttribute("terminals", terminalService.getAllTerminals());
             model.addAttribute("runways", runwayService.getAllRunways());
-            return "flight-form";
+            return TEMPLATE_FOLDER + "flight-form";
         }
 
         flightService.updateFlight(form, id);
@@ -436,7 +438,7 @@ public class FlightController {
         model.addAttribute("passengerLink", link);
         model.addAttribute("passengerForm", flightService.getPassengerForm(flightId, passengerId));
 
-        return "edit-passenger-on-flight";
+        return TEMPLATE_FOLDER + "edit-passenger-on-flight";
     }
 
     @PostMapping("/flights/{flightId}/passengers/{passengerId}/edit")
@@ -452,7 +454,7 @@ public class FlightController {
         if(bindingResult.hasErrors()) {
             model.addAttribute("flightId", flightId);
             model.addAttribute("passengerLink", link);
-            return "edit-passenger-on-flight";
+            return TEMPLATE_FOLDER + "edit-passenger-on-flight";
         }
 
         flightService.updatePassengerOnFlight(flightId, passengerId, form);
