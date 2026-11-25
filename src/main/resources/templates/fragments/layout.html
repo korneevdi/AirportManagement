@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content)">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Layout</title>
+
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/fragments/topbar.css}">
+    <link rel="stylesheet" th:href="@{/css/fragments/sidebar.css}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Topbar -->
+    <div th:replace="~{fragments/topbar :: topbar}"></div>
+
+    <div class="app-body">
+
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+        <!-- Page content -->
+        <div th:replace="${content}"></div>
+
+    </div>
+
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>
+
+</body>
+</html>

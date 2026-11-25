@@ -1,17 +1,16 @@
 package airport.controller;
 
+import airport.dto.FlightDetailsView;
 import airport.dto.FlightForm;
-import airport.entity.Flight;
+import airport.dto.FlightPassengerForm;
+import airport.entity.*;
 import airport.service.*;
 import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -29,6 +28,13 @@ public class FlightController {
     private final GateService gateService;
     private final TerminalService terminalService;
     private final RunwayService runwayService;
+    private final BaggageClaimService baggageClaimService;
+    private final CheckInCounterService checkInCounterService;
+    private final CrewRoleService crewRoleService;
+    private final FlightCrewService flightCrewService;
+    private final PassengerService passengerService;
+
+    private static final String TEMPLATE_FOLDER = "flights/";
 
     public FlightController(
             FlightService flightService,
@@ -42,7 +48,12 @@ public class FlightController {
             PassControlTypeService passControlTypeService,
             GateService gateService,
             TerminalService terminalService,
-            RunwayService runwayService) {
+            RunwayService runwayService,
+            BaggageClaimService baggageClaimService,
+            CheckInCounterService checkInCounterService,
+            CrewRoleService crewRoleService,
+            FlightCrewService flightCrewService,
+            PassengerService passengerService) {
         this.flightService = flightService;
         this.airlineService = airlineService;
         this.airportService = airportService;
@@ -55,23 +66,59 @@ public class FlightController {
         this.gateService = gateService;
         this.terminalService = terminalService;
         this.runwayService = runwayService;
+        this.baggageClaimService = baggageClaimService;
+        this.checkInCounterService = checkInCounterService;
+        this.crewRoleService = crewRoleService;
+        this.flightCrewService = flightCrewService;
+        this.passengerService = passengerService;
     }
+
+
+    /* Get flight info */
 
     @GetMapping("/flights")
     public String getFlights(Model model) {
         model.addAttribute("flights", flightService.getAllFlightViews());
-        return "flights";
+        return TEMPLATE_FOLDER + "flights";
     }
 
     @GetMapping("/flights/{id}")
     public String getFlight(@PathVariable Integer id, Model model) {
-        model.addAttribute("flight", flightService.getFlightDetailsView(id));
-        return "flight";
+
+        FlightDetailsView flight = flightService.getFlightDetailsView(id);
+
+        model.addAttribute("flight", flight);
+
+        model.addAttribute(
+                "departureFromHomeAirport",
+                flightService.isDepartureFromHomeAirport(flight.getFlight())
+        );
+
+        model.addAttribute(
+                "arrivalAtHomeAirport",
+                flightService.isArrivalAtHomeAirport(flight.getFlight())
+        );
+
+        model.addAttribute("passengers", passengerService.getAllPassengers());
+        model.addAttribute("flightCrews", flightCrewService.getAllFlightCrews());
+        model.addAttribute("crewRoles", crewRoleService.getAllCrewRoles());
+        model.addAttribute("checkInCounters", checkInCounterService.getAllCheckInCounters());
+        model.addAttribute("baggageClaims", baggageClaimService.getAllBaggageClimes());
+
+        // Sorted lists for showing baggage claims and check-in counters
+        model.addAttribute("flightBaggageClaims", flightService.getBaggageClaimsForFlight(id));
+        model.addAttribute("flightCheckInCounters", flightService.getCheckInCountersForFlight(id));
+
+        return TEMPLATE_FOLDER + "flight";
     }
+
+
+    /* Manage flight */
 
     @GetMapping("/flights/new")
     public String showCreateFlightForm(Model model) {
         model.addAttribute("flight", new FlightForm());
+
         model.addAttribute("airlines", airlineService.getAllAirlines());
         model.addAttribute("airports", airportService.getAllAirports());
         model.addAttribute("airplanes", airplaneService.getAllAirplanes());
@@ -84,7 +131,8 @@ public class FlightController {
         model.addAttribute("gates", gateService.getAllGates());
         model.addAttribute("terminals", terminalService.getAllTerminals());
         model.addAttribute("runways", runwayService.getAllRunways());
-        return "flight-form";
+
+        return TEMPLATE_FOLDER + "flight-form";
     }
 
     @PostMapping("/flights")
@@ -106,7 +154,7 @@ public class FlightController {
             model.addAttribute("gates", gateService.getAllGates());
             model.addAttribute("terminals", terminalService.getAllTerminals());
             model.addAttribute("runways", runwayService.getAllRunways());
-            return "flight-form";
+            return TEMPLATE_FOLDER + "flight-form";
         }
 
         if (flightService.existsByFlightNumberAndServiceDate(
@@ -132,7 +180,7 @@ public class FlightController {
             model.addAttribute("gates", gateService.getAllGates());
             model.addAttribute("terminals", terminalService.getAllTerminals());
             model.addAttribute("runways", runwayService.getAllRunways());
-            return "flight-form";
+            return TEMPLATE_FOLDER + "flight-form";
         }
 
         flightService.saveFlight(form);
@@ -154,7 +202,7 @@ public class FlightController {
         model.addAttribute("gates", gateService.getAllGates());
         model.addAttribute("terminals", terminalService.getAllTerminals());
         model.addAttribute("runways", runwayService.getAllRunways());
-        return "flight-form";
+        return TEMPLATE_FOLDER + "flight-form";
     }
 
     @PostMapping("/flights/{id}")
@@ -177,7 +225,7 @@ public class FlightController {
             model.addAttribute("gates", gateService.getAllGates());
             model.addAttribute("terminals", terminalService.getAllTerminals());
             model.addAttribute("runways", runwayService.getAllRunways());
-            return "flight-form";
+            return TEMPLATE_FOLDER + "flight-form";
         }
 
         if (flightService.existsByFlightNumberAndServiceDateAndIdNot(
@@ -203,7 +251,7 @@ public class FlightController {
             model.addAttribute("gates", gateService.getAllGates());
             model.addAttribute("terminals", terminalService.getAllTerminals());
             model.addAttribute("runways", runwayService.getAllRunways());
-            return "flight-form";
+            return TEMPLATE_FOLDER + "flight-form";
         }
 
         flightService.updateFlight(form, id);
@@ -220,11 +268,197 @@ public class FlightController {
             return "redirect:/flights";
         } catch (DataIntegrityViolationException e) {
             redirectAttributes.addFlashAttribute(
-                    "errorMessage",
+                    "flightDeleteError",
                     "Cannot delete flight because it is used by one or more objects."
             );
             redirectAttributes.addFlashAttribute("errorFlightId", id);
         }
         return "redirect:/flights/" + id;
+    }
+
+
+    /* Manage baggage claims */
+
+    @PostMapping("/flights/{flightId}/baggage-claims/new")
+    public String addBaggageClaim(
+            @PathVariable Integer flightId,
+            @RequestParam Integer claimId,
+            RedirectAttributes redirectAttributes) {
+
+        try{
+            BaggageClaim claim = baggageClaimService.getBaggageClaimById(claimId);
+            flightService.addBaggageClaim(flightId, claim);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute(
+                    "baggageClaimAddError",
+                    e.getMessage()
+            );
+        }
+
+        return "redirect:/flights/" + flightId;
+    }
+
+    @PostMapping("/flights/{flightId}/baggage-claims/{claimId}/delete")
+    public String deleteBaggageClaim(
+            @PathVariable Integer flightId,
+            @PathVariable Integer claimId) {
+
+        flightService.deleteBaggageClaim(flightId, claimId);
+
+        return "redirect:/flights/" + flightId;
+    }
+
+
+    /* Manage check-in counters */
+
+    @PostMapping("/flights/{flightId}/check-in-counters/new")
+    public String addCheckInCounter(
+            @PathVariable Integer flightId,
+            @RequestParam Integer counterId,
+            RedirectAttributes redirectAttributes) {
+
+        try{
+            CheckInCounter counter = checkInCounterService.getCheckInCounterById(counterId);
+            flightService.addCheckInCounter(flightId, counter);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute(
+                    "checkInCounterAddError",
+                    e.getMessage()
+            );
+        }
+
+        return "redirect:/flights/" + flightId;
+    }
+
+    @PostMapping("/flights/{flightId}/check-in-counters/{counterId}/delete")
+    public String deleteCheckInCounter(
+            @PathVariable Integer flightId,
+            @PathVariable Integer counterId) {
+
+        flightService.deleteCheckInCounter(flightId, counterId);
+
+        return "redirect:/flights/" + flightId;
+    }
+
+
+    /* Manage flight crew */
+
+    @PostMapping("/flights/{flightId}/flight-crews/new")
+    public String addFlightCrew(
+            @PathVariable Integer flightId,
+            @RequestParam Integer crewId,
+            @RequestParam Integer roleId,
+            RedirectAttributes redirectAttributes) {
+
+        try{
+            FlightCrew crew = flightCrewService.getFlightCrewById(crewId);
+            CrewRole role = crewRoleService.getCrewRoleById(roleId);
+            flightService.addFlightCrew(flightId, crew, role);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute(
+                    "crewAddError",
+                    e.getMessage()
+            );
+        }
+
+        return "redirect:/flights/" + flightId;
+    }
+
+    @PostMapping("/flights/{flightId}/flight-crews/{crewId}/{roleId}/delete")
+    public String deleteFlightCrew(
+            @PathVariable Integer flightId,
+            @PathVariable Integer crewId,
+            @PathVariable Integer roleId) {
+
+        flightService.deleteFlightCrew(flightId, crewId, roleId);
+
+        return "redirect:/flights/" + flightId;
+    }
+
+    @PostMapping("/flights/{flightId}/flight-crews/{crewId}/role")
+    public String updateFlightCrewRole(
+            @PathVariable Integer flightId,
+            @PathVariable Integer crewId,
+            @RequestParam Integer oldRoleId,
+            @RequestParam Integer roleId,
+            RedirectAttributes redirectAttributes) {
+
+        try{
+            CrewRole newRole = crewRoleService.getCrewRoleById(roleId);
+            flightService.updateFlightCrewRole(flightId, crewId, oldRoleId, newRole);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("crewRoleError", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorCrewId", crewId);
+        }
+
+        return "redirect:/flights/" + flightId;
+    }
+
+
+    /* Manage passengers */
+
+    @PostMapping("/flights/{flightId}/passengers/new")
+    public String addPassenger(
+            @PathVariable Integer flightId,
+            @RequestParam Integer passengerId,
+            RedirectAttributes redirectAttributes) {
+
+        try{
+            Passenger passenger = passengerService.getPassengerById(passengerId);
+            flightService.addPassenger(flightId, passenger);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute(
+                    "passengerAddError",
+                    e.getMessage()
+            );
+        }
+
+        return "redirect:/flights/" + flightId;
+    }
+
+    @PostMapping("/flights/{flightId}/passengers/{passengerId}/delete")
+    public String deletePassenger(
+            @PathVariable Integer flightId,
+            @PathVariable Integer passengerId) {
+
+        flightService.deletePassenger(flightId, passengerId);
+
+        return "redirect:/flights/" + flightId;
+    }
+
+    @GetMapping("/flights/{flightId}/passengers/{passengerId}/edit")
+    public String showEditPassengerForm(
+            @PathVariable Integer flightId,
+            @PathVariable Integer passengerId,
+            Model model) {
+
+        FlightPassengerLink link = flightService.getPassengerLink(flightId, passengerId);
+
+        model.addAttribute("flightId", flightId);
+        model.addAttribute("passengerLink", link);
+        model.addAttribute("passengerForm", flightService.getPassengerForm(flightId, passengerId));
+
+        return TEMPLATE_FOLDER + "edit-passenger-on-flight";
+    }
+
+    @PostMapping("/flights/{flightId}/passengers/{passengerId}/edit")
+    public String updatePassengerOnFlight(
+            @PathVariable Integer flightId,
+            @PathVariable Integer passengerId,
+            @Valid @ModelAttribute("passengerForm") FlightPassengerForm form,
+            BindingResult bindingResult,
+            Model model) {
+
+        FlightPassengerLink link = flightService.getPassengerLink(flightId, passengerId);
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("flightId", flightId);
+            model.addAttribute("passengerLink", link);
+            return TEMPLATE_FOLDER + "edit-passenger-on-flight";
+        }
+
+        flightService.updatePassengerOnFlight(flightId, passengerId, form);
+
+        return "redirect:/flights/" + flightId;
     }
 }

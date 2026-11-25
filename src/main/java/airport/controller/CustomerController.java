@@ -1,6 +1,5 @@
 package airport.controller;
 
-import airport.dto.AirlineForm;
 import airport.dto.CustomerForm;
 import airport.service.CustomerService;
 import jakarta.validation.Valid;
@@ -19,6 +18,8 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    private static final String TEMPLATE_FOLDER = "customers/";
+
     public CustomerController(CustomerService service) {
         this.customerService = service;
     }
@@ -26,19 +27,19 @@ public class CustomerController {
     @GetMapping("/customers")
     public String getCustomers(Model model) {
         model.addAttribute("customers", customerService.getAllCustomers());
-        return "customers";
+        return TEMPLATE_FOLDER + "customers";
     }
 
     @GetMapping("/customers/{id}")
     public String getCustomer(@PathVariable Integer id, Model model) {
         model.addAttribute("customer", customerService.getCustomerById(id));
-        return "customer";
+        return TEMPLATE_FOLDER + "customer";
     }
 
     @GetMapping("/customers/new")
     public String showCreateCustomerForm(Model model) {
         model.addAttribute("customer", new CustomerForm());
-        return "customer-form";
+        return TEMPLATE_FOLDER + "customer-form";
     }
 
     @PostMapping("/customers")
@@ -47,7 +48,7 @@ public class CustomerController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "customer-form";
+            return TEMPLATE_FOLDER + "customer-form";
         }
 
         if (customerService.existsByPassportCountryAndPassportNumber(
@@ -70,7 +71,7 @@ public class CustomerController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "customer-form";
+            return TEMPLATE_FOLDER + "customer-form";
         }
 
         customerService.saveCustomer(form);
@@ -80,7 +81,7 @@ public class CustomerController {
     @GetMapping("/customers/{id}/edit")
     public String showEditCustomerForm(@PathVariable Integer id, Model model) {
         model.addAttribute("customer", customerService.getCustomerFormById(id));
-        return "customer-form";
+        return TEMPLATE_FOLDER + "customer-form";
     }
 
     @PostMapping("/customers/{id}")
@@ -90,7 +91,7 @@ public class CustomerController {
             BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "customer-form";
+            return TEMPLATE_FOLDER + "customer-form";
         }
 
         if (customerService.existsByPassportCountryAndPassportNumberAndIdNot(
@@ -112,7 +113,7 @@ public class CustomerController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "customer-form";
+            return TEMPLATE_FOLDER + "customer-form";
         }
 
         customerService.updateCustomer(id, form);

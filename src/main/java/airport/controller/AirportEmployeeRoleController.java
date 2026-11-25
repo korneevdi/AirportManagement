@@ -16,6 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class AirportEmployeeRoleController {
 
+    private static final String TEMPLATE_FOLDER = "reference-data/";
+
     private final AirportEmployeeRoleService airportEmployeeRoleService;
 
     public AirportEmployeeRoleController(AirportEmployeeRoleService service) {
@@ -28,13 +30,13 @@ public class AirportEmployeeRoleController {
                 "airportEmployeeRoles",
                 airportEmployeeRoleService.getAllAirportEmployeeRoles()
         );
-        return "airport-employee-roles";
+        return TEMPLATE_FOLDER + "airport-employee-roles";
     }
 
     @GetMapping("/airport-employee-roles/new")
     public String showCreateAirportEmployeeRoleForm(Model model) {
         model.addAttribute("airportEmployeeRole", new AirportEmployeeRole());
-        return "airport-employee-role-form";
+        return TEMPLATE_FOLDER + "airport-employee-role-form";
     }
 
     @PostMapping("/airport-employee-roles")
@@ -43,7 +45,7 @@ public class AirportEmployeeRoleController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "airport-employee-role-form";
+            return TEMPLATE_FOLDER + "airport-employee-role-form";
         }
 
         if (airportEmployeeRoleService.existsByName(role.getName())) {
@@ -53,7 +55,7 @@ public class AirportEmployeeRoleController {
                     "Airport employee role with this name already exists"
             );
 
-            return "airport-employee-role-form";
+            return TEMPLATE_FOLDER + "airport-employee-role-form";
         }
 
         airportEmployeeRoleService.saveAirportEmployeeRole(role);
@@ -63,7 +65,7 @@ public class AirportEmployeeRoleController {
     @GetMapping("airport-employee-roles/{id}/edit")
     public String showEditAirportEmployeeRoleForm(@PathVariable Integer id, Model model) {
         model.addAttribute("airportEmployeeRole", airportEmployeeRoleService.getAirportEmployeeRoleById(id));
-        return "airport-employee-role-form";
+        return TEMPLATE_FOLDER + "airport-employee-role-form";
     }
 
     @PostMapping("airport-employee-roles/{id}")
@@ -73,7 +75,7 @@ public class AirportEmployeeRoleController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "airport-employee-role-form";
+            return TEMPLATE_FOLDER + "airport-employee-role-form";
         }
 
         if (airportEmployeeRoleService.existsByNameAndIdNot(role.getName(), id)) {
@@ -83,7 +85,7 @@ public class AirportEmployeeRoleController {
                     "Airport employee role with this name already exists"
             );
 
-            return "airport-employee-role-form";
+            return TEMPLATE_FOLDER + "airport-employee-role-form";
         }
 
         role.setId(id);

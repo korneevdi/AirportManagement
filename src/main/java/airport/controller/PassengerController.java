@@ -20,6 +20,8 @@ public class PassengerController {
     private final PassengerService passengerService;
     private final SexService sexService;
 
+    private static final String TEMPLATE_FOLDER = "passengers/";
+
     public PassengerController(
             PassengerService passengerService,
             SexService sexService) {
@@ -33,7 +35,7 @@ public class PassengerController {
                 "passengers",
                 passengerService.getAllPassengers()
         );
-        return "passengers";
+        return TEMPLATE_FOLDER + "passengers";
     }
 
     @GetMapping("/passengers/{id}")
@@ -44,14 +46,14 @@ public class PassengerController {
                 "passenger",
                 passengerService.getPassengerById(id)
         );
-        return "passenger";
+        return TEMPLATE_FOLDER + "passenger";
     }
 
     @GetMapping("/passengers/new")
     public String showCreatePassengerForm(Model model) {
         model.addAttribute("passenger", new Passenger());
         model.addAttribute("sexes", sexService.getAllSexes());
-        return "passenger-form";
+        return TEMPLATE_FOLDER + "passenger-form";
     }
 
     @PostMapping("/passengers")
@@ -62,7 +64,7 @@ public class PassengerController {
 
         if(bindingResult.hasErrors()) {
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "passenger-form";
+            return TEMPLATE_FOLDER + "passenger-form";
         }
 
         if (passengerService.existsByPassportCountryAndPassportNumber(
@@ -77,7 +79,7 @@ public class PassengerController {
 
         if(bindingResult.hasErrors()) {
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "passenger-form";
+            return TEMPLATE_FOLDER + "passenger-form";
         }
 
         passengerService.savePassenger(passenger);
@@ -88,7 +90,7 @@ public class PassengerController {
     public String showEditPassengerForm(@PathVariable Integer id, Model model) {
         model.addAttribute("passenger", passengerService.getPassengerById(id));
         model.addAttribute("sexes", sexService.getAllSexes());
-        return "passenger-form";
+        return TEMPLATE_FOLDER + "passenger-form";
     }
 
     @PostMapping("/passengers/{id}")
@@ -100,7 +102,7 @@ public class PassengerController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "passenger-form";
+            return TEMPLATE_FOLDER + "passenger-form";
         }
 
         if (passengerService.existsByPassportCountryAndPassportNumberAndIdNot(
@@ -114,7 +116,7 @@ public class PassengerController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "passenger-form";
+            return TEMPLATE_FOLDER + "passenger-form";
         }
 
         passengerService.updatePassenger(passenger, id);

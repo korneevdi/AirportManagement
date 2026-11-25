@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
+<head>
+  <title>Create or update airline</title>
+</head>
+
+<body>
+
+<main class="content">
+
+  <h1 th:text="${airline.id == null}
+        ? 'Create airline'
+        : 'Edit airline'">
+    Create airline
+  </h1>
+
+  <form th:object="${airline}"
+        th:action="${airline.id == null}
+          ? @{/airlines}
+          : @{/airlines/{id}(id=${airline.id})}"
+        method="post">
+
+    <h2>Airline</h2>
+
+    <p>
+      IATA number:
+      <input type="text" th:field="*{iata}">
+      <span th:if="${#fields.hasErrors('iata')}"
+            th:errors="*{iata}">
+    </span>
+    </p>
+
+    <p>
+      ICAO number:
+      <input type="text" th:field="*{icao}">
+      <span th:if="${#fields.hasErrors('icao')}"
+            th:errors="*{icao}">
+    </span>
+    </p>
+
+    <p>
+      Airline name:
+      <input type="text" th:field="*{name}">
+      <span th:if="${#fields.hasErrors('name')}"
+            th:errors="*{name}">
+    </span>
+    </p>
+
+
+    <h2>Airline contact</h2>
+
+    <p>
+      Airline contact name:
+      <input type="text" th:field="*{contactName}">
+      <span th:if="${#fields.hasErrors('contactName')}"
+            th:errors="*{contactName}">
+    </span>
+    </p>
+
+    <p>
+      Airline contact email address:
+      <input type="text" th:field="*{contactEmail}">
+      <span th:if="${#fields.hasErrors('contactEmail')}"
+            th:errors="*{contactEmail}">
+    </span>
+    </p>
+
+    <p>
+      Airline contact phone number:
+      <input type="text" th:field="*{contactPhone}">
+      <span th:if="${#fields.hasErrors('contactPhone')}"
+            th:errors="*{contactPhone}">
+    </span>
+    </p>
+
+    <p>
+      Airline home city:
+      <input type="text" th:field="*{city}">
+      <span th:if="${#fields.hasErrors('city')}"
+            th:errors="*{city}">
+    </span>
+    </p>
+
+    <p>
+      Notes:
+      <input type="text" th:field="*{notes}">
+    </p>
+
+    <!-- Airline actions -->
+    <div>
+      <button type="submit"
+              th:text="${airline.id == null} ? 'Create' : 'Save changes'">
+        Create
+      </button>
+
+      <a th:if="${airline.id != null}"
+         th:href="@{/airlines/{id}(id=${airline.id})}">
+        Cancel
+      </a>
+    </div>
+
+  </form>
+
+  <p>
+    <a th:href="@{/airlines}">← Back to airlines</a>
+  </p>
+
+</main>
+
+</body>
+</html>

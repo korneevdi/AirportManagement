@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
+<head>
+    <title>Airport employee</title>
+</head>
+
+<body>
+
+<main class="content">
+
+  <h1 th:text="${employee.firstName + ' ' + employee.lastName}"></h1>
+
+  <h2>General information</h2>
+
+  <table>
+    <tr>
+      <td>First name</td>
+      <td th:text="${employee.firstName}"></td>
+    </tr>
+    <tr>
+      <td>Last name</td>
+      <td th:text="${employee.lastName}"></td>
+    </tr>
+    <tr>
+      <td>Role</td>
+      <td th:text="${employee.role.name}"></td>
+    </tr>
+    <tr>
+      <td>Sex</td>
+      <td th:text="${employee.sex.name}"></td>
+    </tr>
+    <tr>
+      <td>Birth date</td>
+      <td th:text="${employee.birthDate}"></td>
+    </tr>
+    <tr>
+      <td>Country</td>
+      <td th:text="${employee.passCountry}"></td>
+    </tr>
+    <tr>
+      <td>Passport number</td>
+      <td th:text="${employee.passNumber}"></td>
+    </tr>
+  </table>
+
+  <h2>Contact</h2>
+
+  <table>
+    <tr>
+      <td>Email</td>
+      <td th:text="${employee.contact.email}"></td>
+    </tr>
+    <tr>
+      <td>Phone</td>
+      <td th:text="${employee.contact.phone}"></td>
+    </tr>
+    <tr>
+      <td>City</td>
+      <td th:text="${employee.contact.city}"></td>
+    </tr>
+    <tr>
+      <td>Address</td>
+      <td th:text="${employee.contact.address}"></td>
+    </tr>
+    <tr>
+      <td>Notes</td>
+      <td th:text="${employee.contact.notes}"></td>
+    </tr>
+  </table>
+
+  <h2>Emergency contact</h2>
+
+  <table>
+    <tr>
+      <td>Name</td>
+      <td th:text="${employee.emergencyContact.name}"></td>
+    </tr>
+    <tr>
+      <td>Relation</td>
+      <td th:text="${employee.emergencyContact.relation}"></td>
+    </tr>
+    <tr>
+      <td>Phone</td>
+      <td th:text="${employee.emergencyContact.phone}"></td>
+    </tr>
+  </table>
+
+  <!-- Airport employee actions -->
+  <div>
+    <!-- Edit airport employee -->
+    <form th:action="@{/airport-employees/{id}/edit(id=${employee.id})}"
+          method="get"
+          style="display: inline;">
+
+      <button type="submit">
+        Edit
+      </button>
+    </form>
+
+    <!-- Delete airport employee -->
+    <form th:action="@{/airport-employees/{id}/delete(id=${employee.id})}"
+          method="post"
+          style="display: inline;">
+
+      <button type="submit"
+              onclick="return confirm('Are you sure you want to delete this airport employee?')">
+        Delete
+      </button>
+    </form>
+  </div>
+
+  <!-- Error when delete airport employee -->
+  <div th:if="${errorAirportEmployeeId != null and errorAirportEmployeeId == employee.id}"
+       th:text="${errorMessage}"
+       style="color: red;">
+  </div>
+
+  <p>
+    <a th:href="@{/airport-employees}">← Back to airport employees</a>
+  </p>
+
+</main>
+
+</body>
+</html>

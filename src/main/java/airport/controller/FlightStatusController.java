@@ -18,6 +18,8 @@ public class FlightStatusController {
 
     private final FlightStatusService flightStatusService;
 
+    private static final String TEMPLATE_FOLDER = "reference-data/";
+
     public FlightStatusController(FlightStatusService service) {
         this.flightStatusService = service;
     }
@@ -28,13 +30,13 @@ public class FlightStatusController {
                 "flightStatuses",
                 flightStatusService.getAllFlightStatuses()
         );
-        return "flight-statuses";
+        return TEMPLATE_FOLDER + "flight-statuses";
     }
 
     @GetMapping("/flight-statuses/new")
     public String showCreateFlightStatusForm(Model model) {
         model.addAttribute("flightStatus", new FlightStatus());
-        return "flight-status-form";
+        return TEMPLATE_FOLDER + "flight-status-form";
     }
 
     @PostMapping("/flight-statuses")
@@ -43,7 +45,7 @@ public class FlightStatusController {
             BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "flight-status-form";
+            return TEMPLATE_FOLDER + "flight-status-form";
         }
 
         if (flightStatusService.existsByName(status.getName())) {
@@ -53,7 +55,7 @@ public class FlightStatusController {
                     "Flight status with this name already exists"
             );
 
-            return "flight-status-form";
+            return TEMPLATE_FOLDER + "flight-status-form";
         }
 
         flightStatusService.saveFlightStatus(status);
@@ -63,7 +65,7 @@ public class FlightStatusController {
     @GetMapping("/flight-statuses/{id}/edit")
     public String showEditFlightStatusForm(@PathVariable Integer id, Model model) {
         model.addAttribute("flightStatus", flightStatusService.getFlightStatusById(id));
-        return "flight-status-form";
+        return TEMPLATE_FOLDER + "flight-status-form";
     }
 
     @PostMapping("/flight-statuses/{id}")
@@ -73,7 +75,7 @@ public class FlightStatusController {
             BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "flight-status-form";
+            return TEMPLATE_FOLDER + "flight-status-form";
         }
 
         if (flightStatusService.existsByNameAndIdNot(status.getName(), id)) {
@@ -83,7 +85,7 @@ public class FlightStatusController {
                     "Flight status with this name already exists"
             );
 
-            return "flight-status-form";
+            return TEMPLATE_FOLDER + "flight-status-form";
         }
 
         status.setId(id);

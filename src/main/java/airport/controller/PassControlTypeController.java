@@ -18,6 +18,8 @@ public class PassControlTypeController {
 
     private final PassControlTypeService passControlTypeService;
 
+    private static final String TEMPLATE_FOLDER = "reference-data/";
+
     public PassControlTypeController(PassControlTypeService service) {
         this.passControlTypeService = service;
     }
@@ -28,13 +30,13 @@ public class PassControlTypeController {
                 "passControlTypes",
                 passControlTypeService.getAllPassControlTypes()
         );
-        return "pass-control-types";
+        return TEMPLATE_FOLDER + "pass-control-types";
     }
 
     @GetMapping("/pass-control-types/new")
     public String showCreatePassControlTypeForm(Model model) {
         model.addAttribute("passControlType", new PassControlType());
-        return "pass-control-type-form";
+        return TEMPLATE_FOLDER + "pass-control-type-form";
     }
 
     @PostMapping("/pass-control-types")
@@ -43,7 +45,7 @@ public class PassControlTypeController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "pass-control-type-form";
+            return TEMPLATE_FOLDER + "pass-control-type-form";
         }
 
         if (passControlTypeService.existsByName(passControlType.getName())) {
@@ -53,7 +55,7 @@ public class PassControlTypeController {
                     "Passport control type with this name already exists"
             );
 
-            return "pass-control-type-form";
+            return TEMPLATE_FOLDER + "pass-control-type-form";
         }
 
         passControlTypeService.savePassControlType(passControlType);
@@ -63,7 +65,7 @@ public class PassControlTypeController {
     @GetMapping("/pass-control-types/{id}/edit")
     public String showEditPassControlTypeForm(@PathVariable Integer id, Model model) {
         model.addAttribute("passControlType", passControlTypeService.getPassControlTypeDyId(id));
-        return "pass-control-type-form";
+        return TEMPLATE_FOLDER + "pass-control-type-form";
     }
 
     @PostMapping("/pass-control-types/{id}")
@@ -73,7 +75,7 @@ public class PassControlTypeController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "pass-control-type-form";
+            return TEMPLATE_FOLDER + "pass-control-type-form";
         }
 
         if (passControlTypeService.existsByNameAndIdNot(passControlType.getName(), id)) {
@@ -83,7 +85,7 @@ public class PassControlTypeController {
                     "Passport control type with this name already exists"
             );
 
-            return "pass-control-type-form";
+            return TEMPLATE_FOLDER + "pass-control-type-form";
         }
 
         passControlType.setId(id);

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
+<head>
+  <title>Create or update passenger</title>
+</head>
+
+<body>
+
+<main class="content">
+
+  <h1 th:text="${passenger.id == null}
+        ? 'Create passenger'
+        : 'Edit passenger'">
+    Create passenger
+  </h1>
+
+  <form th:object="${passenger}"
+        th:action="${passenger.id == null}
+          ? @{/passengers}
+          : @{/passengers/{id}(id=${passenger.id})}"
+        method="post">
+
+    <p>
+      First name:
+      <input type="text" th:field="*{firstName}">
+      <span th:if="${#fields.hasErrors('firstName')}"
+            th:errors="*{firstName}">
+    </span>
+    </p>
+
+    <p>
+      Last name:
+      <input type="text" th:field="*{lastName}">
+      <span th:if="${#fields.hasErrors('lastName')}"
+            th:errors="*{lastName}">
+    </span>
+    </p>
+
+    <p>
+      Sex:
+      <select th:field="*{sex}">
+        <option value="">Select sex</option>
+
+        <option th:each="sex : ${sexes}"
+                th:value="${sex.id}"
+                th:text="${sex.name}">
+        </option>
+      </select>
+      <span th:if="${#fields.hasErrors('sex')}"
+            th:errors="*{sex}">
+    </span>
+    </p>
+
+    <p>
+      Age:
+      <input type="number" th:field="*{age}">
+      <span th:if="${#fields.hasErrors('age')}"
+            th:errors="*{age}">
+    </span>
+    </p>
+
+    <p>
+      Country:
+      <input type="text" th:field="*{passCountry}">
+      <span th:if="${#fields.hasErrors('passCountry')}"
+            th:errors="*{passCountry}">
+    </span>
+    </p>
+
+    <p>
+      Passport number:
+      <input type="text" th:field="*{passNumber}">
+      <span th:if="${#fields.hasErrors('passNumber')}"
+            th:errors="*{passNumber}">
+    </span>
+    </p>
+
+    <!-- Passenger actions -->
+    <div>
+      <button type="submit"
+              th:text="${passenger.id == null} ? 'Create' : 'Save changes'">
+        Create
+      </button>
+
+      <a th:if="${passenger.id != null}"
+         th:href="@{/passengers/{id}(id=${passenger.id})}">
+        Cancel
+      </a>
+    </div>
+  </form>
+
+  <p>
+    <a th:href="@{/passengers}">← Back to passengers</a>
+  </p>
+
+</main>
+
+</body>
+</html>

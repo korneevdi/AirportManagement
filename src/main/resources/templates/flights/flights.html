@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
+<head>
+  <title>Flights</title>
+</head>
+
+<body>
+
+<main class="content">
+
+  <h1>Flights</h1>
+
+  <table>
+    <tr>
+      <th>Number</th>
+      <th>Flight number</th>
+      <th>Airline</th>
+      <th>Departure airport</th>
+      <th>Arrival airport</th>
+      <th>Scheduled departure time</th>
+      <th>Actual departure time</th>
+      <th>Scheduled arrival time</th>
+      <th>Actual arrival time</th>
+      <th>Airplane</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+    <tr th:each="flight, stat : ${flights}">
+      <td th:text="${stat.count}"></td>
+      <td th:text="${flight.flightNumber}"></td>
+      <td th:text="${flight.airlineName}"></td>
+      <td th:text="${flight.departureAirport}"></td>
+      <td th:text="${flight.arrivalAirport}"></td>
+      <td th:text="${flight.scheduledDepartureTime}"></td>
+      <td th:text="${flight.actualDepartureTime}"></td>
+      <td th:text="${flight.scheduledArrivalTime}"></td>
+      <td th:text="${flight.actualArrivalTime}"></td>
+      <td th:text="${flight.airplaneModel}"></td>
+      <td th:text="${flight.statusName}"></td>
+      <td>
+        <a th:href="@{/flights/{id}(id=${flight.id})}">
+          details
+        </a>
+      </td>
+    </tr>
+  </table>
+
+  <p>
+    <a th:href="@{/flights/new}">Add flight</a>
+  </p>
+
+</main>
+
+</body>
+</html>

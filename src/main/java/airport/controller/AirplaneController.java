@@ -22,6 +22,8 @@ public class AirplaneController {
     private final AirlineService airlineService;
     private final TypeService typeService;
 
+    private static final String TEMPLATE_FOLDER = "airplanes/";
+
     public AirplaneController(
             AirplaneService airplaneService,
             AirlineService airlineService,
@@ -37,7 +39,7 @@ public class AirplaneController {
                 "airplanes",
                 airplaneService.getAllAirplanes()
         );
-        return "airplanes";
+        return TEMPLATE_FOLDER + "airplanes";
     }
 
     @GetMapping("/airplanes/new")
@@ -45,7 +47,7 @@ public class AirplaneController {
         model.addAttribute("airplane", new Airplane());
         model.addAttribute("airlines", airlineService.getAllAirlines());
         model.addAttribute("types", typeService.getAllTypes());
-        return "airplane-form";
+        return TEMPLATE_FOLDER + "airplane-form";
     }
 
     @PostMapping("/airplanes")
@@ -57,7 +59,7 @@ public class AirplaneController {
         if(bindingResult.hasErrors()) {
             model.addAttribute("airlines", airlineService.getAllAirlines());
             model.addAttribute("types", typeService.getAllTypes());
-            return "airplane-form";
+            return TEMPLATE_FOLDER + "airplane-form";
         }
 
         if (airplaneService.existsByRegistrationNumber(
@@ -72,7 +74,7 @@ public class AirplaneController {
         if(bindingResult.hasErrors()) {
             model.addAttribute("airlines", airlineService.getAllAirlines());
             model.addAttribute("types", typeService.getAllTypes());
-            return "airplane-form";
+            return TEMPLATE_FOLDER + "airplane-form";
         }
 
         airplaneService.saveAirplane(airplane);
@@ -84,7 +86,7 @@ public class AirplaneController {
         model.addAttribute("airplane", airplaneService.getAirplaneById(id));
         model.addAttribute("airlines", airlineService.getAllAirlines());
         model.addAttribute("types", typeService.getAllTypes());
-        return "airplane-form";
+        return TEMPLATE_FOLDER + "airplane-form";
     }
 
     @PostMapping("/airplanes/{id}")
@@ -97,7 +99,7 @@ public class AirplaneController {
         if(bindingResult.hasErrors()) {
             model.addAttribute("airlines", airlineService.getAllAirlines());
             model.addAttribute("types", typeService.getAllTypes());
-            return "airplane-form";
+            return TEMPLATE_FOLDER + "airplane-form";
         }
 
         if (airplaneService.existsByRegistrationNumberAndIdNot(
@@ -112,7 +114,7 @@ public class AirplaneController {
         if(bindingResult.hasErrors()) {
             model.addAttribute("airlines", airlineService.getAllAirlines());
             model.addAttribute("types", typeService.getAllTypes());
-            return "airplane-form";
+            return TEMPLATE_FOLDER + "airplane-form";
         }
 
         airplaneService.updateAirplane(airplane, id);

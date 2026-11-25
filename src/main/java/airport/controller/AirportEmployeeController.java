@@ -22,6 +22,8 @@ public class AirportEmployeeController {
     private final AirportEmployeeRoleService airportEmployeeRoleService;
     private final SexService sexService;
 
+    private static final String TEMPLATE_FOLDER = "airport-employees/";
+
     public AirportEmployeeController(
             AirportEmployeeService airportEmployeeService,
             AirportEmployeeRoleService airportEmployeeRoleService,
@@ -34,13 +36,13 @@ public class AirportEmployeeController {
     @GetMapping("/airport-employees")
     public String getAirportEmployees(Model model) {
         model.addAttribute("airportEmployees", airportEmployeeService.getAllAirportEmployees());
-        return "airport-employees";
+        return TEMPLATE_FOLDER + "airport-employees";
     }
 
     @GetMapping("/airport-employees/{id}")
     public String getAirportEmployee(@PathVariable Integer id, Model model) {
         model.addAttribute("employee", airportEmployeeService.getAirportEmployeeById(id));
-        return "airport-employee";
+        return TEMPLATE_FOLDER + "airport-employee";
     }
 
     @GetMapping("/airport-employees/new")
@@ -48,7 +50,7 @@ public class AirportEmployeeController {
         model.addAttribute("employee", new AirportEmployeeForm());
         model.addAttribute("roles", airportEmployeeRoleService.getAllAirportEmployeeRoles());
         model.addAttribute("sexes", sexService.getAllSexes());
-        return "airport-employee-form";
+        return TEMPLATE_FOLDER + "airport-employee-form";
     }
 
     @PostMapping("/airport-employees")
@@ -60,7 +62,7 @@ public class AirportEmployeeController {
         if(bindingResult.hasErrors()) {
             model.addAttribute("roles", airportEmployeeRoleService.getAllAirportEmployeeRoles());
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "airport-employee-form";
+            return TEMPLATE_FOLDER + "airport-employee-form";
         }
 
         if (airportEmployeeService.existsByEmail(form.getContactEmail())) {
@@ -74,7 +76,7 @@ public class AirportEmployeeController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", airportEmployeeRoleService.getAllAirportEmployeeRoles());
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "airport-employee-form";
+            return TEMPLATE_FOLDER + "airport-employee-form";
         }
 
         airportEmployeeService.saveAirportEmployee(form);
@@ -86,7 +88,7 @@ public class AirportEmployeeController {
         model.addAttribute("employee", airportEmployeeService.getAirportEmployeeFormById(id));
         model.addAttribute("roles", airportEmployeeRoleService.getAllAirportEmployeeRoles());
         model.addAttribute("sexes", sexService.getAllSexes());
-        return "airport-employee-form";
+        return TEMPLATE_FOLDER + "airport-employee-form";
     }
 
     @PostMapping("/airport-employees/{id}")
@@ -99,7 +101,7 @@ public class AirportEmployeeController {
         if(bindingResult.hasErrors()) {
             model.addAttribute("roles", airportEmployeeRoleService.getAllAirportEmployeeRoles());
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "airport-employee-form";
+            return TEMPLATE_FOLDER + "airport-employee-form";
         }
 
         if (airportEmployeeService.existsByEmailAndIdNot(form.getContactEmail(), id)) {
@@ -113,7 +115,7 @@ public class AirportEmployeeController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", airportEmployeeRoleService.getAllAirportEmployeeRoles());
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "airport-employee-form";
+            return TEMPLATE_FOLDER + "airport-employee-form";
         }
 
         airportEmployeeService.updateAirportEmployee(id, form);

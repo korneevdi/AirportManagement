@@ -18,6 +18,8 @@ public class TerminalController {
 
     private final TerminalService terminalService;
 
+    private static final String TEMPLATE_FOLDER = "reference-data/";
+
     public TerminalController(TerminalService service) {
         this.terminalService = service;
     }
@@ -28,13 +30,13 @@ public class TerminalController {
                 "terminals",
                 terminalService.getAllTerminals()
         );
-        return "terminals";
+        return TEMPLATE_FOLDER + "terminals";
     }
 
     @GetMapping("/terminals/new")
     public String showTerminalForm(Model model) {
         model.addAttribute("terminal", new Terminal());
-        return "terminal-form";
+        return TEMPLATE_FOLDER + "terminal-form";
     }
 
     @PostMapping("/terminals")
@@ -43,7 +45,7 @@ public class TerminalController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "terminal-form";
+            return TEMPLATE_FOLDER + "terminal-form";
         }
 
         if (terminalService.existsByNumber(terminal.getNumber())) {
@@ -53,7 +55,7 @@ public class TerminalController {
                     "Terminal with this number already exists"
             );
 
-            return "terminal-form";
+            return TEMPLATE_FOLDER + "terminal-form";
         }
 
         terminalService.saveTerminal(terminal);
@@ -63,7 +65,7 @@ public class TerminalController {
     @GetMapping("/terminals/{id}/edit")
     public String showEditTerminalForm(@PathVariable Integer id, Model model) {
         model.addAttribute("terminal", terminalService.getTerminalById(id));
-        return "terminal-form";
+        return TEMPLATE_FOLDER + "terminal-form";
     }
 
     @PostMapping("/terminals/{id}")
@@ -73,7 +75,7 @@ public class TerminalController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "terminal-form";
+            return TEMPLATE_FOLDER + "terminal-form";
         }
 
         if (terminalService.existsByNumberAndIdNot(terminal.getNumber(), id)) {
@@ -83,7 +85,7 @@ public class TerminalController {
                     "Terminal with this number already exists"
             );
 
-            return "terminal-form";
+            return TEMPLATE_FOLDER + "terminal-form";
         }
 
         terminal.setId(id);

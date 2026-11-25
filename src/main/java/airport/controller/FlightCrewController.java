@@ -20,6 +20,8 @@ public class FlightCrewController {
     private final FlightCrewService flightCrewService;
     private final SexService sexService;
 
+    private static final String TEMPLATE_FOLDER = "flight-crews/";
+
     public FlightCrewController(
             FlightCrewService service,
             SexService sexService) {
@@ -33,7 +35,7 @@ public class FlightCrewController {
                 "flightCrews",
                 flightCrewService.getAllFlightCrews()
         );
-        return "flight-crews";
+        return TEMPLATE_FOLDER + "flight-crews";
     }
 
     @GetMapping("/flight-crews/{id}")
@@ -44,14 +46,14 @@ public class FlightCrewController {
                 "flightCrew",
                 flightCrewService.getFlightCrewById(id)
         );
-        return "flight-crew";
+        return TEMPLATE_FOLDER + "flight-crew";
     }
 
     @GetMapping("/flight-crews/new")
     public String showCreateFlightCrewForm(Model model) {
         model.addAttribute("flightCrew", new FlightCrew());
         model.addAttribute("sexes", sexService.getAllSexes());
-        return "flight-crew-form";
+        return TEMPLATE_FOLDER + "flight-crew-form";
     }
 
     @PostMapping("/flight-crews")
@@ -62,7 +64,7 @@ public class FlightCrewController {
 
         if(bindingResult.hasErrors()) {
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "flight-crew-form";
+            return TEMPLATE_FOLDER + "flight-crew-form";
         }
 
         if (flightCrewService.existsByPassportCountryAndPassportNumber(
@@ -77,7 +79,7 @@ public class FlightCrewController {
 
         if(bindingResult.hasErrors()) {
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "flight-crew-form";
+            return TEMPLATE_FOLDER + "flight-crew-form";
         }
 
         flightCrewService.saveFlightCrew(crew);
@@ -88,7 +90,7 @@ public class FlightCrewController {
     public String showEditFlightCrewForm(@PathVariable Integer id, Model model) {
         model.addAttribute("flightCrew", flightCrewService.getFlightCrewById(id));
         model.addAttribute("sexes", sexService.getAllSexes());
-        return "flight-crew-form";
+        return TEMPLATE_FOLDER + "flight-crew-form";
     }
 
     @PostMapping("/flight-crews/{id}")
@@ -100,7 +102,7 @@ public class FlightCrewController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "flight-crew-form";
+            return TEMPLATE_FOLDER + "flight-crew-form";
         }
 
         if (flightCrewService.existsByPassportCountryAndPassportNumberAndIdNot(
@@ -114,7 +116,7 @@ public class FlightCrewController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("sexes", sexService.getAllSexes());
-            return "flight-crew-form";
+            return TEMPLATE_FOLDER + "flight-crew-form";
         }
 
         flightCrewService.updateFlightCrew(crew, id);

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
+<head>
+  <title>Create or update baggage claim</title>
+</head>
+
+<body>
+
+<main class="content">
+
+  <h1 th:text="${baggageClaim.id == null}
+        ? 'Create baggage claim'
+        : 'Edit baggage claim'">
+    Create baggage claim
+  </h1>
+
+  <form th:object="${baggageClaim}"
+        th:action="${baggageClaim.id == null}
+          ? @{/baggage-claims}
+          : @{/baggage-claims/{id}(id=${baggageClaim.id})}"
+        method="post">
+
+    <p>
+      Baggage claim number:
+      <input type="text" th:field="*{number}">
+      <span th:if="${#fields.hasErrors('number')}"
+            th:errors="*{number}"
+            style="color: red;">
+    </span>
+    </p>
+
+    <div>
+      <button type="submit"
+              th:text="${baggageClaim.id == null} ? 'Create' : 'Save changes'">
+        Create
+      </button>
+
+      <a th:if="${baggageClaim.id != null}"
+         th:href="@{/baggage-claims}">
+        Cancel
+      </a>
+    </div>
+  </form>
+
+  <p>
+    <a th:href="@{/baggage-claims}">← Back to baggage claims</a>
+  </p>
+
+</main>
+
+</body>
+</html>

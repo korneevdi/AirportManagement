@@ -1,0 +1,155 @@
+/* TOPBAR */
+
+.topbar {
+    height: 70px;
+    width: 97%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 30px;
+
+    background-color: #172554;
+    color: white;
+}
+
+
+/* AIRPORT BRAND */
+
+.topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: white;
+    text-decoration: none;
+}
+
+.topbar-logo {
+    font-size: 28px;
+}
+
+.topbar-title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+
+/* RIGHT SIDE ACTIONS */
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+
+/* ICON BUTTONS */
+
+.topbar-icon-button {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 8px;
+
+    background: transparent;
+    color: white;
+
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    list-style: none;
+}
+
+.topbar-icon-button:hover {
+    background-color: #334477;
+}
+
+.topbar-icon-button svg {
+    width: 21px;
+    height: 21px;
+    stroke-width: 1.8;
+}
+
+
+/* LANGUAGE DROPDOWN */
+
+.topbar-language {
+    position: relative;
+}
+
+.language-dropdown {
+    display: none;
+
+    position: absolute;
+    top: 100%;
+    right: 0;
+
+    min-width: 140px;
+
+    padding: 6px 0;
+
+    background-color: white;
+    border-radius: 8px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+}
+
+.topbar-language:hover .language-dropdown {
+    display: block;
+}
+
+.language-dropdown a {
+    display: block;
+
+    padding: 10px 14px;
+
+    color: #334155;
+    text-decoration: none;
+}
+
+.language-dropdown a:hover {
+    background-color: #f1f5f9;
+}
+
+
+/* SEARCH DROPDOWN */
+
+.topbar-search {
+    position: relative;
+}
+
+.search-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+
+    padding: 12px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    z-index: 100;
+}
+
+.search-dropdown input {
+    width: 250px;
+    padding: 10px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+
+/* DETAILS SUMMARY */
+
+.topbar-icon-button::-webkit-details-marker {
+    display: none;
+}

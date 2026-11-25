@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
+<head>
+    <title>Welcome page</title>
+</head>
+
+<body>
+
+<main class="content">
+
+    <h1 th:text = "${Greetings}"></h1>
+
+    <p th:text = "${currentTime}">
+
+</main>
+
+</body>
+</html>

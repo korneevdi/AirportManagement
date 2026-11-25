@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
+<head>
+    <title>Flight</title>
+</head>
+
+<body>
+
+<main class="content">
+
+    <h1 th:text="${'Flight ' + flight.flight.flightNumber}"></h1>
+
+    <!-- General information -->
+
+    <h2>General info</h2>
+
+    <table>
+        <tr>
+            <td>Service date</td>
+            <td th:text="${#temporals.format(flight.serviceDate, 'dd.MM.yyyy')}"></td>
+        </tr>
+        <tr>
+            <td>From</td>
+            <td th:text="${flight.flight.departureAirport.iata + ', ' +
+                   flight.flight.departureAirport.city + ', ' +
+                   flight.flight.departureAirport.country}">
+            </td>
+        </tr>
+        <tr>
+            <td>To</td>
+            <td th:text="${flight.flight.arrivalAirport.iata + ', ' +
+                   flight.flight.arrivalAirport.city + ', ' +
+                   flight.flight.arrivalAirport.country}">
+            </td>
+        </tr>
+        <tr>
+            <td>Airline</td>
+            <td>
+                <a th:href="@{/airlines/{id}(id=${flight.flight.airline.id})}"
+                   th:text="${flight.flight.airline.name}">
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>Departure</td>
+            <td>
+        <span th:text="${#temporals.format(
+                flight.scheduledDepartureTime,
+                'dd.MM.yyyy HH:mm'
+        )}">
+        </span>
+
+                <span th:if="${flight.actualDepartureTime == null}">
+            (in time)
+        </span>
+
+                <span th:if="${flight.actualDepartureTime != null}">
+            (actual
+            <span th:text="${#temporals.format(
+                    flight.actualDepartureTime,
+                    'dd.MM.yyyy HH:mm'
+            )}">
+            </span>)
+        </span>
+            </td>
+        </tr>
+        <tr>
+            <td>Arrival</td>
+            <td>
+        <span th:text="${#temporals.format(
+                flight.scheduledArrivalTime,
+                'dd.MM.yyyy HH:mm'
+        )}">
+        </span>
+
+                <span th:if="${flight.actualArrivalTime == null}">
+            (in time)
+        </span>
+
+                <span th:if="${flight.actualArrivalTime != null}">
+            (actual
+            <span th:text="${#temporals.format(
+                    flight.actualArrivalTime,
+                    'dd.MM.yyyy HH:mm'
+            )}">
+            </span>)
+        </span>
+            </td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td th:text="${flight.flight.status.name}"></td>
+        </tr>
+    </table>
+
+    <!-- Details -->
+
+    <h2>Details</h2>
+
+    <table>
+        <tr>
+            <td>Terminal</td>
+            <td>
+        <span th:if="${flight.flight.departureTerminal != null}"
+              th:text="${flight.flight.departureTerminal.number}">
+        </span>
+
+                <span th:if="${flight.flight.arrivalTerminal != null}">
+            /
+            <span th:text="${flight.flight.arrivalTerminal.number}"></span>
+        </span>
+            </td>
+        </tr>
+        <tr>
+            <td>Gate</td>
+            <td>
+        <span th:if="${flight.flight.departureGate != null}"
+              th:text="${flight.flight.departureGate.number}">
+        </span>
+
+                <span th:if="${flight.flight.arrivalGate != null}">
+            /
+            <span th:text="${flight.flight.arrivalGate.number}"></span>
+        </span>
+            </td>
+        </tr>
+        <tr>
+            <td>Passport control type</td>
+            <td th:text="${flight.flight.passControlType.name}"></td>
+        </tr>
+        <tr>
+            <td>Airplane</td>
+            <td th:text="${flight.flight.airplane.model}"></td>
+        </tr>
+        <tr>
+            <td>Flight type</td>
+            <td th:text="${flight.flight.flightType.name}"></td>
+        </tr>
+        <tr>
+            <td>Customer</td>
+            <td th:text="${flight.flight.customer != null ?
+                   flight.flight.customer.firstName + ' ' +
+                   flight.flight.customer.lastName :
+                   ' --- '}">
+            </td>
+        </tr>
+        <tr>
+            <td>Responsible dispatcher</td>
+            <td th:text="${flight.flight.responsibleDispatcher.firstName + ' ' +
+                   flight.flight.responsibleDispatcher.lastName}">
+            </td>
+        </tr>
+        <tr>
+            <td>Runway</td>
+            <td th:text="${flight.flight.runway != null ?
+                   flight.flight.runway.number :
+                   ' --- '}">
+            </td>
+        </tr>
+    </table>
+
+    <!-- Flight actions -->
+
+    <div>
+        <!-- Edit flight -->
+        <form th:action="@{/flights/{id}/edit(id=${flight.flight.id})}"
+              method="get"
+              style="display: inline;">
+            <button type="submit">
+                Edit
+            </button>
+        </form>
+
+        <!-- Delete flight -->
+        <form th:action="@{/flights/{id}/delete(id=${flight.flight.id})}"
+              method="post"
+              style="display: inline;">
+
+            <button type="submit"
+                    onclick="return confirm('Are you sure you want to delete this flight?')">
+                Delete
+            </button>
+        </form>
+    </div>
+
+    <!-- Error when deleting flight -->
+    <div th:if="${errorFlightId != null and errorFlightId == flight.flight.id}"
+         th:text="${flightDeleteError}"
+         style="color: red;">
+    </div>
+
+    <!-- Baggage claims -->
+
+    <div th:if="${arrivalAtHomeAirport}">
+        <h2>Baggage claims</h2>
+
+        <p th:if="${#lists.isEmpty(flightBaggageClaims)}">
+            No baggage claims assigned.
+        </p>
+
+        <table th:unless="${#lists.isEmpty(flightBaggageClaims)}">
+            <tr>
+                <th></th>
+                <th>Number</th>
+                <th></th>
+            </tr>
+            <tr th:each="link, stat : ${flightBaggageClaims}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${link.claim.number}"></td>
+                <td>
+                    <form th:action="@{/flights/{flightId}/baggage-claims/{claimId}/delete(
+                                flightId=${flight.flight.id},
+                                claimId=${link.claim.id})}"
+                          method="post">
+                        <button type="submit"
+                                onclick="return confirm('Remove this baggage claim from the flight?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Add baggage claim -->
+
+        <form th:action="@{/flights/{flightId}/baggage-claims/new(
+                    flightId=${flight.flight.id})}"
+              method="post">
+            <label for="baggageClaim">
+                Add baggage claim:
+            </label>
+            <select id="baggageClaim"
+                    name="claimId"
+                    required>
+                <option value="">
+                    Select baggage claim
+                </option>
+                <option th:each="claim : ${baggageClaims}"
+                        th:value="${claim.id}"
+                        th:text="${claim.number}">
+                </option>
+            </select>
+            <button type="submit">
+                Add
+            </button>
+            <div th:if="${baggageClaimAddError != null}"
+                 th:text="${baggageClaimAddError}"
+                 style="color: red;">
+            </div>
+        </form>
+    </div>
+
+    <!-- Check-in counters -->
+
+    <div th:if="${departureFromHomeAirport}">
+
+        <h2>Check-in counters</h2>
+
+        <p th:if="${#lists.isEmpty(flightCheckInCounters)}">
+            No check-in counters assigned.
+        </p>
+
+        <table th:unless="${#lists.isEmpty(flightCheckInCounters)}">
+            <tr>
+                <th></th>
+                <th>Number</th>
+                <th></th>
+            </tr>
+            <tr th:each="link, stat : ${flightCheckInCounters}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${link.counter.number}"></td>
+                <td>
+                    <form th:action="@{/flights/{flightId}/check-in-counters/{counterId}/delete(
+                                flightId=${flight.flight.id},
+                                counterId=${link.counter.id})}"
+                          method="post">
+                        <button type="submit"
+                                onclick="return confirm('Remove this check-in counter from the flight?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Add check-in counter -->
+
+        <form th:action="@{/flights/{flightId}/check-in-counters/new(
+                    flightId=${flight.flight.id})}"
+              method="post">
+            <label for="checkInCounter">
+                Add check-in counter:
+            </label>
+            <select id="checkInCounter"
+                    name="counterId"
+                    required>
+                <option value="">
+                    Select check-in counter
+                </option>
+                <option th:each="counter : ${checkInCounters}"
+                        th:value="${counter.id}"
+                        th:text="${counter.number}">
+                </option>
+            </select>
+            <button type="submit">
+                Add
+            </button>
+            <div th:if="${checkInCounterAddError != null}"
+                 th:text="${checkInCounterAddError}"
+                 style="color: red;">
+            </div>
+        </form>
+    </div>
+
+    <!-- Passengers -->
+
+    <h2>Passengers</h2>
+
+    <p th:if="${#sets.isEmpty(flight.flight.passengerLinks)}">
+        No passengers on this flight.
+    </p>
+
+    <table th:unless="${#sets.isEmpty(flight.flight.passengerLinks)}">
+        <tr>
+            <th></th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Seat</th>
+            <th>Boarding group</th>
+            <th>Checked in</th>
+            <th>Passed control</th>
+            <th>Boarded</th>
+            <th>Boarding time</th>
+            <th></th>
+        </tr>
+        <tr th:each="link, stat : ${flight.flight.passengerLinks}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${link.passenger.firstName}"></td>
+            <td>
+                <a th:href="@{/passengers/{id}(id=${link.passenger.id})}"
+                   th:text="${link.passenger.lastName}">
+                </a>
+            </td>
+            <td th:text="${link.seatNumber != null ? link.seatNumber : '---'}"></td>
+            <td th:text="${link.boardingGroup != null ? link.boardingGroup : '---'}"></td>
+            <td th:text="${link.isCheckedIn}"></td>
+            <td th:text="${link.isPassedControl}"></td>
+            <td th:text="${link.isBoarded}"></td>
+            <td th:text="${link.boardingTime != null ? link.boardingTime : '---'}"></td>
+            <td>
+                <!-- Edit passenger -->
+                <form th:action="@{/flights/{flightId}/passengers/{passengerId}/edit(
+                            flightId=${flight.flight.id},
+                            passengerId=${link.passenger.id})}"
+                      method="get"
+                      style="display: inline;">
+                    <button type="submit">
+                        Edit
+                    </button>
+                </form>
+
+                <!-- Delete passenger -->
+                <form th:action="@{/flights/{flightId}/passengers/{passengerId}/delete(
+                            flightId=${flight.flight.id},
+                            passengerId=${link.passenger.id})}"
+                      method="post"
+                      style="display: inline;">
+                    <button type="submit"
+                            onclick="return confirm('Remove this passenger from the flight?')">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Add passenger -->
+
+    <form th:action="@{/flights/{flightId}/passengers/new(
+                    flightId=${flight.flight.id})}"
+          method="post">
+
+        <label for="passenger">
+            Add passenger:
+        </label>
+
+        <select id="passenger"
+                name="passengerId"
+                required>
+            <option value="">
+                Select passenger
+            </option>
+            <option th:each="passenger : ${passengers}"
+                    th:value="${passenger.id}"
+                    th:text="${passenger.firstName + ' ' + passenger.lastName}">
+            </option>
+        </select>
+        <button type="submit">
+            Add
+        </button>
+        <div th:if="${passengerAddError != null}"
+             th:text="${passengerAddError}"
+             style="color: red;">
+        </div>
+    </form>
+
+    <!-- Flight crew -->
+
+    <h2>Flight crew</h2>
+
+    <p th:if="${#sets.isEmpty(flight.flight.crewLinks)}">
+        No crew assigned to this flight.
+    </p>
+
+    <table th:unless="${#sets.isEmpty(flight.flight.crewLinks)}">
+        <tr>
+            <th></th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Role</th>
+            <th></th>
+        </tr>
+        <tr th:each="link, stat : ${flight.flight.crewLinks}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${link.crew.firstName}"></td>
+            <td>
+                <a th:href="@{/flight-crews/{id}(id=${link.crew.id})}"
+                   th:text="${link.crew.lastName}">
+                </a>
+            </td>
+            <td>
+                <!-- Change role -->
+                <form th:action="@{/flights/{flightId}/flight-crews/{crewId}/role(
+                            flightId=${flight.flight.id},
+                            crewId=${link.crew.id})}"
+                      method="post">
+                    <input type="hidden"
+                           name="oldRoleId"
+                           th:value="${link.role.id}">
+
+                    <select name="roleId"
+                            required>
+                        <option th:each="role : ${crewRoles}"
+                                th:value="${role.id}"
+                                th:text="${role.name}"
+                                th:selected="${role.id == link.role.id}">
+                        </option>
+                    </select>
+                    <button type="submit">
+                        Save
+                    </button>
+                    <div th:if="${crewRoleError != null and errorCrewId == link.crew.id}"
+                         th:text="${crewRoleError}"
+                         style="color: red;">
+                    </div>
+                </form>
+            </td>
+            <td>
+                <!-- Delete crew member -->
+                <form th:action="@{/flights/{flightId}/flight-crews/{crewId}/{roleId}/delete(
+                            flightId=${flight.flight.id},
+                            crewId=${link.crew.id},
+                            roleId=${link.role.id})}"
+                      method="post">
+                    <button type="submit"
+                            onclick="return confirm('Remove this crew member from the flight?')">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Add crew member -->
+
+    <form th:action="@{/flights/{flightId}/flight-crews/new(flightId=${flight.flight.id})}"
+          method="post">
+        <label for="flightCrew">
+            Add crew member:
+        </label>
+        <select id="flightCrew"
+                name="crewId"
+                required>
+            <option value="">
+                Select crew member
+            </option>
+            <option th:each="crew : ${flightCrews}"
+                    th:value="${crew.id}"
+                    th:text="${crew.firstName + ' ' + crew.lastName}">
+            </option>
+        </select>
+
+        <label for="crewRole">
+            Role:
+        </label>
+
+        <select id="crewRole"
+                name="roleId"
+                required>
+            <option value="">
+                Select role
+            </option>
+            <option th:each="role : ${crewRoles}"
+                    th:value="${role.id}"
+                    th:text="${role.name}">
+            </option>
+        </select>
+
+        <button type="submit">
+            Add
+        </button>
+        <div th:if="${crewAddError != null}"
+             th:text="${crewAddError}"
+             style="color: red;">
+        </div>
+    </form>
+
+    <p>
+        <a th:href="@{/flights}">← Back to flights</a>
+    </p>
+
+</main>
+
+</body>
+</html>

@@ -18,6 +18,8 @@ public class AirlineController {
 
     private final AirlineService airlineService;
 
+    private static final String TEMPLATE_FOLDER = "airlines/";
+
     public AirlineController(AirlineService service) {
         this.airlineService = service;
     }
@@ -28,19 +30,19 @@ public class AirlineController {
                 "airlines",
                 airlineService.getAllAirlines()
         );
-        return "airlines";
+        return TEMPLATE_FOLDER + "airlines";
     }
 
     @GetMapping("/airlines/{id}")
     public String getAirline(@PathVariable Integer id, Model model) {
         model.addAttribute("airline", airlineService.getAirlineById(id));
-        return "airline";
+        return TEMPLATE_FOLDER + "airline";
     }
 
     @GetMapping("/airlines/new")
     public String showCreateAirlineForm(Model model) {
         model.addAttribute("airline", new AirlineForm());
-        return "airline-form";
+        return TEMPLATE_FOLDER + "airline-form";
     }
 
     @PostMapping("/airlines")
@@ -49,7 +51,7 @@ public class AirlineController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "airline-form";
+            return TEMPLATE_FOLDER + "airline-form";
         }
 
         if (airlineService.existsByIata(form.getIata())) {
@@ -85,7 +87,7 @@ public class AirlineController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "airline-form";
+            return TEMPLATE_FOLDER + "airline-form";
         }
 
         airlineService.saveAirline(form);
@@ -95,7 +97,7 @@ public class AirlineController {
     @GetMapping("/airlines/{id}/edit")
     public String showEditAirlineForm(@PathVariable Integer id, Model model) {
         model.addAttribute("airline", airlineService.getAirlineFormById(id));
-        return "airline-form";
+        return TEMPLATE_FOLDER + "airline-form";
     }
 
     @PostMapping("/airlines/{id}")
@@ -105,7 +107,7 @@ public class AirlineController {
             BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "airline-form";
+            return TEMPLATE_FOLDER + "airline-form";
         }
 
         if (airlineService.existsByIataAndIdNot(form.getIata(), id)) {
@@ -141,7 +143,7 @@ public class AirlineController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "airline-form";
+            return TEMPLATE_FOLDER + "airline-form";
         }
 
         airlineService.updateAirline(id, form);

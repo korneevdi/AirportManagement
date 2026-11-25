@@ -1,6 +1,5 @@
 package airport.controller;
 
-import airport.entity.Type;
 import airport.service.CrewRoleService;
 import airport.entity.CrewRole;
 import jakarta.validation.Valid;
@@ -19,6 +18,8 @@ public class CrewRoleController {
 
     private final CrewRoleService crewRoleService;
 
+    private static final String TEMPLATE_FOLDER = "reference-data/";
+
     public CrewRoleController(CrewRoleService service) {
         this.crewRoleService = service;
     }
@@ -29,13 +30,13 @@ public class CrewRoleController {
                 "crewRoles",
                 crewRoleService.getAllCrewRoles()
         );
-        return "crew-roles";
+        return TEMPLATE_FOLDER + "crew-roles";
     }
 
     @GetMapping("/crew-roles/new")
     public String showCreateCrewRoleForm(Model model) {
         model.addAttribute("crewRole", new CrewRole());
-        return "crew-role-form";
+        return TEMPLATE_FOLDER + "crew-role-form";
     }
 
     @PostMapping("/crew-roles")
@@ -44,7 +45,7 @@ public class CrewRoleController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "crew-role-form";
+            return TEMPLATE_FOLDER + "crew-role-form";
         }
 
         if (crewRoleService.existsByName(crewRole.getName())) {
@@ -54,7 +55,7 @@ public class CrewRoleController {
                     "Crew role with this name already exists"
             );
 
-            return "crew-role-form";
+            return TEMPLATE_FOLDER + "crew-role-form";
         }
 
         crewRoleService.saveCrewRole(crewRole);
@@ -64,7 +65,7 @@ public class CrewRoleController {
     @GetMapping("/crew-roles/{id}/edit")
     public String showEditCrewRoleForm(@PathVariable Integer id, Model model) {
         model.addAttribute("crewRole", crewRoleService.getCrewRoleById(id));
-        return "crew-role-form";
+        return TEMPLATE_FOLDER + "crew-role-form";
     }
 
     @PostMapping("/crew-roles/{id}")
@@ -74,7 +75,7 @@ public class CrewRoleController {
             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "crew-role-form";
+            return TEMPLATE_FOLDER + "crew-role-form";
         }
 
         if (crewRoleService.existsByNameAndIdNot(role.getName(), id)) {
@@ -84,7 +85,7 @@ public class CrewRoleController {
                     "Crew role with this name already exists"
             );
 
-            return "crew-role-form";
+            return TEMPLATE_FOLDER + "crew-role-form";
         }
 
         role.setId(id);
