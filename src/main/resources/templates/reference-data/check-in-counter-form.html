@@ -1,48 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
 <head>
-  <meta charset="UTF-8">
   <title>Create or update check-in counter</title>
 </head>
+
 <body>
 
-<h1 th:text="${checkInCounter.id == null}
+<main class="content">
+
+  <h1 th:text="${checkInCounter.id == null}
         ? 'Create check-in counter'
         : 'Edit check-in counter'">
-  Create check-in counter
-</h1>
+    Create check-in counter
+  </h1>
 
-<form th:object="${checkInCounter}"
-      th:action="${checkInCounter.id == null}
+  <form th:object="${checkInCounter}"
+        th:action="${checkInCounter.id == null}
           ? @{/check-in-counters}
           : @{/check-in-counters/{id}(id=${checkInCounter.id})}"
-      method="post">
+        method="post">
+
+    <p>
+      Check-in counter number:
+      <input type="text" th:field="*{number}">
+      <span th:if="${#fields.hasErrors('number')}"
+            th:errors="*{number}"
+            style="color: red;">
+    </span>
+    </p>
+
+    <div>
+      <button type="submit"
+              th:text="${checkInCounter.id == null} ? 'Create' : 'Save changes'">
+        Create
+      </button>
+
+      <a th:if="${checkInCounter.id != null}"
+         th:href="@{/check-in-counters}">
+        Cancel
+      </a>
+    </div>
+  </form>
 
   <p>
-    Check-in counter number:
-    <input type="text" th:field="*{number}">
-    <span th:if="${#fields.hasErrors('number')}"
-          th:errors="*{number}"
-          style="color: red;">
-    </span>
+    <a th:href="@{/check-in-counters}">← Back to check-in counters</a>
   </p>
 
-  <div>
-    <button type="submit"
-            th:text="${checkInCounter.id == null} ? 'Create' : 'Save changes'">
-      Create
-    </button>
-
-    <a th:if="${checkInCounter.id != null}"
-       th:href="@{/check-in-counters}">
-      Cancel
-    </a>
-  </div>
-</form>
-
-<p>
-  <a th:href="@{/check-in-counters}">← Back to check-in counters</a>
-</p>
+</main>
 
 </body>
 </html>

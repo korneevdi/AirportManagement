@@ -1,115 +1,119 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
 <head>
-  <meta charset="UTF-8">
   <title>Flight crew</title>
 </head>
+
 <body>
 
-<div th:replace="~{fragments/navigation :: navigation}"></div>
+<main class="content">
 
-<h1 th:text="${'Flight crew ' + flightCrew.firstName + ' ' + flightCrew.lastName}"></h1>
+  <h1 th:text="${'Flight crew ' + flightCrew.firstName + ' ' + flightCrew.lastName}"></h1>
 
-<h2>General info</h2>
+  <h2>General info</h2>
 
-<table>
-  <tr>
-    <td>Last name</td>
-    <td th:text="${flightCrew.lastName}"></td>
-  </tr>
-  <tr>
-    <td>First name</td>
-    <td th:text="${flightCrew.firstName}"></td>
-  </tr>
-  <tr>
-    <td>Pilot license number</td>
-    <td th:text="${flightCrew.pilotLicenseNumber}"></td>
-  </tr>
-  <tr>
-    <td>Sex</td>
-    <td th:text="${flightCrew.sex.name}"></td>
-  </tr>
-  <tr>
-    <td>Birth date</td>
-    <td th:text="${flightCrew.birthDate}"></td>
-  </tr>
-  <tr>
-    <td>Country</td>
-    <td th:text="${flightCrew.passCountry}"></td>
-  </tr>
-  <tr>
-    <td>Passport number</td>
-    <td th:text="${flightCrew.passNumber}"></td>
-  </tr>
-</table>
+  <table>
+    <tr>
+      <td>Last name</td>
+      <td th:text="${flightCrew.lastName}"></td>
+    </tr>
+    <tr>
+      <td>First name</td>
+      <td th:text="${flightCrew.firstName}"></td>
+    </tr>
+    <tr>
+      <td>Pilot license number</td>
+      <td th:text="${flightCrew.pilotLicenseNumber}"></td>
+    </tr>
+    <tr>
+      <td>Sex</td>
+      <td th:text="${flightCrew.sex.name}"></td>
+    </tr>
+    <tr>
+      <td>Birth date</td>
+      <td th:text="${flightCrew.birthDate}"></td>
+    </tr>
+    <tr>
+      <td>Country</td>
+      <td th:text="${flightCrew.passCountry}"></td>
+    </tr>
+    <tr>
+      <td>Passport number</td>
+      <td th:text="${flightCrew.passNumber}"></td>
+    </tr>
+  </table>
 
-<h2>Flights</h2>
+  <h2>Flights</h2>
 
-<p th:if="${#sets.isEmpty(flightCrew.flightLinks)}">
-  No flights yet.
-</p>
+  <p th:if="${#sets.isEmpty(flightCrew.flightLinks)}">
+    No flights yet.
+  </p>
 
-<table th:unless="${#sets.isEmpty(flightCrew.flightLinks)}">
-  <tr>
-    <th>Number</th>
-    <th>Flight number</th>
-    <th>Airline</th>
-    <th>Departure airport</th>
-    <th>Arrival airport</th>
-    <th>Scheduled departure time</th>
-  </tr>
-  <tr th:each="link, stat : ${flightCrew.flightLinks}">
-    <td th:text="${stat.count}"></td>
-    <td>
-      <a th:href="@{/flights/{id}(id=${link.flight.id})}"
-         th:text="${link.flight.flightNumber}">
-      </a>
-    </td>
-    <td>
-      <a th:href="@{/airlines/{id}(id=${link.flight.airline.id})}"
-         th:text="${link.flight.airline.name}">
-      </a>
-    </td>
-    <td th:text="${link.flight.departureAirport.iata}"></td>
-    <td th:text="${link.flight.arrivalAirport.iata}"></td>
-    <td th:text="${link.flight.scheduledDepartureTime}"></td>
-    <td></td>
-  </tr>
-</table>
+  <table th:unless="${#sets.isEmpty(flightCrew.flightLinks)}">
+    <tr>
+      <th>Number</th>
+      <th>Flight number</th>
+      <th>Airline</th>
+      <th>Departure airport</th>
+      <th>Arrival airport</th>
+      <th>Scheduled departure time</th>
+    </tr>
+    <tr th:each="link, stat : ${flightCrew.flightLinks}">
+      <td th:text="${stat.count}"></td>
+      <td>
+        <a th:href="@{/flights/{id}(id=${link.flight.id})}"
+           th:text="${link.flight.flightNumber}">
+        </a>
+      </td>
+      <td>
+        <a th:href="@{/airlines/{id}(id=${link.flight.airline.id})}"
+           th:text="${link.flight.airline.name}">
+        </a>
+      </td>
+      <td th:text="${link.flight.departureAirport.iata}"></td>
+      <td th:text="${link.flight.arrivalAirport.iata}"></td>
+      <td th:text="${link.flight.scheduledDepartureTime}"></td>
+      <td></td>
+    </tr>
+  </table>
 
-<!-- Flight crew actions -->
-<div>
-  <!-- Edit flight crew -->
-  <form th:action="@{/flight-crews/{id}/edit(id=${flightCrew.id})}"
-        method="get"
-        style="display: inline;">
+  <!-- Flight crew actions -->
+  <div>
+    <!-- Edit flight crew -->
+    <form th:action="@{/flight-crews/{id}/edit(id=${flightCrew.id})}"
+          method="get"
+          style="display: inline;">
 
-    <button type="submit">
-      Edit
-    </button>
-  </form>
+      <button type="submit">
+        Edit
+      </button>
+    </form>
 
-  <!-- Delete flight crew -->
-  <form th:action="@{/flight-crews/{id}/delete(id=${flightCrew.id})}"
-        method="post"
-        style="display: inline;">
+    <!-- Delete flight crew -->
+    <form th:action="@{/flight-crews/{id}/delete(id=${flightCrew.id})}"
+          method="post"
+          style="display: inline;">
 
-    <button type="submit"
-            onclick="return confirm('Are you sure you want to delete this flight crew?')">
-      Delete
-    </button>
-  </form>
-</div>
+      <button type="submit"
+              onclick="return confirm('Are you sure you want to delete this flight crew?')">
+        Delete
+      </button>
+    </form>
+  </div>
 
-<!-- Error when delete flight crew -->
-<div th:if="${errorFlightCrewId != null and errorFlightCrewId == flightCrew.id}"
-     th:text="${errorMessage}"
-     style="color: red;">
-</div>
+  <!-- Error when delete flight crew -->
+  <div th:if="${errorFlightCrewId != null and errorFlightCrewId == flightCrew.id}"
+       th:text="${errorMessage}"
+       style="color: red;">
+  </div>
 
-<p>
-  <a th:href="@{/flight-crews}">← Back to flight crews</a>
-</p>
+  <p>
+    <a th:href="@{/flight-crews}">← Back to flight crews</a>
+  </p>
+
+</main>
 
 </body>
 </html>

@@ -1,44 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
 <head>
-  <meta charset="UTF-8">
   <title>Flight crews</title>
 </head>
+
 <body>
 
-<div th:replace="~{fragments/navigation :: navigation}"></div>
+<main class="content">
 
-<h1>Flight crews</h1>
-<table>
-  <tr>
-    <th>Number</th>
-    <th>Pilot license number</th>
-    <th>First name</th>
-    <th>Last name</th>
-    <th>Sex</th>
-    <th>Birth date</th>
-    <th>Country</th>
-    <th>Passport number</th>
-  </tr>
-  <tr th:each="crew, stat : ${flightCrews}">
-    <td th:text="${stat.count}"></td>
-    <td th:text="${crew.pilotLicenseNumber}"></td>
-    <td th:text="${crew.firstName}"></td>
-    <td>
-      <a th:href="@{/flight-crews/{id}(id=${crew.id})}"
-         th:text="${crew.lastName}">
-      </a>
-    </td>
-    <td th:text="${crew.sex.name}"></td>
-    <td th:text="${crew.birthDate}"></td>
-    <td th:text="${crew.passCountry}"></td>
-    <td th:text="${crew.passNumber}"></td>
-  </tr>
-</table>
+  <h1>Flight crews</h1>
 
-<p>
-  <a th:href="@{/flight-crews/new}">Add flight crew</a>
-</p>
+  <table>
+    <tr>
+      <th>Number</th>
+      <th>Pilot license number</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Sex</th>
+      <th>Birth date</th>
+      <th>Country</th>
+      <th>Passport number</th>
+    </tr>
+    <tr th:each="crew, stat : ${flightCrews}">
+      <td th:text="${stat.count}"></td>
+      <td th:text="${crew.pilotLicenseNumber}"></td>
+      <td th:text="${crew.firstName}"></td>
+      <td>
+        <a th:href="@{/flight-crews/{id}(id=${crew.id})}"
+           th:text="${crew.lastName}">
+        </a>
+      </td>
+      <td th:text="${crew.sex.name}"></td>
+      <td th:text="${crew.birthDate}"></td>
+      <td th:text="${crew.passCountry}"></td>
+      <td th:text="${crew.passNumber}"></td>
+    </tr>
+  </table>
+
+  <p>
+    <a th:href="@{/flight-crews/new}">Add flight crew</a>
+  </p>
+
+</main>
 
 </body>
 </html>

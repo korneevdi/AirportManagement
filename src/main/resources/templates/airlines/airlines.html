@@ -1,37 +1,42 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
 <head>
-  <meta charset="UTF-8">
   <title>Airlines</title>
 </head>
+
 <body>
 
-<div th:replace="~{fragments/navigation :: navigation}"></div>
+<main class="content">
 
-<h1>Airlines</h1>
-<table>
-  <tr>
-    <th>Number</th>
-    <th>IATA</th>
-    <th>ICAO</th>
-    <th>Name</th>
-  </tr>
+  <h1>Airlines</h1>
 
-  <tr th:each="airline, stat : ${airlines}">
-    <td th:text="${stat.count}"></td>
-    <td th:text="${airline.iata}"></td>
-    <td th:text="${airline.icao}"></td>
-    <td>
-      <a th:href="@{/airlines/{id}(id=${airline.id})}"
-         th:text="${airline.name}">
-      </a>
-    </td>
-  </tr>
-</table>
+  <table>
+    <tr>
+      <th>Number</th>
+      <th>IATA</th>
+      <th>ICAO</th>
+      <th>Name</th>
+    </tr>
 
-<p>
-  <a th:href="@{/airlines/new}">Add airline</a>
-</p>
+    <tr th:each="airline, stat : ${airlines}">
+      <td th:text="${stat.count}"></td>
+      <td th:text="${airline.iata}"></td>
+      <td th:text="${airline.icao}"></td>
+      <td>
+        <a th:href="@{/airlines/{id}(id=${airline.id})}"
+           th:text="${airline.name}">
+        </a>
+      </td>
+    </tr>
+  </table>
+
+  <p>
+    <a th:href="@{/airlines/new}">Add airline</a>
+  </p>
+
+</main>
 
 </body>
 </html>

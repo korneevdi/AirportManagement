@@ -1,48 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
 <head>
-  <meta charset="UTF-8">
   <title>Create new terminal</title>
 </head>
+
 <body>
 
-<h1 th:text="${terminal.id == null}
+<main class="content">
+
+  <h1 th:text="${terminal.id == null}
         ? 'Create terminal'
         : 'Edit terminal'">
-  Create terminal
-</h1>
+    Create terminal
+  </h1>
 
-<form th:object="${terminal}"
-      th:action="${terminal.id == null}
+  <form th:object="${terminal}"
+        th:action="${terminal.id == null}
           ? @{/terminals}
           : @{/terminals/{id}(id=${terminal.id})}"
-      method="post">
+        method="post">
+
+    <p>
+      Terminal name:
+      <input type="text" th:field="*{number}">
+      <span th:if="${#fields.hasErrors('number')}"
+            th:errors="*{number}"
+            style="color: red;">
+    </span>
+    </p>
+
+    <div>
+      <button type="submit"
+              th:text="${terminal.id == null} ? 'Create' : 'Save changes'">
+        Create
+      </button>
+
+      <a th:if="${terminal.id != null}"
+         th:href="@{/terminals}">
+        Cancel
+      </a>
+    </div>
+  </form>
 
   <p>
-    Terminal name:
-    <input type="text" th:field="*{number}">
-    <span th:if="${#fields.hasErrors('number')}"
-          th:errors="*{number}"
-          style="color: red;">
-    </span>
+    <a th:href="@{/terminals}">← Back to terminals</a>
   </p>
 
-  <div>
-    <button type="submit"
-            th:text="${terminal.id == null} ? 'Create' : 'Save changes'">
-      Create
-    </button>
-
-    <a th:if="${terminal.id != null}"
-       th:href="@{/terminals}">
-      Cancel
-    </a>
-  </div>
-</form>
-
-<p>
-  <a th:href="@{/terminals}">← Back to terminals</a>
-</p>
+</main>
 
 </body>
 </html>

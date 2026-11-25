@@ -1,48 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
 <head>
-  <meta charset="UTF-8">
   <title>Create or update runway</title>
 </head>
+
 <body>
 
-<h1 th:text="${runway.id == null}
+<main class="content">
+
+  <h1 th:text="${runway.id == null}
         ? 'Create runway'
         : 'Edit runway'">
-  Create runway
-</h1>
+    Create runway
+  </h1>
 
-<form th:object="${runway}"
-      th:action="${runway.id == null}
+  <form th:object="${runway}"
+        th:action="${runway.id == null}
           ? @{/runways}
           : @{/runways/{id}(id=${runway.id})}"
-      method="post">
+        method="post">
+
+    <p>
+      Runway number:
+      <input type="text" th:field="*{number}">
+      <span th:if="${#fields.hasErrors('number')}"
+            th:errors="*{number}"
+            style="color: red;">
+    </span>
+    </p>
+
+    <div>
+      <button type="submit"
+              th:text="${runway.id == null} ? 'Create' : 'Save changes'">
+        Create
+      </button>
+
+      <a th:if="${runway.id != null}"
+         th:href="@{/runways}">
+        Cancel
+      </a>
+    </div>
+  </form>
 
   <p>
-    Runway number:
-    <input type="text" th:field="*{number}">
-    <span th:if="${#fields.hasErrors('number')}"
-          th:errors="*{number}"
-          style="color: red;">
-    </span>
+    <a th:href="@{/runways}">← Back to runways</a>
   </p>
 
-  <div>
-    <button type="submit"
-            th:text="${runway.id == null} ? 'Create' : 'Save changes'">
-      Create
-    </button>
-
-    <a th:if="${runway.id != null}"
-       th:href="@{/runways}">
-      Cancel
-    </a>
-  </div>
-</form>
-
-<p>
-  <a th:href="@{/runways}">← Back to runways</a>
-</p>
+</main>
 
 </body>
 </html>

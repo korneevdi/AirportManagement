@@ -1,68 +1,73 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
 <head>
-    <meta charset="UTF-8">
     <title>Airports</title>
 </head>
+
 <body>
 
-<div th:replace="~{fragments/navigation :: navigation}"></div>
+<main class="content">
 
-<h1>Airports connected to our airport</h1>
-<table>
-    <tr>
-        <th>Number</th>
-        <th>IATA</th>
-        <th>ICAO</th>
-        <th>Name</th>
-        <th>City</th>
-        <th>Country</th>
-        <th>Time zone</th>
-    </tr>
+    <h1>Airports connected to our airport</h1>
 
-    <tr th:each="airport, stat : ${airports}">
+    <table>
+        <tr>
+            <th>Number</th>
+            <th>IATA</th>
+            <th>ICAO</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Time zone</th>
+        </tr>
 
-        <!-- Airport data -->
-        <td th:text="${stat.count}"></td>
-        <td th:text="${airport.iata}"></td>
-        <td th:text="${airport.icao}"></td>
-        <td th:text="${airport.name}"></td>
-        <td th:text="${airport.city}"></td>
-        <td th:text="${airport.country}"></td>
-        <td th:text="${airport.timeZone}"></td>
+        <tr th:each="airport, stat : ${airports}">
 
-        <!-- Edit airport -->
-        <td>
-            <a th:href="@{/airports/{id}/edit(id=${airport.id})}">
-                Edit
-            </a>
-        </td>
+            <!-- Airport data -->
+            <td th:text="${stat.count}"></td>
+            <td th:text="${airport.iata}"></td>
+            <td th:text="${airport.icao}"></td>
+            <td th:text="${airport.name}"></td>
+            <td th:text="${airport.city}"></td>
+            <td th:text="${airport.country}"></td>
+            <td th:text="${airport.timeZone}"></td>
 
-        <!-- Delete airport -->
-        <td>
-            <form th:action="@{/airports/{id}/delete(id=${airport.id})}"
-                  method="post">
+            <!-- Edit airport -->
+            <td>
+                <a th:href="@{/airports/{id}/edit(id=${airport.id})}">
+                    Edit
+                </a>
+            </td>
 
-                <button type="submit"
-                        onclick="return confirm('Are you sure you want to delete this airport?')">
-                    Delete
-                </button>
-            </form>
-        </td>
+            <!-- Delete airport -->
+            <td>
+                <form th:action="@{/airports/{id}/delete(id=${airport.id})}"
+                      method="post">
 
-        <!-- Error when delete airport -->
-        <td>
-            <div th:if="${errorAirportId != null and errorAirportId == airport.id}"
-                 th:text="${errorMessage}">
-            </div>
-        </td>
-    </tr>
-</table>
+                    <button type="submit"
+                            onclick="return confirm('Are you sure you want to delete this airport?')">
+                        Delete
+                    </button>
+                </form>
+            </td>
 
-<!-- Add new airport -->
-<p>
-    <a th:href="@{/airports/new}">Add airport</a>
-</p>
+            <!-- Error when delete airport -->
+            <td>
+                <div th:if="${errorAirportId != null and errorAirportId == airport.id}"
+                     th:text="${errorMessage}">
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Add new airport -->
+    <p>
+        <a th:href="@{/airports/new}">Add airport</a>
+    </p>
+
+</main>
 
 </body>
 </html>

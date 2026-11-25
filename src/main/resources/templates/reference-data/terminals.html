@@ -1,58 +1,63 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
 <head>
-  <meta charset="UTF-8">
-    <title>Terminals</title>
+  <title>Terminals</title>
 </head>
+
 <body>
 
-<div th:replace="~{fragments/navigation :: navigation}"></div>
+<main class="content">
 
-<h1>Terminals</h1>
-<table>
-  <tr>
-    <th>Number</th>
-    <th>Terminal</th>
-  </tr>
+  <h1>Terminals</h1>
 
-  <tr th:each="terminal, stat : ${terminals}">
+  <table>
+    <tr>
+      <th>Number</th>
+      <th>Terminal</th>
+    </tr>
 
-    <!-- Terminal data -->
-    <td th:text="${stat.count}"></td>
-    <td th:text="${terminal.number}"></td>
+    <tr th:each="terminal, stat : ${terminals}">
 
-    <!-- Edit terminal -->
-    <td>
-      <a th:href="@{/terminals/{id}/edit(id=${terminal.id})}">
-        Edit
-      </a>
-    </td>
+      <!-- Terminal data -->
+      <td th:text="${stat.count}"></td>
+      <td th:text="${terminal.number}"></td>
 
-    <!-- Delete terminal -->
-    <td>
-      <form th:action="@{/terminals/{id}/delete(id=${terminal.id})}"
-            method="post">
+      <!-- Edit terminal -->
+      <td>
+        <a th:href="@{/terminals/{id}/edit(id=${terminal.id})}">
+          Edit
+        </a>
+      </td>
 
-        <button type="submit"
-                onclick="return confirm('Are you sure you want to delete this terminal?')">
-          Delete
-        </button>
-      </form>
-    </td>
+      <!-- Delete terminal -->
+      <td>
+        <form th:action="@{/terminals/{id}/delete(id=${terminal.id})}"
+              method="post">
 
-    <!-- Error when delete terminal -->
-    <td>
-      <div th:if="${errorTerminalId != null and errorTerminalId == terminal.id}"
-           th:text="${errorMessage}">
-      </div>
-    </td>
-  </tr>
-</table>
+          <button type="submit"
+                  onclick="return confirm('Are you sure you want to delete this terminal?')">
+            Delete
+          </button>
+        </form>
+      </td>
 
-<!-- Add new terminal -->
-<p>
-  <a th:href="@{/terminals/new}">Add terminal</a>
-</p>
+      <!-- Error when delete terminal -->
+      <td>
+        <div th:if="${errorTerminalId != null and errorTerminalId == terminal.id}"
+             th:text="${errorMessage}">
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Add new terminal -->
+  <p>
+    <a th:href="@{/terminals/new}">Add terminal</a>
+  </p>
+
+</main>
 
 </body>
 </html>

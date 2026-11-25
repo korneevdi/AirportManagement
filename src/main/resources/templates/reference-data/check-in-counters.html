@@ -1,58 +1,63 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main})}">
+
 <head>
-  <meta charset="UTF-8">
-    <title>Check-in counters</title>
+  <title>Check-in counters</title>
 </head>
+
 <body>
 
-<div th:replace="~{fragments/navigation :: navigation}"></div>
+<main class="content">
 
-<h1>Check-in counters</h1>
-<table>
-  <tr>
-    <th>Number</th>
-    <th>Counter</th>
-  </tr>
+  <h1>Check-in counters</h1>
 
-  <tr th:each="counter, stat : ${checkInCounters}">
+  <table>
+    <tr>
+      <th>Number</th>
+      <th>Counter</th>
+    </tr>
 
-    <!-- Check-in counter data -->
-    <td th:text="${stat.count}"></td>
-    <td th:text="${counter.number}"></td>
+    <tr th:each="counter, stat : ${checkInCounters}">
 
-    <!-- Edit check-in counter -->
-    <td>
-      <a th:href="@{/check-in-counters/{id}/edit(id=${counter.id})}">
-        Edit
-      </a>
-    </td>
+      <!-- Check-in counter data -->
+      <td th:text="${stat.count}"></td>
+      <td th:text="${counter.number}"></td>
 
-    <!-- Delete check-in counter -->
-    <td>
-      <form th:action="@{/check-in-counters/{id}/delete(id=${counter.id})}"
-            method="post">
+      <!-- Edit check-in counter -->
+      <td>
+        <a th:href="@{/check-in-counters/{id}/edit(id=${counter.id})}">
+          Edit
+        </a>
+      </td>
 
-        <button type="submit"
-                onclick="return confirm('Are you sure you want to delete this check-in counter?')">
-          Delete
-        </button>
-      </form>
-    </td>
+      <!-- Delete check-in counter -->
+      <td>
+        <form th:action="@{/check-in-counters/{id}/delete(id=${counter.id})}"
+              method="post">
 
-    <!-- Error when delete check-in counter -->
-    <td>
-      <div th:if="${errorCheckInCounterId != null and errorCheckInCounterId == counter.id}"
-           th:text="${errorMessage}">
-      </div>
-    </td>
-  </tr>
-</table>
+          <button type="submit"
+                  onclick="return confirm('Are you sure you want to delete this check-in counter?')">
+            Delete
+          </button>
+        </form>
+      </td>
 
-<!-- Add new check-in counter -->
-<p>
-  <a th:href="@{/check-in-counters/new}">Add check-in counter</a>
-</p>
+      <!-- Error when delete check-in counter -->
+      <td>
+        <div th:if="${errorCheckInCounterId != null and errorCheckInCounterId == counter.id}"
+             th:text="${errorMessage}">
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Add new check-in counter -->
+  <p>
+    <a th:href="@{/check-in-counters/new}">Add check-in counter</a>
+  </p>
+
+</main>
 
 </body>
 </html>
